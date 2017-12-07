@@ -2,32 +2,32 @@ package control;
 
 import java.sql.SQLException;
 import java.util.List;
-
-import dataConnect.DataGroupJob;
+import dataConnect.DataJob;
 import entity.GroupJob;
+import entity.Job;
 
 public class ControlJob {
 	
-	private DataGroupJob dGroup = new DataGroupJob();
-	public boolean add(GroupJob g) throws SQLException
+	private DataJob dJob = new DataJob();
+	public boolean add(Job job) throws SQLException
 	{
-		return dGroup.addGroupJob(g);
+		return dJob(g);
 	}
 	public List<GroupJob> loadData() throws SQLException
 	{
-		return dGroup.loadData();
+		return dJob.loadData();
 	}
 	public boolean delete(GroupJob g) throws SQLException
 	{
-		return dGroup.delGroupJob(g);
+		return dJob.delGroupJob(g);
 	}
 	public boolean update(GroupJob g) throws SQLException
 	{
-		return dGroup.updateGroupJob(g);
+		return dJob.updateGroupJob(g);
 	}
 	public boolean checkName(GroupJob g) throws SQLException
 	{
-		return dGroup.checkName(g);
+		return dJob.checkName(g);
 	}
 
 }

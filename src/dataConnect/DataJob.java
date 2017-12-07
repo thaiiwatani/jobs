@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.GroupJob;
 import entity.Job;
 
 
@@ -25,7 +24,7 @@ public class DataJob {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		DataJob dtGroupJob = new DataJob();
+		DataJob dtJob = new DataJob();
 
 	}
 	private List<Job> loadData() throws SQLException
@@ -35,11 +34,11 @@ public class DataJob {
 		con = new Connect().getMySQLConnection();
 		Statement statement = con.createStatement();
 		 
-	    String sql = "Select id, groupname, memo from group_jobs";
+	    String sql = "Select id, groupname, memo from jobs";
 	    ResultSet rs;
 		
 		rs = statement.executeQuery(sql);
-		//List<groupJob> lst = new ArrayList<>(groupJob);
+		//List<Job> lst = new ArrayList<>(Job);
 		List<Job> lstJob = new ArrayList<Job>();
 		
 	      while (rs.next()) {
@@ -63,17 +62,17 @@ public class DataJob {
 			return null;
 		}
 	}
-	private boolean addJob(GroupJob g) throws SQLException
+	private boolean addJob(Job g) throws SQLException
 	{
 		boolean check =false;
 		Connection con=null;
 		PreparedStatement preStmt = null;
 		try {
 		con = new Connect().getMySQLConnection();
-		String sql = "insert into group_jobs values (?,?)";
+		String sql = "insert into jobs(JobName,groupid,company,salary,link,image,address) values (?,?,?,?,?,?,?)";
 		preStmt = con.prepareStatement(sql);
-        preStmt.setString(1, g.getGroupName());
-        preStmt.setString(2, g.getMemo());
+        preStmt.setString(1, g.getJobName());
+        preStmt.setInt(2, g.getGroupid());
         check =preStmt.execute();
 	    
 		}catch (ClassNotFoundException | SQLException e1) {
