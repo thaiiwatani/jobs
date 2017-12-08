@@ -5,7 +5,7 @@ public class Job {
 	private int groupid;
 	private int salary;
 	private String jobName;
-	private String kaisha;
+	private String company;
 	private String linkAddress;
 	private String image;
 	private String link;
@@ -25,14 +25,14 @@ public class Job {
 	
 	
 
-	public Job(int id, int groupid, int salary, String jobName, String kaisha, String linkAddress, String image,
+	public Job(int id, int groupid, int salary, String jobName, String company, String linkAddress, String image,
 			String link, String address, String industry, String memo) {
 		super();
 		this.id = id;
 		this.groupid = groupid;
 		this.salary = salary;
 		this.jobName = jobName;
-		this.kaisha = kaisha;
+		this.company = company;
 		this.linkAddress = linkAddress;
 		this.image = image;
 		this.link = link;
@@ -41,23 +41,23 @@ public class Job {
 		this.memo = memo;
 	}
 	
-	public Job(int groupid, int salary, String jobName, String kaisha, String image, String address) {
+	public Job(int groupid, int salary, String jobName, String company, String image, String address) {
 		super();
 		this.groupid = groupid;
 		this.salary = salary;
 		this.jobName = jobName;
-		this.kaisha = kaisha;
+		this.company = company;
 		this.image = image;
 		this.address = address;
 	}
-	public Job(int id, int groupid, int salary, String jobName, String kaisha, String image, String address,
+	public Job(int id, int groupid, int salary, String jobName, String company, String image, String address,
 			String industry) {
 		super();
 		this.id = id;
 		this.groupid = groupid;
 		this.salary = salary;
 		this.jobName = jobName;
-		this.kaisha = kaisha;
+		this.company = company;
 		this.image = image;
 		this.address = address;
 		this.industry = industry;
@@ -94,12 +94,12 @@ public class Job {
 		this.jobName = jobName;
 	}
 
-	public String getKaisha() {
-		return kaisha;
+	public String getcompany() {
+		return company;
 	}
 
-	public void setKaisha(String kaisha) {
-		this.kaisha = kaisha;
+	public void setcompany(String company) {
+		this.company = company;
 	}
 
 	public String getLinkAddress() {

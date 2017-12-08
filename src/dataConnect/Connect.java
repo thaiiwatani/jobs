@@ -26,8 +26,8 @@ public class Connect {
 	 	Class.forName("com.mysql.jdbc.Driver");
 	 	// examp;e: jdbc:mysql://localhost:3306/simplehr
 	 	String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
- 
-	 	Connection conn = DriverManager.getConnection(connectionURL, userName,password);
+	 	String unicode = "?useUnicode=true&characterEncoding=utf8";
+	 	Connection conn = DriverManager.getConnection(connectionURL+unicode, userName,password);
 	 	return conn;
  }
 

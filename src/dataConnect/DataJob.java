@@ -22,19 +22,14 @@ public class DataJob {
 		}
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		DataJob dtJob = new DataJob();
-
-	}
-	private List<Job> loadData() throws SQLException
+	public List<Job> loadData() throws SQLException
 	{
 		Connection con;
 		try {
 		con = new Connect().getMySQLConnection();
 		Statement statement = con.createStatement();
 		 
-	    String sql = "Select id, groupname, memo from jobs";
+	    String sql = "Select * from jobs";
 	    ResultSet rs;
 		
 		rs = statement.executeQuery(sql);
@@ -42,14 +37,27 @@ public class DataJob {
 		List<Job> lstJob = new ArrayList<Job>();
 		
 	      while (rs.next()) {
-	          int id = rs.getInt(1);
-	          String groupname = rs.getString(2);
+	          int id = rs.getInt("id");
+	          int groupid = rs.getInt("groupid");
+	          
 	          String memo = rs.getString("memo");
 	          Job job = new Job();
+	          job.setId(id);
+	          job.setJobName(rs.getString("JobName"));
+	          job.setGroupid(groupid);
+	          job.setcompany(rs.getString("company"));
+	          job.setSalary(rs.getInt("salary"));
+	          job.setLink(rs.getString("link"));
+	          job.setImage(rs.getString("image"));
+	          job.setAddress(rs.getString("address"));
+	          job.setIndustry(rs.getString("industry"));
+	          
+	          job.setMemo(memo);
+	          
 	          lstJob.add(job);
 	          
 	          System.out.println("Id:" + id);
-	          System.out.println("groupname:" + groupname);
+	          System.out.println("groupid:" + groupid);
 	          System.out.println("memo:" + memo);
 	      }
 	      
@@ -62,7 +70,7 @@ public class DataJob {
 			return null;
 		}
 	}
-	private boolean addJob(Job g) throws SQLException
+	public boolean addJob(Job g) throws SQLException
 	{
 		boolean check =false;
 		Connection con=null;
@@ -73,6 +81,11 @@ public class DataJob {
 		preStmt = con.prepareStatement(sql);
         preStmt.setString(1, g.getJobName());
         preStmt.setInt(2, g.getGroupid());
+        preStmt.setString(3, g.getJobName());
+        preStmt.setInt(4, g.getSalary());
+        preStmt.setString(5, g.getLink());
+        preStmt.setString(6, g.getImage());
+        preStmt.setString(7, g.getAddress());
         check =preStmt.execute();
 	    
 		}catch (ClassNotFoundException | SQLException e1) {
@@ -91,14 +104,14 @@ public class DataJob {
 		
 		return check;
 	}
-	private boolean delJob(Job job) throws SQLException
+	public boolean delJob(Job job) throws SQLException
 	{
 		boolean check =false;
 		Connection con=null;
 		PreparedStatement preStmt = null;
 		try {
 		con = new Connect().getMySQLConnection();
-		String sql = "delete from group_jobs where id = ?)";
+		String sql = "delete from jobs where id = ?)";
 		preStmt = con.prepareStatement(sql);
         preStmt.setInt(1, job.getId());
         
@@ -121,14 +134,14 @@ public class DataJob {
 		return check;
 	}
 	
-	private boolean updateJob(Job job) throws SQLException
+	public boolean updateJob(Job job) throws SQLException
 	{
 		boolean check =false;
 		Connection con=null;
 		PreparedStatement preStmt = null;
 		try {
 		con = new Connect().getMySQLConnection();
-		String sql = "update group_jobs set groupname = ?,memo=?  where id = ?)";
+		String sql = "update jobs set groupname = ?,memo=?  where id = ?)";
 		preStmt = con.prepareStatement(sql);
 		preStmt.setString(1, job.getJobName());
 		preStmt.setString(2, job.getMemo());

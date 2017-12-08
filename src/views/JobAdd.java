@@ -1,81 +1,387 @@
 package views;
 
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Shell;
-import swing2swt.layout.BorderLayout;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Table;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.sql.SQLException;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
-import javax.swing.JFileChooser;
+import control.ControlGroupJob;
+import control.ControlJob;
+import entity.GroupJob;
+import entity.Job;
+
+import java.awt.GridBagLayout;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.plaf.FileChooserUI;
 
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Link;
-import composite.TestComposite;
-import java.awt.Choice;
-import org.eclipse.jface.fieldassist.ControlDecoration;
-import composite.textChooseFile;
-import org.eclipse.swt.widgets.Combo;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
+import java.awt.Insets;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
+import javax.swing.JTextPane;
+import javax.swing.JTextArea;
+import java.awt.Color;
+import java.awt.SystemColor;
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
+import java.awt.event.ActionEvent;
 
-public class JobAdd {
-	private Text text;
-	private Text text_1;
-	private Text text_2;
-	private Text text_3;
-	private Text text_4;
-	private Text text_5;
-	private Font fontText =  new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ",Font.BOLD , 18);
-	private Shell shell;
+public class JobAdd extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField txtName;
+	private JTextField txtCompany;
+	private JTextField txtAddress;
+	private JTextField txtSalary;
+	private JTextField txtLink;
+	private JTextField txtFileName;
+	private JFrame mainFrame;
+	private JFileChooser fileChooser = new JFileChooser();
+	private List<Job> lstJob;
+	
+	private ControlJob ctrJob = new ControlJob();
+	private ControlGroupJob ctrGroup = new ControlGroupJob();
+	private DefaultComboBoxModel<GroupJob> dModelGroup = new DefaultComboBoxModel<GroupJob>();
+	private Job job;
+	private JComboBox comboBox;
 	private AdminMainMenu adminMainMenu;
-	private Text text_6;
-	private String selectedDir=""   ;
-	
-	
+	private String fontName ="ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ";
 	/**
 	 * Launch the application.
-	 * @param args
 	 */
-	public JobAdd()
-	{
-		open();
-	}
 	public static void main(String[] args) {
-		try {
-			JobAdd window = new JobAdd();
-			window.open();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					
+					JobAdd frame = new JobAdd();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	/**
-	 * Open the window.
+	 * Create the frame.
 	 */
-	private void ToAdminMenu()
+	private void Load()
 	{
-		System.out.println("Day");
-//		shell.setVisible(false);
-		shell.close();
 		
+	}
+	private void LoadData() throws SQLException
+	{
+		LoadDataGroupJob();
+		
+		
+	}
+	private void LoadDataGroupJob() throws SQLException
+	{
+		List<GroupJob> lstGroup = ctrGroup.loadData();
+		
+		
+		for(GroupJob g:lstGroup)
+		{
+			dModelGroup.addElement(g);
+		}
+		
+	}
+	private void LoadDataJob() throws SQLException
+	{
+		lstJob = ctrJob.loadData();
+		for(Job g:lstJob)
+		{
+//			dModel.addElement(g);
+		}
+	}
+	public JobAdd() throws SQLException {
+		LoadData();
+		setBackground(Color.LIGHT_GRAY);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Create a new Job");
+		setBounds(100, 100, 800, 550);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{80, 489, 0};
+		gbl_contentPane.rowHeights = new int[]{29, 23, 23, 23, 23, 23, 23, 150, 23, 50, 0, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
+		
+		JLabel lblCreateANew = new JLabel("Create a new Job");
+		lblCreateANew.setBackground(SystemColor.activeCaption);
+		lblCreateANew.setFont(new Font(fontName, Font.BOLD, 30));
+		GridBagConstraints gbc_lblCreateANew = new GridBagConstraints();
+		gbc_lblCreateANew.insets = new Insets(0, 0, 5, 0);
+		gbc_lblCreateANew.gridx = 1;
+		gbc_lblCreateANew.gridy = 0;
+		contentPane.add(lblCreateANew, gbc_lblCreateANew);
+		
+		JLabel lblGroupJob = new JLabel("Group Job");
+		lblGroupJob.setFont(new Font(fontName, Font.BOLD, 16));
+		GridBagConstraints gbc_lblGroupJob = new GridBagConstraints();
+		gbc_lblGroupJob.anchor = GridBagConstraints.EAST;
+		gbc_lblGroupJob.insets = new Insets(0, 0, 5, 5);
+		gbc_lblGroupJob.gridx = 0;
+		gbc_lblGroupJob.gridy = 1;
+		contentPane.add(lblGroupJob, gbc_lblGroupJob);
+		
+		comboBox = new JComboBox(dModelGroup);
+		comboBox.setFont(new Font(fontName, Font.PLAIN, 16));
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 1;
+		gbc_comboBox.gridy = 1;
+		contentPane.add(comboBox, gbc_comboBox);
+		
+		JLabel lblName = new JLabel("Name");
+		lblName.setFont(new Font(fontName, Font.BOLD, 16));
+		GridBagConstraints gbc_lblName = new GridBagConstraints();
+		gbc_lblName.anchor = GridBagConstraints.EAST;
+		gbc_lblName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblName.gridx = 0;
+		gbc_lblName.gridy = 2;
+		contentPane.add(lblName, gbc_lblName);
+		
+		txtName = new JTextField();
+		txtName.setFont(new Font(fontName, Font.PLAIN, 16));
+		GridBagConstraints gbc_txtName = new GridBagConstraints();
+		gbc_txtName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtName.insets = new Insets(0, 0, 5, 0);
+		gbc_txtName.gridx = 1;
+		gbc_txtName.gridy = 2;
+		contentPane.add(txtName, gbc_txtName);
+		txtName.setColumns(10);
+		
+		JLabel lblCompany = new JLabel("Company");
+		lblCompany.setFont(new Font(fontName, Font.BOLD, 16));
+		GridBagConstraints gbc_lblCompany = new GridBagConstraints();
+		gbc_lblCompany.anchor = GridBagConstraints.EAST;
+		gbc_lblCompany.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCompany.gridx = 0;
+		gbc_lblCompany.gridy = 3;
+		contentPane.add(lblCompany, gbc_lblCompany);
+		
+		txtCompany = new JTextField();
+		txtCompany.setFont(new Font(fontName, Font.PLAIN, 16));
+		GridBagConstraints gbc_txtCompany = new GridBagConstraints();
+		gbc_txtCompany.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtCompany.insets = new Insets(0, 0, 5, 0);
+		gbc_txtCompany.gridx = 1;
+		gbc_txtCompany.gridy = 3;
+		contentPane.add(txtCompany, gbc_txtCompany);
+		txtCompany.setColumns(10);
+		
+		JLabel lblAddress = new JLabel("Address");
+		lblAddress.setFont(new Font(fontName, Font.BOLD, 16));
+		GridBagConstraints gbc_lblAddress = new GridBagConstraints();
+		gbc_lblAddress.anchor = GridBagConstraints.EAST;
+		gbc_lblAddress.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAddress.gridx = 0;
+		gbc_lblAddress.gridy = 4;
+		contentPane.add(lblAddress, gbc_lblAddress);
+		
+		txtAddress = new JTextField();
+		txtAddress.setFont(new Font(fontName, Font.PLAIN, 16));
+		GridBagConstraints gbc_txtAddress = new GridBagConstraints();
+		gbc_txtAddress.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtAddress.insets = new Insets(0, 0, 5, 0);
+		gbc_txtAddress.gridx = 1;
+		gbc_txtAddress.gridy = 4;
+		contentPane.add(txtAddress, gbc_txtAddress);
+		txtAddress.setColumns(10);
+		
+		JLabel lblSalary = new JLabel("Salary");
+		lblSalary.setFont(new Font(fontName, Font.BOLD, 16));
+		GridBagConstraints gbc_lblSalary = new GridBagConstraints();
+		gbc_lblSalary.anchor = GridBagConstraints.EAST;
+		gbc_lblSalary.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSalary.gridx = 0;
+		gbc_lblSalary.gridy = 5;
+		contentPane.add(lblSalary, gbc_lblSalary);
+		
+		txtSalary = new JTextField();
+		txtSalary.setFont(new Font(fontName, Font.PLAIN, 16));
+		GridBagConstraints gbc_txtSalary = new GridBagConstraints();
+		gbc_txtSalary.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSalary.insets = new Insets(0, 0, 5, 0);
+		gbc_txtSalary.gridx = 1;
+		gbc_txtSalary.gridy = 5;
+		contentPane.add(txtSalary, gbc_txtSalary);
+		txtSalary.setColumns(10);
+		
+		JLabel lblLinkAcc = new JLabel("Link Access");
+		lblLinkAcc.setFont(new Font(fontName, Font.BOLD, 16));
+		GridBagConstraints gbc_lblLinkAcc = new GridBagConstraints();
+		gbc_lblLinkAcc.anchor = GridBagConstraints.EAST;
+		gbc_lblLinkAcc.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLinkAcc.gridx = 0;
+		gbc_lblLinkAcc.gridy = 6;
+		contentPane.add(lblLinkAcc, gbc_lblLinkAcc);
+		
+		txtLink = new JTextField();
+		txtLink.setFont(new Font(fontName, Font.PLAIN, 16));
+		GridBagConstraints gbc_txtLink = new GridBagConstraints();
+		gbc_txtLink.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtLink.insets = new Insets(0, 0, 5, 0);
+		gbc_txtLink.gridx = 1;
+		gbc_txtLink.gridy = 6;
+		contentPane.add(txtLink, gbc_txtLink);
+		txtLink.setColumns(10);
+		
+		JLabel lblInformation = new JLabel("Information");
+		lblInformation.setFont(new Font(fontName, Font.BOLD, 16));
+		GridBagConstraints gbc_lblInformation = new GridBagConstraints();
+		gbc_lblInformation.anchor = GridBagConstraints.EAST;
+		gbc_lblInformation.insets = new Insets(0, 0, 5, 5);
+		gbc_lblInformation.gridx = 0;
+		gbc_lblInformation.gridy = 7;
+		contentPane.add(lblInformation, gbc_lblInformation);
+		
+		JTextArea txtInformation = new JTextArea();
+		txtInformation.setFont(new Font(fontName, Font.PLAIN, 16));
+		GridBagConstraints gbc_txtInformation = new GridBagConstraints();
+		gbc_txtInformation.insets = new Insets(0, 0, 5, 0);
+		gbc_txtInformation.fill = GridBagConstraints.BOTH;
+		gbc_txtInformation.gridx = 1;
+		gbc_txtInformation.gridy = 7;
+		contentPane.add(txtInformation, gbc_txtInformation);
+		
+		JLabel lblFileName = new JLabel("File Name");
+		lblFileName.setFont(new Font(fontName, Font.BOLD, 16));
+		GridBagConstraints gbc_lblFileName = new GridBagConstraints();
+		gbc_lblFileName.anchor = GridBagConstraints.EAST;
+		gbc_lblFileName.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFileName.gridx = 0;
+		gbc_lblFileName.gridy = 8;
+		contentPane.add(lblFileName, gbc_lblFileName);
+		
+		JPanel panel_1 = new JPanel();
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_1.gridx = 1;
+		gbc_panel_1.gridy = 8;
+		contentPane.add(panel_1, gbc_panel_1);
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.columnWidths = new int[]{378, 75, 0};
+		gbl_panel_1.rowHeights = new int[]{23, 0};
+		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		panel_1.setLayout(gbl_panel_1);
+		
+		JButton btnNewButton = new JButton("Browser");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				clickBrowser();
+			}
+		});
+		
+		txtFileName = new JTextField();
+		GridBagConstraints gbc_txtFileName = new GridBagConstraints();
+		gbc_txtFileName.fill = GridBagConstraints.BOTH;
+		gbc_txtFileName.insets = new Insets(0, 0, 0, 5);
+		gbc_txtFileName.gridx = 0;
+		gbc_txtFileName.gridy = 0;
+		panel_1.add(txtFileName, gbc_txtFileName);
+		txtFileName.setFont(new Font(fontName, Font.PLAIN, 18));
+		txtFileName.setColumns(31);
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
+		gbc_btnNewButton.gridx = 1;
+		gbc_btnNewButton.gridy = 0;
+		panel_1.add(btnNewButton, gbc_btnNewButton);
+		
+		JPanel panel = new JPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_panel.anchor = GridBagConstraints.EAST;
+		gbc_panel.fill = GridBagConstraints.VERTICAL;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 9;
+		contentPane.add(panel, gbc_panel);
+		
+		JButton btnCreate = new JButton("Create");
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					clickCreate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnCreate.setFont(new Font(fontName, Font.PLAIN, 18));
+		panel.add(btnCreate);
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clickCancel();
+			}
+		});
+		btnCancel.setFont(new Font(fontName, Font.PLAIN, 18));
+		
+		panel.add(btnCancel);
+	}
+
+	protected void clickCancel() {
+		// TODO Auto-generated method stub
+		ToMainMenu();
+	}
+
+	protected void clickCreate() throws SQLException {
+		// TODO Auto-generated method stub
+		if(checkTextBox())
+		{
+			if(job!=null)
+			{
+			ctrJob.add(job);
+			ToMainMenu();
+			}
+		}
+		
+	}
+	
+
+	protected void clickBrowser() {
+		int select = fileChooser.showOpenDialog(this);
+        if (select == JFileChooser.APPROVE_OPTION) {
+        	
+        	String fileName = fileChooser.getSelectedFile().toString();
+        	if(checkFilePDF(fileName))
+        	{
+        		txtFileName.setText(fileName);
+        	}
+        	else
+        	{
+        		JOptionPane.showMessageDialog(contentPane, "Please choose a PDF file");
+        		txtFileName.setText("");
+        	}
+        } else {
+            
+        }
+        
+	}
+	
+	private void ToMainMenu()
+	{
+		contentPane.setVisible(false);
 		try {
 			adminMainMenu = new AdminMainMenu();
 		} catch (SQLException e1) {
@@ -84,149 +390,6 @@ public class JobAdd {
 		}
 	}
 	
-	public void open() {
-		Display display = Display.getDefault();
-		shell = new Shell();
-		shell.setSize(605, 653);
-		shell.setText("New Job");
-		shell.setLayout(new GridLayout(2, false));
-//		shell.setDefaultButton();
-		new Label(shell, SWT.NONE);
-		
-		Label lblCreateNewJob = new Label(shell, SWT.NONE);
-		lblCreateNewJob.setForeground(SWTResourceManager.getColor(SWT.COLOR_LIST_SELECTION));
-		lblCreateNewJob.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
-		lblCreateNewJob.setFont(SWTResourceManager.getFont("Yu Gothic UI", 18, SWT.NORMAL));
-		lblCreateNewJob.setText("Create new Job");
-		
-		Label lblGroupJob = new Label(shell, SWT.NONE);
-		lblGroupJob.setFont(SWTResourceManager.getFont("Yu Gothic UI", 14, SWT.NORMAL));
-		lblGroupJob.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblGroupJob.setText("Group Job");
-		
-		Combo combo = new Combo(shell, SWT.NONE);
-		combo.setFont(SWTResourceManager.getFont("Yu Gothic UI", 14, SWT.NORMAL));
-		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
-		Label lblName = new Label(shell, SWT.NONE);
-		lblName.setFont(SWTResourceManager.getFont("Yu Gothic UI", 16, SWT.NORMAL));
-		lblName.setAlignment(SWT.RIGHT);
-		lblName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblName.setText("Name");
-		
-		text = new Text(shell, SWT.BORDER);
-		text.setFont(SWTResourceManager.getFont("Yu Gothic UI", 14, SWT.NORMAL));
-		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
-		Label lblCompany = new Label(shell, SWT.NONE);
-		lblCompany.setFont(SWTResourceManager.getFont("Yu Gothic UI", 16, SWT.NORMAL));
-		lblCompany.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblCompany.setText("Company");
-		
-		text_1 = new Text(shell, SWT.BORDER);
-		text_1.setFont(SWTResourceManager.getFont("Yu Gothic UI", 14, SWT.NORMAL));
-		text_1.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
-		Label lblAddress = new Label(shell, SWT.NONE);
-		lblAddress.setFont(SWTResourceManager.getFont("Yu Gothic UI", 16, SWT.NORMAL));
-		lblAddress.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblAddress.setText("Address");
-		
-		text_2 = new Text(shell, SWT.BORDER | SWT.MULTI);
-		text_2.setFont(SWTResourceManager.getFont("Yu Gothic UI", 14, SWT.NORMAL));
-		GridData gd_text_2 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_text_2.heightHint = 61;
-		text_2.setLayoutData(gd_text_2);
-		
-		Label lblSalary = new Label(shell, SWT.NONE);
-		lblSalary.setFont(SWTResourceManager.getFont("Yu Gothic UI", 16, SWT.NORMAL));
-		lblSalary.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblSalary.setText("Salary");
-		
-		text_3 = new Text(shell, SWT.BORDER);
-		text_3.setFont(SWTResourceManager.getFont("Yu Gothic UI", 14, SWT.NORMAL));
-		text_3.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
-		Label lblLinkAccess = new Label(shell, SWT.NONE);
-		lblLinkAccess.setFont(SWTResourceManager.getFont("Yu Gothic UI", 16, SWT.NORMAL));
-		lblLinkAccess.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblLinkAccess.setText("Link Access");
-		
-		text_4 = new Text(shell, SWT.BORDER);
-		text_4.setFont(SWTResourceManager.getFont("Yu Gothic UI", 14, SWT.NORMAL));
-		text_4.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
-		Label lblInformation = new Label(shell, SWT.NONE);
-		lblInformation.setFont(SWTResourceManager.getFont("Yu Gothic UI", 16, SWT.NORMAL));
-		lblInformation.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblInformation.setText("Information");
-		
-		text_5 = new Text(shell, SWT.BORDER | SWT.MULTI);
-		text_5.setFont(SWTResourceManager.getFont("Yu Gothic UI", 14, SWT.NORMAL));
-		GridData gd_text_5 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-		gd_text_5.widthHint = 367;
-		gd_text_5.heightHint = 193;
-		text_5.setLayoutData(gd_text_5);
-		
-		
-		Label lblFileName = new Label(shell, SWT.NONE);
-		lblFileName.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblFileName.setFont(SWTResourceManager.getFont("Yu Gothic UI", 16, SWT.NORMAL));
-		lblFileName.setText("File Name");
-		JFileChooser fileChooser = new JFileChooser();
-		
-		text_6 = new Text(shell, SWT.BORDER);
-		text_6.setFont(SWTResourceManager.getFont("Yu Gothic UI", 14, SWT.NORMAL));
-		text_6.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		new Label(shell, SWT.NONE);
-		
-		Button btnBroswer = new Button(shell, SWT.NONE);
-		btnBroswer.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		btnBroswer.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				
-				
-				text_6.setText(ChooseFile());
-				if(!checkFilePDF(text_6.getText()))
-				{
-					JOptionPane.showMessageDialog(adminMainMenu, "Please choose a PDF file");
-					text_6.setText("");
-//					JOptionPane.showMessageDialog(adminMainMenu, message);
-					
-				}
-				
-					
-			}
-		});
-		btnBroswer.setFont(SWTResourceManager.getFont("Yu Gothic UI", 12, SWT.NORMAL));
-		btnBroswer.setText("Broswer");
-				
-				Button btnCancel = new Button(shell, SWT.NONE);
-				btnCancel.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						ToAdminMenu();
-//						adminMainMenu.setVisible(true);
-					}
-				});
-				btnCancel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-				btnCancel.setFont(SWTResourceManager.getFont("Yu Gothic UI", 16, SWT.NORMAL));
-				btnCancel.setText("Cancel");
-				
-				Button btnCreate = new Button(shell, SWT.NONE);
-				btnCreate.setFont(SWTResourceManager.getFont("Yu Gothic UI", 16, SWT.NORMAL));
-				btnCreate.setText("Create");
-		shell.setDefaultButton(btnCancel);
-		shell.open();
-		shell.layout();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-		
-	}
 	private boolean checkFilePDF(String fileName)
 	{
 		boolean check=false;
@@ -238,40 +401,85 @@ public class JobAdd {
 		System.out.println(substring+check);
 		return check;
 	}
-	private String ChooseFile()
+	private boolean checkTextBox()
 	{
-		String selected ="";
-		FileDialog dialog = new FileDialog(shell, SWT.OPEN);
-	    dialog.setFilterNames(new String[] { "Fdf Files", "All Files (*.*)" });
-	    dialog.setFilterExtensions(new String[] { "*.pdf", "*.*" }); // Windows
-	                                    // wild
-	                                    // cards
-//	    dialog.setFilterPath("c:\\"); // Windows path
-	    try{
-	    String dir =dialog.open();
-	    if(dir!=null)
-	    	{
-	    	selected=dir;
-	    	return dir;
-	    	}
-	    }
-	    catch (Exception e) {
-			selected="Error";
+		//not done
+		boolean check=true;
+		String name = txtName.getText();
+		String address = txtAddress.getText();
+		String company = txtCompany.getText();
+		String fileName = txtFileName.getText();
+		String link = txtLink.getText();
+		String txtsalary = txtSalary.getText();
+		int countCheck=0;
+		
+		if(name==null||name=="")
+		{
+			check =false;
 		}
-	    
-	    return selected;
-	    
-//		DirectoryDialog directoryDialog = new DirectoryDialog(shell);
-//        System.out.println("OUT111111");
-//        directoryDialog.setFilterPath(selectedDir);
-//        directoryDialog.setMessage("Please select a directory and click OK");
-//        
-//        String dir = directoryDialog.open();
-//        if(dir != null) {
-//        	selectedDir = dir;
-//        	return dir;
-//        }
-//        return selectedDir;
-		//return dir;
+		
+		if(address==null||address=="")
+		{
+			
+			check= false;
+		}
+		
+		if(company==null||company=="")
+		{
+			
+			check= false;
+			
+		}
+		if(fileName==null||fileName=="")
+		{
+			
+			check= false;
+			
+		}
+		if(link==null||link=="")
+		{
+			
+			check= false;
+			
+		}
+		if(txtsalary==null||txtsalary=="")
+		{
+			check= false;
+		}
+		if(check)
+		{
+			if(isInteger(txtsalary))
+			{
+				job= new Job();
+				job.setAddress(address);
+				GroupJob groupJob=(GroupJob)comboBox.getSelectedItem();
+				job.setGroupid(groupJob.getId());
+				job.setImage(fileName);;
+				job.setJobName(name);
+				job.setLink(link);
+				System.out.println("TEST"+job.getAddress());
+				System.out.println("TEST"+job.getImage());
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(contentPane, "Please intput number to salary");
+			}
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(contentPane, "Please intput value to textbox");
+		}
+		
+		return check;
 	}
+	private boolean isInteger(String str) {
+		try {
+			Integer.parseInt(str);
+		}catch(NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
+	
+
 }

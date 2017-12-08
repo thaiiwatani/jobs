@@ -65,7 +65,7 @@ public class AdminMainMenu extends JFrame implements ActionListener {
    private GroupJob groupJob;
    public GroupJobAdd groupJobAdd;
    public GroupJobEdit groupJobEdit;
-   public JobAdd2 jobAdd;
+   public JobAdd jobAdd;
    //Test Frame moi
    
    private JPanel pLINE_START_START;
