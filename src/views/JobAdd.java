@@ -65,7 +65,7 @@ public class JobAdd extends JFrame {
 				try {
 					
 					JobAdd frame = new JobAdd();
-					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -76,44 +76,20 @@ public class JobAdd extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	private void Load()
-	{
-		
-	}
-	private void LoadData() throws SQLException
-	{
-		LoadDataGroupJob();
-		
-		
-	}
-	private void LoadDataGroupJob() throws SQLException
-	{
-		List<GroupJob> lstGroup = ctrGroup.loadData();
-		
-		
-		for(GroupJob g:lstGroup)
-		{
-			dModelGroup.addElement(g);
-		}
-		
-	}
-	private void LoadDataJob() throws SQLException
-	{
-		lstJob = ctrJob.loadData();
-		for(Job g:lstJob)
-		{
-//			dModel.addElement(g);
-		}
-	}
 	public JobAdd() throws SQLException {
 		LoadData();
-		setBackground(Color.LIGHT_GRAY);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Create a new Job");
-		setBounds(100, 100, 800, 550);
+		init();
+	}
+	private void init() {
+		// TODO Auto-generated method stub
+		mainFrame = new JFrame("Job Add");
+		mainFrame.setBackground(Color.LIGHT_GRAY);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setTitle("Create a new Job");
+		mainFrame.setBounds(100, 100, 800, 550);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		mainFrame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{80, 489, 0};
 		gbl_contentPane.rowHeights = new int[]{29, 23, 23, 23, 23, 23, 23, 150, 23, 50, 0, 0};
@@ -278,8 +254,8 @@ public class JobAdd extends JFrame {
 		gbc_panel_1.gridy = 8;
 		contentPane.add(panel_1, gbc_panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{378, 75, 0};
-		gbl_panel_1.rowHeights = new int[]{23, 0};
+		gbl_panel_1.columnWidths = new int[]{572, 75, 0};
+		gbl_panel_1.rowHeights = new int[]{30, 0};
 		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
@@ -338,7 +314,40 @@ public class JobAdd extends JFrame {
 		btnCancel.setFont(new Font(fontName, Font.PLAIN, 18));
 		
 		panel.add(btnCancel);
+		mainFrame.setUndecorated(true);
+		mainFrame.setVisible(true);
 	}
+
+	private void Load()
+	{
+		
+	}
+	private void LoadData() throws SQLException
+	{
+		LoadDataGroupJob();
+		
+		
+	}
+	private void LoadDataGroupJob() throws SQLException
+	{
+		List<GroupJob> lstGroup = ctrGroup.loadData();
+		
+		
+		for(GroupJob g:lstGroup)
+		{
+			dModelGroup.addElement(g);
+		}
+		
+	}
+	private void LoadDataJob() throws SQLException
+	{
+		lstJob = ctrJob.loadData();
+		for(Job g:lstJob)
+		{
+//			dModel.addElement(g);
+		}
+	}
+	
 
 	protected void clickCancel() {
 		// TODO Auto-generated method stub
@@ -381,13 +390,8 @@ public class JobAdd extends JFrame {
 	
 	private void ToMainMenu()
 	{
-		contentPane.setVisible(false);
-		try {
-			adminMainMenu = new AdminMainMenu();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		mainFrame.setVisible(false);
+		adminMainMenu = new AdminMainMenu();
 	}
 	
 	private boolean checkFilePDF(String fileName)
@@ -405,6 +409,7 @@ public class JobAdd extends JFrame {
 	{
 		//not done
 		boolean check=true;
+		boolean checkpdf=true;
 		String name = txtName.getText();
 		String address = txtAddress.getText();
 		String company = txtCompany.getText();
@@ -413,43 +418,48 @@ public class JobAdd extends JFrame {
 		String txtsalary = txtSalary.getText();
 		int countCheck=0;
 		
-		if(name==null||name=="")
+		if(name==null||name.equals(""))
 		{
 			check =false;
+			
 		}
 		
-		if(address==null||address=="")
+		if(address==null||address.equals(""))
 		{
-			
 			check= false;
 		}
 		
-		if(company==null||company=="")
+		if(company==null||company.equals(""))
 		{
-			
 			check= false;
 			
 		}
-		if(fileName==null||fileName=="")
+		if(fileName==null||fileName.equals(""))
 		{
-			
 			check= false;
 			
 		}
-		if(link==null||link=="")
+		else if(!checkFilePDF(fileName))
 		{
+			checkpdf=false;
 			
+		}
+		if(link==null||link.equals(""))
+		{
 			check= false;
 			
 		}
-		if(txtsalary==null||txtsalary=="")
+		if(txtsalary==null||txtsalary.equals(""))
 		{
+			
 			check= false;
 		}
 		if(check)
 		{
 			if(isInteger(txtsalary))
 			{
+				if(checkpdf)
+				{
 				job= new Job();
 				job.setAddress(address);
 				GroupJob groupJob=(GroupJob)comboBox.getSelectedItem();
@@ -457,8 +467,14 @@ public class JobAdd extends JFrame {
 				job.setImage(fileName);;
 				job.setJobName(name);
 				job.setLink(link);
+				job.setSalary(Integer.parseInt(txtsalary));
 				System.out.println("TEST"+job.getAddress());
 				System.out.println("TEST"+job.getImage());
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(contentPane, "Please choose pdf file");
+				}
 			}
 			else
 			{

@@ -1,214 +1,187 @@
 package views;
 
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+
+import control.ControlGroupJob;
+import control.ControlJob;
+import entity.GroupJob;
+import entity.Job;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import java.awt.GridLayout;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Vector;
+import java.awt.Font;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListModel;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+public class AdminMainMenu {
 
-import control.ControlGroupJob;
-import entity.GroupJob;
+	private JFrame frame;
+	private JTextField textSearch;
+	private JTable table;
+	private JList list;
+	private GroupJobAdd groupJobAdd;
+	private GroupJob groupJob;
+	private GroupJobEdit groupJobEdit;
+	private ControlGroupJob ctrGroup = new ControlGroupJob();
+	private ControlJob ctrJob = new ControlJob();
+	private List<GroupJob> lstGroup;
+	private List<Job> lstJob;
+	
+	private JobAdd jobAdd;
+	public final static String[] columnNames = {
+	        "Name", "Company", "Address", "Salary"
+	    };
 
-
-public class AdminMainMenu extends JFrame implements ActionListener {
-   private JFrame mainFrame;
-   private JPanel pPAGE_START;
-   private JPanel pPAGE_END;
-   private JPanel pLINE_START;
-   private JPanel pLINE_START_GRID;
-   private JPanel pLINE_END;
-   private JPanel pCENTER;
-   private JPanel pLINE_END_GRID;
-   private JPanel pCENTER_GRID;
-   private JLabel lCENTER_HEAD;
-   private JLabel lLINE_START_HEAD;
-   private JLabel lLINE_END_HEAD;
-   //panel Head Search
-   private JPanel pHSearch;
-   private Font fontButton =  new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ",Font.BOLD , 22);
-   private Font fontText =  new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ",Font.BOLD , 18);
-   private JLabel lHeadTitle;
-   private JButton bSearch1;
-   private JButton bEdit;
-   private JButton bSearch3;
-   private JButton bAddJob;
-   private JButton bExit;
-   private JButton bAdd;
-   
-   private GroupJob groupJob;
-   public GroupJobAdd groupJobAdd;
-   public GroupJobEdit groupJobEdit;
-   public JobAdd jobAdd;
-   //Test Frame moi
-   
-   private JPanel pLINE_START_START;
-   private JPanel pLINE_START_CENTER;
-   private JPanel pLINE_START_END;
-   
-   //Het test
-   //Var data
-   private ControlGroupJob ctrGroup = new ControlGroupJob();
-   private List<GroupJob> lstGroup;
-   private JList jLGroup;
-   JScrollPane scroll1;
-   private JTextField textSearch;
-
-	public AdminMainMenu()  throws SQLException 
-	{
-		dataLoad();
-		guiStart();
-		//bAdd.addActionListener(this);
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AdminMainMenu window = new AdminMainMenu();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
-	public static void main(String[] args) throws SQLException {
+	/**
+	 * Create the application.
+	 */
+	public AdminMainMenu() {
+		try {
+			initData();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		initialize();
+		
+	}
+
+	private void initData() throws SQLException {
 		// TODO Auto-generated method stub
-		AdminMainMenu mainMenu = new AdminMainMenu();
+		initDataGroupList();
+		initDataJobList();
+		
+		
+	}
 
-	}
-	private void dataLoad() throws SQLException
-	{
-		LoadListGroup();
-	}
-	private void LoadListGroup() throws SQLException
-	{
-		lstGroup = ctrGroup.loadData();
-		DefaultListModel dModel = new DefaultListModel<>();
-//		for(GroupJob g:lstGroup)
-//		{   JPanel p = new JPanel();
-//			p.add(new JLabel(g.getGroupName()));
-//			JButton btnEdit = new JButton("Edit");
-//			JButton btnDelete = new JButton("Delete");
-//			p.add(btnEdit);
-//			p.add(btnDelete);
-//			dModel.addElement(p);
+	private void initDataJobList() throws SQLException {
+		// TODO Auto-generated method stub
+		lstJob = ctrJob.loadData();
+//		Cach 1
+		Vector<Object> vector = new Vector<Object>();
+		for(Job job:lstJob)
+		{
+			Vector<String> vString = new Vector<>();
+			vString.add(job.getJobName());
+			vString.add(job.getcompany());
+			vString.add(job.getAddress());
+			int salary =job.getSalary();
+			vString.add(""+salary);
+			vector.add(vString);
+		}
+		Vector<String> vColum = new Vector<>();
+		for(String s:columnNames)
+		{
+			vColum.add(s);
+		}
+		table = new JTable(vector, vColum);
+		
+//		Vector<String> colName = new Vector<>();
+//		for(String s:columnNames)
+//		{
+//			colName.add(s);
+//		}
+//		table = new JTable(vector, colName);
+		//cach 2
+//		DefaultTableColumnModel defaultTableColumnModel = new DefaultTableColumnModel();
+//		for(Job job:lstJob)
+//		{
+//			Vector<String> vString = new Vector<>();
+//			vString.add(job.getJobName());
+//			vString.add(job.getcompany());
+//			vString.add(job.getAddress());
+//			int salary =job.getSalary();
+//			vString.add(""+salary);
+//			defaultTableModel.addRow(vString);
 //		}
 //		
+//		table = new JTable(defaultTableModel);
+
+		
+	}
+
+	private void initDataGroupList() throws SQLException {
+		// TODO Auto-generated method stub
+		lstGroup = ctrGroup.loadData();
+		DefaultListModel dModel = new DefaultListModel<>();
 		for(GroupJob g:lstGroup)
 		{
 			dModel.addElement(g);
 		}
-		
-//		for(int i =0;i<lstGroup.size();i++)
-//		{
-//			dModel.addElement(lstGroup.get(i));
-//		}
-		jLGroup = new JList(dModel);
-		jLGroup.setFixedCellHeight(40);
-		jLGroup.setSelectedIndex(-1);
+		list = new JList(dModel);
+	}
 
-		jLGroup.addListSelectionListener(new ListSelectionListener() {
-			
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				// TODO Auto-generated method stub
-				groupJob = (GroupJob)jLGroup.getSelectedValue();
-				if(groupJob!=null)
-				{
-				System.out.println("6  "+groupJob.getGroupName()+groupJob.getMemo()+groupJob.getId());
-				}
-				
-			}
-		});
-
-		//jLGroup.setCellRenderer(new JPanelToJList.PanelRenderer());
-         scroll1 = new JScrollPane(jLGroup);
-       // final JScrollBar scrollBar = scroll1.getVerticalScrollBar();
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame.setUndecorated(true);
 		
-	}
-	private void LoadListJob()
-	
-	{
+		JPanel pPage_Start = new JPanel();
+		frame.getContentPane().add(pPage_Start, BorderLayout.NORTH);
+		pPage_Start.setLayout(new GridLayout(2, 1, 0, 0));
 		
-	}
-	private void LoadListJob(GroupJob g)
-	{
+		JPanel pHead = new JPanel();
+		pHead.setBackground(SystemColor.activeCaption);
+		pPage_Start.add(pHead);
 		
-	}
-	private void LoadListJob(String search)
-	{
+		JLabel label = new JLabel("\u6C42\u4EBA\u7968\u3092\u63A2\u3059");
+		label.setFont(new Font("MS UI Gothic", Font.BOLD, 50));
+		pHead.add(label);
 		
-	}
-	private void guiStart()
-	{
-		mainFrame = new JFrame("ãÅêlèÓïÒä«óù");
-//		mainFrame.setSize(1280,950);
-		mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		mainFrame.setUndecorated(true);
-		mainFrame.setLayout(new  BorderLayout());
-
-		PAGE_START();
-		PAGE_END();
-		LINE_START();
-		CENTER();
-		LINE_END();
+		JPanel ÇêControl = new JPanel();
+		pPage_Start.add(ÇêControl);
 		
+		JComboBox comboBox = new JComboBox();
+		ÇêControl.add(comboBox);
 		
-		mainFrame.add(pPAGE_START,BorderLayout.PAGE_START);
-		mainFrame.add(pLINE_START,BorderLayout.LINE_START);
-		mainFrame.add(pCENTER,BorderLayout.CENTER);
-		//mainFrame.add(pLINE_END,BorderLayout.LINE_END);
-		mainFrame.add(pPAGE_END,BorderLayout.PAGE_END);
-	  	
-		mainFrame.setVisible(true);
-	
-	  
-	
-	}
-	private void PAGE_START()
-	{
-		pPAGE_START = new JPanel(new GridLayout(2, 1));
-		pPAGE_START.setBackground(Color.CYAN);
-		lHeadTitle = new JLabel("ãÅêlÇíTÇ∑",JLabel.CENTER );
-		lHeadTitle.setFont(new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ",Font.BOLD , 40));
-		lHeadTitle.setForeground(Color.BLUE);
-		pHSearch = new JPanel(new FlowLayout());
-		pHSearch.setBackground(Color.LIGHT_GRAY);
-		textSearch = new JTextField("Search");
-		textSearch.setFont(new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ", 2, 25));
-		textSearch.setSize(800,25);
-		textSearch.setColumns(25);
-		textSearch.addMouseMotionListener(new MouseMotionListener() {
-			
-			public void mouseMoved(MouseEvent e) {
-				//textSearch.setText(null);
-				
-			}
-			
-			public void mouseDragged(MouseEvent e) {
-				textSearch.setText(null);
-				
-			}
-			public void mousePressed(MouseEvent e) {
-				//textSearch.setText(null);
-		      }
-		});
+		textSearch = new JTextField();
+		ÇêControl.add(textSearch);
+		textSearch.setColumns(30);
 		textSearch.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -232,189 +205,164 @@ public class AdminMainMenu extends JFrame implements ActionListener {
 				
 			}
 		});
-		bSearch1 = new JButton("Search");
-		bSearch1.addActionListener(new ActionListener() {
+		
+		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Search();
+			}
+		});
+		ÇêControl.add(btnSearch);
+		
+		JButton btnAddJob = new JButton("AddJob");
+		btnAddJob.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					AddJob();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		ÇêControl.add(btnAddJob);
+		
+		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Exit();
+			}
+		});
+		ÇêControl.add(btnExit);
+		
+		JPanel pLine_Start = new JPanel();
+		frame.getContentPane().add(pLine_Start, BorderLayout.WEST);
+		GridBagLayout gbl_pLine_Start = new GridBagLayout();
+		gbl_pLine_Start.columnWidths = new int[]{121, 0};
+		gbl_pLine_Start.rowHeights = new int[]{35, 790, 60, 0};
+		gbl_pLine_Start.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_pLine_Start.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		pLine_Start.setLayout(gbl_pLine_Start);
+		
+		JLabel label_1 = new JLabel("\u8077\u7A2E");
+		GridBagConstraints gbc_label_1 = new GridBagConstraints();
+		gbc_label_1.fill = GridBagConstraints.VERTICAL;
+		gbc_label_1.insets = new Insets(0, 0, 5, 0);
+		gbc_label_1.gridx = 0;
+		gbc_label_1.gridy = 0;
+		pLine_Start.add(label_1, gbc_label_1);
+		
+		list.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		list.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-//				String url = "https://www.google.com";
-//				String url = "C://Users//J1637009//Desktop//1702004 SKY GROUP.pdf";
-				String url = "file:///C:/Users/J1637009/Desktop/1702004SKYGROUP.pdf";
-				
-		        try {
-					java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				clickListGroupJob();
 				
 			}
 		});
 		
-		bAddJob = new JButton("Add Job");
-		bExit = new JButton("Exit");
-		bAddJob.setFont(fontButton);
-		bExit.setFont(fontButton);
-		bSearch1.setFont(fontButton);
+		GridBagConstraints gbc_list = new GridBagConstraints();
+		gbc_list.fill = GridBagConstraints.BOTH;
+		gbc_list.insets = new Insets(0, 0, 5, 0);
+		gbc_list.gridx = 0;
+		gbc_list.gridy = 1;
+		pLine_Start.add(list, gbc_list);
 		
-		//addActionListener(this);
-		bAddJob.addActionListener(this);
-		bExit.addActionListener(this);
-		pHSearch.add(textSearch);
-		pHSearch.add(bSearch1);
-		pHSearch.add(bAddJob);
-		pHSearch.add(bExit);
+		JPanel pControl2 = new JPanel();
+		GridBagConstraints gbc_pControl2 = new GridBagConstraints();
+		gbc_pControl2.fill = GridBagConstraints.BOTH;
+		gbc_pControl2.gridx = 0;
+		gbc_pControl2.gridy = 2;
+		pLine_Start.add(pControl2, gbc_pControl2);
 		
-		pPAGE_START.add(lHeadTitle);
-		pPAGE_START.add(pHSearch);
-	}
-	private void PAGE_END()
-	{
-		pPAGE_END = new JPanel(new FlowLayout());
-		bAdd = new JButton("Add");
-		bAdd.setFont(fontButton);
-		bAdd.addActionListener(this);
-		bEdit = new JButton("Edit");
-		bEdit.setFont(fontButton);
-		bEdit.addActionListener(this);
-		//bSearch3 = new JButton("Search");
-		//bSearch3.setFont(fontButton);
-		pPAGE_END.add(bAdd);
-		pPAGE_END.add(bEdit);
-		//pPAGE_END.add(bSearch3);
-		pPAGE_END.setBackground(Color.LIGHT_GRAY);
-		pPAGE_END.setSize(1000,100);
-		
-		
-	}
-	private void LINE_START()
-	{
-
-		pLINE_START = new JPanel(new GridLayout(2, 1));
-		
-		
-		pLINE_START_START = new JPanel();
-		pLINE_START_START.setBorder(BorderFactory.createTitledBorder("êEéÌ"));
-		jLGroup.setFont(fontText);
-//		jLGroup.setSize(200, 750);
-//		jLGroup.setFixedCellHeight(700);
-//		jLGroup.setFixedCellWidth(250);
-		scroll1 = new JScrollPane(jLGroup);
-//		scroll1.add(jLGroup);
-		pLINE_START_START.add(scroll1);
-		
-//		for(int i=0;i<6;i++)
-//			{
-//				
-//				JCheckBox checkBox = new JCheckBox("èÍèä"+i);
-//				checkBox.setFont(fontText);
-//				pLINE_START_CENTER.add(checkBox);
-//			}
-		
-		pLINE_START_END= new JPanel();
-		pLINE_START_END.add(bAdd);
-		pLINE_START_END.add(bEdit);
-		//pLINE_START_END.add(bSearch3);
-		pLINE_START_END.setBackground(Color.LIGHT_GRAY);
-		
-		pLINE_START.add(pLINE_START_START);
-//		pLINE_START.add(pLINE_START_CENTER);
-		pLINE_START.add(pLINE_START_END);
-		
-	}
-	private void CENTER()
-	{
-//		pCENTER = new JPanel();
-//		pCENTER.setFont(new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ",Font.BOLD , 20));
-//		
-//		lCENTER_HEAD = new JLabel("èÍèä");
-//		lCENTER_HEAD.setFont(fontText);
-//		
-//		pCENTER_GRID = new JPanel(new GridLayout(3, 2));
-//		for(int i=0;i<6;i++)
-//		{
-//			
-//			JCheckBox checkBox = new JCheckBox("èÍèä"+i);
-//			checkBox.setFont(fontText);
-//			pCENTER_GRID.add(checkBox);
-//		}
-//		pCENTER.add(lCENTER_HEAD);
-//		pCENTER.add(pCENTER_GRID);
-		pCENTER = new JPanel(new GridLayout(3, 2));
-		pCENTER.setBorder(BorderFactory.createTitledBorder("ì‡óe"));
-				
-	}
-	private void LINE_END()
-	{
-//		pLINE_END = new JPanel();
-//		pLINE_END.setFont(new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ",Font.BOLD , 20));
-//		
-//		lLINE_END_HEAD = new JLabel("ããó^");
-//		lLINE_END_HEAD.setFont(fontText);
-//		
-//		pLINE_END_GRID = new JPanel(new GridLayout(3, 2));
-//		for(int i=0;i<6;i++)
-//		{
-//			JCheckBox checkBox = new JCheckBox("ããó^"+i);
-//			checkBox.setFont(fontText);
-//			pLINE_START_GRID.add(checkBox);
-//		}
-//		pLINE_END.add(lLINE_END_HEAD);
-//		pLINE_END.add(pLINE_END_GRID);
-		pLINE_END = new JPanel(new GridLayout(3, 2));
-		pLINE_END.setBorder(BorderFactory.createTitledBorder("èÍèä"));
-		for(int i=0;i<6;i++)
-			{
-				
-				JCheckBox checkBox = new JCheckBox("èÍèäèÍèä"+i);
-				checkBox.setFont(fontText);
-				pLINE_END.add(checkBox);
+		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Add();
 			}
+		});
+		pControl2.add(btnAdd);
+		
+		JButton btnEdit = new JButton("Edit");
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Edit();
+			}
+		});
+		pControl2.add(btnEdit);
+		
+		JPanel pLine_Centrel = new JPanel();
+		frame.getContentPane().add(pLine_Centrel, BorderLayout.CENTER);
+
+		pLine_Centrel.add(table);
+		frame.setVisible(true);
+	}
+	protected void clickListGroupJob() {
+		// TODO Auto-generated method stub
+		groupJob = (GroupJob)list.getSelectedValue();
+//		if(groupJob!=null)
+//		{
+//		System.out.println("6  "+groupJob.getGroupName()+groupJob.getMemo()+groupJob.getId());
+//		}
+		//to load dataList of Jobs
 		
 	}
-	 public void actionPerformed(ActionEvent e) { 
-		 //Add  Job
-		 	if(e.getSource()==bAddJob)
-		 	{
-		 		mainFrame.setVisible(false);
-//		 		jobAdd = new JobAdd2();
-//		 		jobAdd.open();
-		 		
-		 	}
-		 
-		 //Add Group Job
-	        if(e.getSource()==bAdd){ 
-	            try {
-	            	mainFrame.setVisible(false);
-					groupJobAdd = new GroupJobAdd();
-					
-					
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-	        }
-	        //Add Edit Group Job
-	        if(e.getSource()==bEdit){ 
-	        	if(groupJob==null)
-	        	{
-	        		JOptionPane.showMessageDialog(
-				            mainFrame, "please chose in name of GroupJob");
-	        	}
-	        	else
-	        	{
-	            try {
-	            	System.out.println("Update");
-	            	mainFrame.setVisible(false);
-					groupJobEdit = new GroupJobEdit(groupJob);
-					
-					
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-	        	}
-	        }
-	    } 
+
+	protected void Edit() {
+		// TODO Auto-generated method stub
+		if(groupJob==null)
+    	{
+    		JOptionPane.showMessageDialog(
+		            frame, "please chose in name of GroupJob");
+    	}
+    	else
+    	{
+        try {
+        	System.out.println("Update");
+        	frame.setVisible(false);
+			groupJobEdit = new GroupJobEdit(groupJob);
+			
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	}
+	}
+
+	protected void Add() {
+		// TODO Auto-generated method stub
+		try {
+        	frame.setVisible(false);
+			groupJobAdd = new GroupJobAdd();
+			
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
+	protected void Exit() {
+		// TODO Auto-generated method stub
+		System.exit(0);
+		
+	}
+
+	protected void AddJob() throws SQLException {
+		// TODO Auto-generated method stub
+		frame.setVisible(false);
+		jobAdd = new JobAdd();
+		
+	}
+
+	protected void Search() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 
 }

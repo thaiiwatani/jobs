@@ -74,7 +74,7 @@ public class GroupJobAdd extends JFrame implements ActionListener {
 		mainFrame.add(pPAGE_START,BorderLayout.PAGE_START);
 		mainFrame.add(pLINE_START,BorderLayout.LINE_START);
 		mainFrame.add(pPAGE_END,BorderLayout.PAGE_END);
-		
+		mainFrame.setUndecorated(true);
 		mainFrame.setVisible(true);
 
 	}
@@ -173,12 +173,7 @@ public class GroupJobAdd extends JFrame implements ActionListener {
 				if(!checked)
 				{
 					mainFrame.setVisible(false);
-					try {
-						adminMainMenu = new AdminMainMenu();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block					
-						e1.printStackTrace();
-					}
+					adminMainMenu = new AdminMainMenu();
 				}
 				else
 				{
@@ -194,12 +189,7 @@ public class GroupJobAdd extends JFrame implements ActionListener {
 		{
 			System.out.println("Day");
 			mainFrame.setVisible(false);
-			try {
-				adminMainMenu = new AdminMainMenu();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			adminMainMenu = new AdminMainMenu();
 			
 		}
 		

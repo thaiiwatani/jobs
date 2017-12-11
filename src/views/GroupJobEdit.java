@@ -75,7 +75,7 @@ public class GroupJobEdit extends JFrame implements ActionListener {
 		mainFrame.add(pPAGE_START,BorderLayout.PAGE_START);
 		mainFrame.add(pLINE_START,BorderLayout.LINE_START);
 		mainFrame.add(pPAGE_END,BorderLayout.PAGE_END);
-		
+		mainFrame.setUndecorated(true);
 		mainFrame.setVisible(true);
 
 	}
@@ -161,12 +161,7 @@ public class GroupJobEdit extends JFrame implements ActionListener {
 	private void ToMainAdminMenu()
 	{
 		mainFrame.setVisible(false);
-		try {
-			adminMainMenu = new AdminMainMenu();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		adminMainMenu = new AdminMainMenu();
 	}
 
 	@Override

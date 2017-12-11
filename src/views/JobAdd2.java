@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import control.ControlGroupJob;
+import control.ControlJob;
 import entity.GroupJob;
 import entity.Job;
 
@@ -46,12 +47,15 @@ public class JobAdd2 extends JFrame {
 	private JTextField txtFileName;
 	private JFrame mainFrame;
 	private JFileChooser fileChooser = new JFileChooser();
-	private List<GroupJob> lstGroup;
+	private List<Job> lstJob;
+	
+	private ControlJob ctrJob = new ControlJob();
 	private ControlGroupJob ctrGroup = new ControlGroupJob();
-	private DefaultComboBoxModel<GroupJob> dModel = new DefaultComboBoxModel<GroupJob>();
+	private DefaultComboBoxModel<GroupJob> dModelGroup = new DefaultComboBoxModel<GroupJob>();
 	private Job job;
 	private JComboBox comboBox;
-
+	private AdminMainMenu2 adminMainMenu;
+	private String fontName ="ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ";
 	/**
 	 * Launch the application.
 	 */
@@ -78,12 +82,28 @@ public class JobAdd2 extends JFrame {
 	}
 	private void LoadData() throws SQLException
 	{
-		lstGroup = ctrGroup.loadData();
+		LoadDataGroupJob();
+		
+		
+	}
+	private void LoadDataGroupJob() throws SQLException
+	{
+		List<GroupJob> lstGroup = ctrGroup.loadData();
+		
+		
 		for(GroupJob g:lstGroup)
 		{
-			dModel.addElement(g);
+			dModelGroup.addElement(g);
 		}
 		
+	}
+	private void LoadDataJob() throws SQLException
+	{
+		lstJob = ctrJob.loadData();
+		for(Job g:lstJob)
+		{
+//			dModel.addElement(g);
+		}
 	}
 	public JobAdd2() throws SQLException {
 		LoadData();
@@ -103,7 +123,7 @@ public class JobAdd2 extends JFrame {
 		
 		JLabel lblCreateANew = new JLabel("Create a new Job");
 		lblCreateANew.setBackground(SystemColor.activeCaption);
-		lblCreateANew.setFont(new Font("MS UI Gothic", Font.BOLD, 30));
+		lblCreateANew.setFont(new Font(fontName, Font.BOLD, 30));
 		GridBagConstraints gbc_lblCreateANew = new GridBagConstraints();
 		gbc_lblCreateANew.insets = new Insets(0, 0, 5, 0);
 		gbc_lblCreateANew.gridx = 1;
@@ -111,7 +131,7 @@ public class JobAdd2 extends JFrame {
 		contentPane.add(lblCreateANew, gbc_lblCreateANew);
 		
 		JLabel lblGroupJob = new JLabel("Group Job");
-		lblGroupJob.setFont(new Font("MS UI Gothic", Font.BOLD, 16));
+		lblGroupJob.setFont(new Font(fontName, Font.BOLD, 16));
 		GridBagConstraints gbc_lblGroupJob = new GridBagConstraints();
 		gbc_lblGroupJob.anchor = GridBagConstraints.EAST;
 		gbc_lblGroupJob.insets = new Insets(0, 0, 5, 5);
@@ -119,8 +139,8 @@ public class JobAdd2 extends JFrame {
 		gbc_lblGroupJob.gridy = 1;
 		contentPane.add(lblGroupJob, gbc_lblGroupJob);
 		
-		 comboBox = new JComboBox(dModel);
-		comboBox.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		comboBox = new JComboBox(dModelGroup);
+		comboBox.setFont(new Font(fontName, Font.PLAIN, 16));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -129,7 +149,7 @@ public class JobAdd2 extends JFrame {
 		contentPane.add(comboBox, gbc_comboBox);
 		
 		JLabel lblName = new JLabel("Name");
-		lblName.setFont(new Font("MS UI Gothic", Font.BOLD, 16));
+		lblName.setFont(new Font(fontName, Font.BOLD, 16));
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
 		gbc_lblName.anchor = GridBagConstraints.EAST;
 		gbc_lblName.insets = new Insets(0, 0, 5, 5);
@@ -138,7 +158,7 @@ public class JobAdd2 extends JFrame {
 		contentPane.add(lblName, gbc_lblName);
 		
 		txtName = new JTextField();
-		txtName.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		txtName.setFont(new Font(fontName, Font.PLAIN, 16));
 		GridBagConstraints gbc_txtName = new GridBagConstraints();
 		gbc_txtName.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtName.insets = new Insets(0, 0, 5, 0);
@@ -148,7 +168,7 @@ public class JobAdd2 extends JFrame {
 		txtName.setColumns(10);
 		
 		JLabel lblCompany = new JLabel("Company");
-		lblCompany.setFont(new Font("MS UI Gothic", Font.BOLD, 16));
+		lblCompany.setFont(new Font(fontName, Font.BOLD, 16));
 		GridBagConstraints gbc_lblCompany = new GridBagConstraints();
 		gbc_lblCompany.anchor = GridBagConstraints.EAST;
 		gbc_lblCompany.insets = new Insets(0, 0, 5, 5);
@@ -157,7 +177,7 @@ public class JobAdd2 extends JFrame {
 		contentPane.add(lblCompany, gbc_lblCompany);
 		
 		txtCompany = new JTextField();
-		txtCompany.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		txtCompany.setFont(new Font(fontName, Font.PLAIN, 16));
 		GridBagConstraints gbc_txtCompany = new GridBagConstraints();
 		gbc_txtCompany.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtCompany.insets = new Insets(0, 0, 5, 0);
@@ -167,7 +187,7 @@ public class JobAdd2 extends JFrame {
 		txtCompany.setColumns(10);
 		
 		JLabel lblAddress = new JLabel("Address");
-		lblAddress.setFont(new Font("MS UI Gothic", Font.BOLD, 16));
+		lblAddress.setFont(new Font(fontName, Font.BOLD, 16));
 		GridBagConstraints gbc_lblAddress = new GridBagConstraints();
 		gbc_lblAddress.anchor = GridBagConstraints.EAST;
 		gbc_lblAddress.insets = new Insets(0, 0, 5, 5);
@@ -176,7 +196,7 @@ public class JobAdd2 extends JFrame {
 		contentPane.add(lblAddress, gbc_lblAddress);
 		
 		txtAddress = new JTextField();
-		txtAddress.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		txtAddress.setFont(new Font(fontName, Font.PLAIN, 16));
 		GridBagConstraints gbc_txtAddress = new GridBagConstraints();
 		gbc_txtAddress.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtAddress.insets = new Insets(0, 0, 5, 0);
@@ -186,7 +206,7 @@ public class JobAdd2 extends JFrame {
 		txtAddress.setColumns(10);
 		
 		JLabel lblSalary = new JLabel("Salary");
-		lblSalary.setFont(new Font("MS UI Gothic", Font.BOLD, 16));
+		lblSalary.setFont(new Font(fontName, Font.BOLD, 16));
 		GridBagConstraints gbc_lblSalary = new GridBagConstraints();
 		gbc_lblSalary.anchor = GridBagConstraints.EAST;
 		gbc_lblSalary.insets = new Insets(0, 0, 5, 5);
@@ -195,7 +215,7 @@ public class JobAdd2 extends JFrame {
 		contentPane.add(lblSalary, gbc_lblSalary);
 		
 		txtSalary = new JTextField();
-		txtSalary.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		txtSalary.setFont(new Font(fontName, Font.PLAIN, 16));
 		GridBagConstraints gbc_txtSalary = new GridBagConstraints();
 		gbc_txtSalary.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSalary.insets = new Insets(0, 0, 5, 0);
@@ -205,7 +225,7 @@ public class JobAdd2 extends JFrame {
 		txtSalary.setColumns(10);
 		
 		JLabel lblLinkAcc = new JLabel("Link Access");
-		lblLinkAcc.setFont(new Font("MS UI Gothic", Font.BOLD, 16));
+		lblLinkAcc.setFont(new Font(fontName, Font.BOLD, 16));
 		GridBagConstraints gbc_lblLinkAcc = new GridBagConstraints();
 		gbc_lblLinkAcc.anchor = GridBagConstraints.EAST;
 		gbc_lblLinkAcc.insets = new Insets(0, 0, 5, 5);
@@ -214,7 +234,7 @@ public class JobAdd2 extends JFrame {
 		contentPane.add(lblLinkAcc, gbc_lblLinkAcc);
 		
 		txtLink = new JTextField();
-		txtLink.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		txtLink.setFont(new Font(fontName, Font.PLAIN, 16));
 		GridBagConstraints gbc_txtLink = new GridBagConstraints();
 		gbc_txtLink.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtLink.insets = new Insets(0, 0, 5, 0);
@@ -224,7 +244,7 @@ public class JobAdd2 extends JFrame {
 		txtLink.setColumns(10);
 		
 		JLabel lblInformation = new JLabel("Information");
-		lblInformation.setFont(new Font("MS UI Gothic", Font.BOLD, 16));
+		lblInformation.setFont(new Font(fontName, Font.BOLD, 16));
 		GridBagConstraints gbc_lblInformation = new GridBagConstraints();
 		gbc_lblInformation.anchor = GridBagConstraints.EAST;
 		gbc_lblInformation.insets = new Insets(0, 0, 5, 5);
@@ -233,7 +253,7 @@ public class JobAdd2 extends JFrame {
 		contentPane.add(lblInformation, gbc_lblInformation);
 		
 		JTextArea txtInformation = new JTextArea();
-		txtInformation.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		txtInformation.setFont(new Font(fontName, Font.PLAIN, 16));
 		GridBagConstraints gbc_txtInformation = new GridBagConstraints();
 		gbc_txtInformation.insets = new Insets(0, 0, 5, 0);
 		gbc_txtInformation.fill = GridBagConstraints.BOTH;
@@ -242,7 +262,7 @@ public class JobAdd2 extends JFrame {
 		contentPane.add(txtInformation, gbc_txtInformation);
 		
 		JLabel lblFileName = new JLabel("File Name");
-		lblFileName.setFont(new Font("MS UI Gothic", Font.BOLD, 16));
+		lblFileName.setFont(new Font(fontName, Font.BOLD, 16));
 		GridBagConstraints gbc_lblFileName = new GridBagConstraints();
 		gbc_lblFileName.anchor = GridBagConstraints.EAST;
 		gbc_lblFileName.insets = new Insets(0, 0, 5, 5);
@@ -278,7 +298,7 @@ public class JobAdd2 extends JFrame {
 		gbc_txtFileName.gridx = 0;
 		gbc_txtFileName.gridy = 0;
 		panel_1.add(txtFileName, gbc_txtFileName);
-		txtFileName.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		txtFileName.setFont(new Font(fontName, Font.PLAIN, 18));
 		txtFileName.setColumns(31);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.EAST;
@@ -298,10 +318,15 @@ public class JobAdd2 extends JFrame {
 		JButton btnCreate = new JButton("Create");
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clickCreate();
+				try {
+					clickCreate();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
-		btnCreate.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		btnCreate.setFont(new Font(fontName, Font.PLAIN, 18));
 		panel.add(btnCreate);
 		
 		JButton btnCancel = new JButton("Cancel");
@@ -310,24 +335,29 @@ public class JobAdd2 extends JFrame {
 				clickCancel();
 			}
 		});
-		btnCancel.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		btnCancel.setFont(new Font(fontName, Font.PLAIN, 18));
 		
 		panel.add(btnCancel);
 	}
 
 	protected void clickCancel() {
 		// TODO Auto-generated method stub
-		
+		ToMainMenu();
 	}
 
-	protected void clickCreate() {
+	protected void clickCreate() throws SQLException {
 		// TODO Auto-generated method stub
 		if(checkTextBox())
 		{
-			
+			if(job!=null)
+			{
+			ctrJob.add(job);
+			ToMainMenu();
+			}
 		}
 		
 	}
+	
 
 	protected void clickBrowser() {
 		int select = fileChooser.showOpenDialog(this);
@@ -348,6 +378,18 @@ public class JobAdd2 extends JFrame {
         }
         
 	}
+	
+	private void ToMainMenu()
+	{
+		contentPane.setVisible(false);
+		try {
+			adminMainMenu = new AdminMainMenu2();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
 	private boolean checkFilePDF(String fileName)
 	{
 		boolean check=false;
@@ -362,7 +404,8 @@ public class JobAdd2 extends JFrame {
 	private boolean checkTextBox()
 	{
 		//not done
-		boolean check=false;
+		boolean check=true;
+		boolean checkpdf=true;
 		String name = txtName.getText();
 		String address = txtAddress.getText();
 		String company = txtCompany.getText();
@@ -370,53 +413,83 @@ public class JobAdd2 extends JFrame {
 		String link = txtLink.getText();
 		String txtsalary = txtSalary.getText();
 		int countCheck=0;
-		job= new Job();
-		if(name==null||name==""||countCheck==0)
+		
+		if(name==null||name.equals(""))
 		{
-			JOptionPane.showMessageDialog(contentPane, "Please input Name");
 			check =false;
-		}
-		else
-		{
-			countCheck++;
-			check =true;
-		}
-		if(address==null||address==""||countCheck>0)
-		{
-			JOptionPane.showMessageDialog(contentPane, "Please input address");
-			check= false;
-		}
-		else
-		{
-			countCheck++;
 			
-			check=true;
 		}
-		if(txtsalary==null||txtsalary==""||countCheck>0)
+		
+		if(address==null||address.equals(""))
 		{
-			JOptionPane.showMessageDialog(contentPane, "Please input salary");
 			check= false;
-			int salary=Integer.parseInt(txtsalary);
-			job.setSalary(salary);
+		}
+		
+		if(company==null||company.equals(""))
+		{
+			check= false;
+			
+		}
+		if(fileName==null||fileName.equals(""))
+		{
+			check= false;
+			
+		}
+		else if(!checkFilePDF(fileName))
+		{
+			checkpdf=false;
+			
+		}
+		if(link==null||link.equals(""))
+		{
+			check= false;
+			
+		}
+		if(txtsalary==null||txtsalary.equals(""))
+		{
+			
+			check= false;
+		}
+		if(check)
+		{
+			if(isInteger(txtsalary))
+			{
+				if(checkpdf)
+				{
+				job= new Job();
+				job.setAddress(address);
+				GroupJob groupJob=(GroupJob)comboBox.getSelectedItem();
+				job.setGroupid(groupJob.getId());
+				job.setImage(fileName);;
+				job.setJobName(name);
+				job.setLink(link);
+				System.out.println("TEST"+job.getAddress());
+				System.out.println("TEST"+job.getImage());
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(contentPane, "Please choose pdf file");
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(contentPane, "Please intput number to salary");
+			}
 		}
 		else
 		{
-			countCheck++;
-			check=true;
+			JOptionPane.showMessageDialog(contentPane, "Please intput value to textbox");
 		}
-		
-		job.setAddress(address);
-		GroupJob groupJob=(GroupJob)comboBox.getSelectedItem();
-		
-		job.setGroupid(groupJob.getId());
-		job.setImage(fileName);;
-		job.setJobName(name);
-		job.setLink(link);
-		
-		
-		
 		
 		return check;
+	}
+	private boolean isInteger(String str) {
+		try {
+			Integer.parseInt(str);
+		}catch(NumberFormatException e) {
+			return false;
+		}
+		return true;
 	}
 	
 
