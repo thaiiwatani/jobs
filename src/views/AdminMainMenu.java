@@ -41,7 +41,6 @@ public class AdminMainMenu {
 
 	private JFrame frame;
 	private JTextField textSearch;
-	private JTable table;
 	private JList list;
 	private GroupJobAdd groupJobAdd;
 	private GroupJob groupJob;
@@ -55,6 +54,7 @@ public class AdminMainMenu {
 	public final static String[] columnNames = {
 	        "Name", "Company", "Address", "Salary"
 	    };
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -114,8 +114,7 @@ public class AdminMainMenu {
 		{
 			vColum.add(s);
 		}
-		table = new JTable(vector, vColum);
-		
+		table = new JTable(vector,vColum);
 //		Vector<String> colName = new Vector<>();
 //		for(String s:columnNames)
 //		{
@@ -177,9 +176,11 @@ public class AdminMainMenu {
 		pPage_Start.add(ÇêControl);
 		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		ÇêControl.add(comboBox);
 		
 		textSearch = new JTextField();
+		textSearch.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		ÇêControl.add(textSearch);
 		textSearch.setColumns(30);
 		textSearch.addKeyListener(new KeyListener() {
@@ -207,6 +208,7 @@ public class AdminMainMenu {
 		});
 		
 		JButton btnSearch = new JButton("Search");
+		btnSearch.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Search();
@@ -215,6 +217,7 @@ public class AdminMainMenu {
 		ÇêControl.add(btnSearch);
 		
 		JButton btnAddJob = new JButton("AddJob");
+		btnAddJob.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
 		btnAddJob.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -228,6 +231,7 @@ public class AdminMainMenu {
 		ÇêControl.add(btnAddJob);
 		
 		JButton btnExit = new JButton("Exit");
+		btnExit.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Exit();
@@ -245,6 +249,7 @@ public class AdminMainMenu {
 		pLine_Start.setLayout(gbl_pLine_Start);
 		
 		JLabel label_1 = new JLabel("\u8077\u7A2E");
+		label_1.setBackground(SystemColor.inactiveCaption);
 		GridBagConstraints gbc_label_1 = new GridBagConstraints();
 		gbc_label_1.fill = GridBagConstraints.VERTICAL;
 		gbc_label_1.insets = new Insets(0, 0, 5, 0);
@@ -278,6 +283,7 @@ public class AdminMainMenu {
 		pLine_Start.add(pControl2, gbc_pControl2);
 		
 		JButton btnAdd = new JButton("Add");
+		btnAdd.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Add();
@@ -286,6 +292,7 @@ public class AdminMainMenu {
 		pControl2.add(btnAdd);
 		
 		JButton btnEdit = new JButton("Edit");
+		btnEdit.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Edit();
@@ -293,10 +300,11 @@ public class AdminMainMenu {
 		});
 		pControl2.add(btnEdit);
 		
-		JPanel pLine_Centrel = new JPanel();
-		frame.getContentPane().add(pLine_Centrel, BorderLayout.CENTER);
-
-		pLine_Centrel.add(table);
+		
+		frame.getContentPane().add(table, BorderLayout.CENTER);
+		
+		JPanel panel = new JPanel();
+		frame.getContentPane().add(panel, BorderLayout.EAST);
 		frame.setVisible(true);
 	}
 	protected void clickListGroupJob() {

@@ -4,17 +4,30 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
  
 public class Connect {
  
  // connect to MySQL.
  public  Connection getMySQLConnection() throws SQLException,
          ClassNotFoundException {
-     String hostName = "localhost";
- 
-     String dbName = "jobs";
-     String userName = "root";
-     String password = "iwatani";
+//     String hostName = "localhost";
+// 
+//     String dbName = "jobs";
+//     String userName = "root";
+//     String password = "iwatani";
+	 
+	 ReadPropertiesLibrary readPropertiesLibrary = new ReadPropertiesLibrary();
+	 Properties properties = readPropertiesLibrary.readFileProperties();
+	 
+	 	String hostName = properties.getProperty("hostName");
+		String dbName = properties.getProperty("dbName");
+		String userName = properties.getProperty("userName");
+		String password = properties.getProperty("password");
+		System.out.println(hostName);
+		System.out.println("hostName"+dbName);
+		System.out.println(userName);
+		System.out.println(password);
  
      return getMySQLConnection(hostName, dbName, userName, password);
  }
@@ -26,6 +39,8 @@ public class Connect {
 	 	Class.forName("com.mysql.jdbc.Driver");
 	 	// examp;e: jdbc:mysql://localhost:3306/simplehr
 	 	String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
+//	 	String connectionURL = "jdbc:mysql://" + hostName + "/" + dbName;
+	 	System.out.println(connectionURL);
 	 	String unicode = "?useUnicode=true&characterEncoding=utf8";
 	 	Connection conn = DriverManager.getConnection(connectionURL+unicode, userName,password);
 	 	return conn;
