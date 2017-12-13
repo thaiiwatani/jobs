@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import control.ControlGroupJob;
 import control.ControlJob;
@@ -36,6 +37,7 @@ import java.awt.event.KeyListener;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Color;
 
 public class AdminMainMenu {
 
@@ -97,24 +99,44 @@ public class AdminMainMenu {
 	private void initDataJobList() throws SQLException {
 		// TODO Auto-generated method stub
 		lstJob = ctrJob.loadData();
-//		Cach 1
-		Vector<Object> vector = new Vector<Object>();
+		//		Cach 1
+//		Vector<Object> vector = new Vector<Object>();
+//		for(Job job:lstJob)
+//		{
+//			Vector<String> vString = new Vector<>();
+//			vString.add(job.getJobName());
+//			vString.add(job.getcompany());
+//			vString.add(job.getAddress());
+//			int salary =job.getSalary();
+//			vString.add(""+salary);
+//			vector.add(vString);
+//		}
+//		Vector<String> vColum = new Vector<>();
+//		
+//		for(String s:columnNames)
+//		{
+//			vColum.add(s);
+//		}
+//		table = new JTable(vector,vColum);
+		//cach 2
+		DefaultTableModel tableModel = new DefaultTableModel();
+		tableModel.setColumnIdentifiers(columnNames);
+//		System.out.println("AAAAAA"+columnNames[0]);
 		for(Job job:lstJob)
 		{
-			Vector<String> vString = new Vector<>();
-			vString.add(job.getJobName());
-			vString.add(job.getcompany());
-			vString.add(job.getAddress());
-			int salary =job.getSalary();
-			vString.add(""+salary);
-			vector.add(vString);
+			String[] row = new String[4];
+			row[0]=job.getJobName();
+			row[1]=job.getCompany();
+			row[2]=job.getAddress();
+			row[3]=""+job.getSalary();
+			tableModel.addRow(row);
 		}
-		Vector<String> vColum = new Vector<>();
-		for(String s:columnNames)
-		{
-			vColum.add(s);
-		}
-		table = new JTable(vector,vColum);
+		
+		table = new JTable();
+		table.setBackground(Color.WHITE);
+		table.setModel(tableModel);
+		
+		
 //		Vector<String> colName = new Vector<>();
 //		for(String s:columnNames)
 //		{
@@ -174,8 +196,8 @@ public class AdminMainMenu {
 		
 		JPanel ÇêControl = new JPanel();
 		pPage_Start.add(ÇêControl);
-		
-		JComboBox comboBox = new JComboBox();
+		String [] cString = {"êEéÌ","ããóø","ínï˚"};
+		JComboBox comboBox = new JComboBox(cString);
 		comboBox.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		ÇêControl.add(comboBox);
 		

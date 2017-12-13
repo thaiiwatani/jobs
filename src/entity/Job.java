@@ -94,11 +94,11 @@ public class Job {
 		this.jobName = jobName;
 	}
 
-	public String getcompany() {
+	public String getCompany() {
 		return company;
 	}
 
-	public void setcompany(String company) {
+	public void setCompany(String company) {
 		this.company = company;
 	}
 

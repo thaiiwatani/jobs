@@ -464,8 +464,9 @@ public class JobAdd extends JFrame {
 				job.setAddress(address);
 				GroupJob groupJob=(GroupJob)comboBox.getSelectedItem();
 				job.setGroupid(groupJob.getId());
-				job.setImage(fileName);;
+				job.setImage(fileName);
 				job.setJobName(name);
+				job.setCompany(company);
 				job.setLink(link);
 				job.setSalary(Integer.parseInt(txtsalary));
 				System.out.println("TEST"+job.getAddress());

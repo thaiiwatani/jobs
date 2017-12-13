@@ -45,7 +45,7 @@ public class DataJob {
 	          job.setId(id);
 	          job.setJobName(rs.getString("JobName"));
 	          job.setGroupid(groupid);
-	          job.setcompany(rs.getString("company"));
+	          job.setCompany(rs.getString("company"));
 	          job.setSalary(rs.getInt("salary"));
 	          job.setLink(rs.getString("link"));
 	          job.setImage(rs.getString("image"));
@@ -81,7 +81,7 @@ public class DataJob {
 		preStmt = con.prepareStatement(sql);
         preStmt.setString(1, g.getJobName());
         preStmt.setInt(2, g.getGroupid());
-        preStmt.setString(3, g.getJobName());
+        preStmt.setString(3, g.getCompany());
         preStmt.setInt(4, g.getSalary());
         preStmt.setString(5, g.getLink());
         preStmt.setString(6, g.getImage());
