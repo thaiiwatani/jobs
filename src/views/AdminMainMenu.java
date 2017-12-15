@@ -4,16 +4,22 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import composite.TableValues;
 import control.ControlGroupJob;
 import control.ControlJob;
 import entity.GroupJob;
@@ -34,12 +40,14 @@ import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Color;
 
-public class AdminMainMenu {
+public class AdminMainMenu implements TableModelListener  {
 
 	private JFrame frame;
 	private JTextField textSearch;
@@ -119,24 +127,71 @@ public class AdminMainMenu {
 //		}
 //		table = new JTable(vector,vColum);
 		//cach 2
-		DefaultTableModel tableModel = new DefaultTableModel();
-		tableModel.setColumnIdentifiers(columnNames);
-//		System.out.println("AAAAAA"+columnNames[0]);
-		for(Job job:lstJob)
-		{
-			String[] row = new String[4];
-			row[0]=job.getJobName();
-			row[1]=job.getCompany();
-			row[2]=job.getAddress();
-			row[3]=""+job.getSalary();
-			tableModel.addRow(row);
-		}
-		
-		table = new JTable();
-		table.setBackground(Color.WHITE);
-		table.setModel(tableModel);
-		
-		
+//		DefaultTableModel tableModel = new DefaultTableModel();
+//		tableModel.setColumnIdentifiers(columnNames);
+////		System.out.println("AAAAAA"+columnNames[0]);
+//		for(Job job:lstJob)
+//		{
+//			String[] row = new String[4];
+//			row[0]=job.getJobName();
+//			row[1]=job.getCompany();
+//			row[2]=job.getAddress();
+//			row[3]=""+job.getSalary();
+//			tableModel.addRow(row);
+//		}
+//		
+//		table = new JTable();
+//		table.setBackground(Color.WHITE);
+//		table.setModel(tableModel);
+		//cach 3
+		TableValues tableValues = new TableValues(lstJob);
+		table = new JTable(tableValues);
+
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+		TableColumn column = null;
+	    for (int i = 0; i < 4; i++) {
+	        column = table.getColumnModel().getColumn(i);
+	        if (i == 2) {
+	            column.setPreferredWidth(400); 
+	        } 
+	        if(i==3) {
+	            column.setMaxWidth(100);
+	        }
+	    } 
+	    
+	    table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+//				if(e.MOUSE_CLICKED)
+				
+			}
+		});
 //		Vector<String> colName = new Vector<>();
 //		for(String s:columnNames)
 //		{
@@ -322,8 +377,8 @@ public class AdminMainMenu {
 		});
 		pControl2.add(btnEdit);
 		
-		
-		frame.getContentPane().add(table, BorderLayout.CENTER);
+		JScrollPane jsp = new JScrollPane(table);
+		frame.getContentPane().add(jsp, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.EAST);
@@ -389,6 +444,12 @@ public class AdminMainMenu {
 	}
 
 	protected void Search() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tableChanged(TableModelEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}

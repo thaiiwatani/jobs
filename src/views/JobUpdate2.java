@@ -36,7 +36,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class JobAdd extends JFrame {
+public class JobUpdate2 extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtName;
@@ -56,7 +56,6 @@ public class JobAdd extends JFrame {
 	private JComboBox comboBox;
 	private AdminMainMenu adminMainMenu;
 	private String fontName ="ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ";
-	private JTextArea txtInformation;
 	/**
 	 * Launch the application.
 	 */
@@ -65,7 +64,7 @@ public class JobAdd extends JFrame {
 			public void run() {
 				try {
 					
-					JobAdd frame = new JobAdd();
+				//	JobUpdate frame = new JobUpdate();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -77,7 +76,8 @@ public class JobAdd extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public JobAdd() throws SQLException {
+	public JobUpdate2(Job job) throws SQLException {
+		this.job = job;
 		LoadData();
 		init();
 	}
@@ -229,7 +229,7 @@ public class JobAdd extends JFrame {
 		gbc_lblInformation.gridy = 7;
 		contentPane.add(lblInformation, gbc_lblInformation);
 		
-		txtInformation = new JTextArea();
+		JTextArea txtInformation = new JTextArea();
 		txtInformation.setFont(new Font(fontName, Font.PLAIN, 16));
 		GridBagConstraints gbc_txtInformation = new GridBagConstraints();
 		gbc_txtInformation.insets = new Insets(0, 0, 5, 0);
@@ -470,8 +470,6 @@ public class JobAdd extends JFrame {
 				job.setCompany(company);
 				job.setLink(link);
 				job.setSalary(Integer.parseInt(txtsalary));
-				job.setIndustry(txtInformation.getText());
-//				job.setIndustry(txtInformation.getText());
 				System.out.println("TEST"+job.getAddress());
 				System.out.println("TEST"+job.getImage());
 				}

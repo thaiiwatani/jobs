@@ -77,7 +77,7 @@ public class DataJob {
 		PreparedStatement preStmt = null;
 		try {
 		con = new Connect().getMySQLConnection();
-		String sql = "insert into jobs(JobName,groupid,company,salary,link,image,address) values (?,?,?,?,?,?,?)";
+		String sql = "insert into jobs(JobName,groupid,company,salary,link,image,address,Industry) values (?,?,?,?,?,?,?,?)";
 		preStmt = con.prepareStatement(sql);
         preStmt.setString(1, g.getJobName());
         preStmt.setInt(2, g.getGroupid());
@@ -86,6 +86,8 @@ public class DataJob {
         preStmt.setString(5, g.getLink());
         preStmt.setString(6, g.getImage());
         preStmt.setString(7, g.getAddress());
+        preStmt.setString(8, g.getIndustry());
+        
         check =preStmt.execute();
 	    
 		}catch (ClassNotFoundException | SQLException e1) {
