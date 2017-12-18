@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
@@ -18,6 +19,7 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 import composite.TableValues;
 import control.ControlGroupJob;
@@ -47,7 +49,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Color;
 
-public class AdminMainMenu implements TableModelListener  {
+public class AdminMainMenu implements TableModelListener, ListSelectionListener  {
 
 	private JFrame frame;
 	private JTextField textSearch;
@@ -59,7 +61,8 @@ public class AdminMainMenu implements TableModelListener  {
 	private ControlJob ctrJob = new ControlJob();
 	private List<GroupJob> lstGroup;
 	private List<Job> lstJob;
-	
+	private int selectedIDJob;
+	JScrollPane jsp;
 	private JobAdd jobAdd;
 	public final static String[] columnNames = {
 	        "Name", "Company", "Address", "Salary"
@@ -100,10 +103,86 @@ public class AdminMainMenu implements TableModelListener  {
 		// TODO Auto-generated method stub
 		initDataGroupList();
 		initDataJobList();
-		
+		TableDataLoad();
 		
 	}
-
+	private void changeDataJobList(GroupJob groupJob) throws SQLException
+	{
+		lstJob =ctrJob.loadDataFromGroup(groupJob);
+	}
+	private void TableDataLoad()
+	{
+		if(lstJob.size()>0)
+		{
+			
+			TableValues tableValues = new TableValues(lstJob);
+			System.out.println("sizeeeeeeeeeeeeeeeeee"+lstJob.size());
+			table = new JTable(tableValues);
+			table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+			TableColumn column = null;
+		    for (int i = 0; i < 5; i++) {
+		        column = table.getColumnModel().getColumn(i);
+		        if (i == 3) {
+		            column.setPreferredWidth(400); 
+		        } 
+		        
+		        if(i==0)
+		        {
+		        	column.setMaxWidth(40);
+		        }
+		       
+		        if(i==4) {
+		            column.setMaxWidth(60);
+		        }
+		    } 
+		    
+		    ListSelectionModel listSelectionModel =table.getSelectionModel();
+		    listSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		    listSelectionModel.addListSelectionListener(this);
+		    table.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+	//				if(e.MOUSE_CLICKED)
+				
+					if(e.getClickCount()==2)
+					{
+						System.out.println("double click");
+						DoubleClick();
+						}
+				}
+			});
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(frame, "Nodata in group Job");
+		}
+	}
 	private void initDataJobList() throws SQLException {
 		// TODO Auto-generated method stub
 		lstJob = ctrJob.loadData();
@@ -144,54 +223,8 @@ public class AdminMainMenu implements TableModelListener  {
 //		table.setBackground(Color.WHITE);
 //		table.setModel(tableModel);
 		//cach 3
-		TableValues tableValues = new TableValues(lstJob);
-		table = new JTable(tableValues);
+		
 
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-		TableColumn column = null;
-	    for (int i = 0; i < 4; i++) {
-	        column = table.getColumnModel().getColumn(i);
-	        if (i == 2) {
-	            column.setPreferredWidth(400); 
-	        } 
-	        if(i==3) {
-	            column.setMaxWidth(100);
-	        }
-	    } 
-	    
-	    table.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-//				if(e.MOUSE_CLICKED)
-				
-			}
-		});
 //		Vector<String> colName = new Vector<>();
 //		for(String s:columnNames)
 //		{
@@ -213,6 +246,23 @@ public class AdminMainMenu implements TableModelListener  {
 //		
 //		table = new JTable(defaultTableModel);
 
+		
+	}
+
+	protected void DoubleClick() {
+		// TODO Auto-generated method stub
+		Job job = new Job();
+		job.setId(selectedIDJob);
+		try {
+			job=ctrJob.loadJob(job);
+			System.out.println(job.getLink());
+			frame.setVisible(false);
+			JobUpdate jobUpdate = new JobUpdate(job);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -340,7 +390,17 @@ public class AdminMainMenu implements TableModelListener  {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
-				clickListGroupJob();
+				try {
+					
+					if(!e.getValueIsAdjusting())
+					{
+						groupJob = (GroupJob)list.getSelectedValue();
+						clickListGroupJob();
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -377,20 +437,45 @@ public class AdminMainMenu implements TableModelListener  {
 		});
 		pControl2.add(btnEdit);
 		
-		JScrollPane jsp = new JScrollPane(table);
-		frame.getContentPane().add(jsp, BorderLayout.CENTER);
+		setTableToMain();
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.EAST);
 		frame.setVisible(true);
 	}
-	protected void clickListGroupJob() {
+	private void setTableToMain() {
 		// TODO Auto-generated method stub
-		groupJob = (GroupJob)list.getSelectedValue();
-//		if(groupJob!=null)
-//		{
-//		System.out.println("6  "+groupJob.getGroupName()+groupJob.getMemo()+groupJob.getId());
-//		}
+		System.out.println("add?");
+		if(jsp!=null)
+		{
+			frame.getContentPane().remove(jsp);
+			System.out.println("remove jsp-------------------------");
+		}
+		else
+		{
+			System.out.println("added 2");
+			jsp = new JScrollPane(table);
+			System.out.println("added1");
+			frame.getContentPane().add(jsp, BorderLayout.CENTER);
+		}
+		
+		
+	}
+
+	protected void clickListGroupJob() throws SQLException {
+		// TODO Auto-generated method stub
+		
+		
+		if(groupJob!=null)
+		{
+			
+			
+			System.out.println("  "+groupJob.getGroupName()+groupJob.getMemo()+groupJob.getId());
+			changeDataJobList(groupJob);
+			TableDataLoad();
+//			frame.getContentPane().remove(jsp);
+			setTableToMain();
+		}
 		//to load dataList of Jobs
 		
 	}
@@ -451,6 +536,28 @@ public class AdminMainMenu implements TableModelListener  {
 	@Override
 	public void tableChanged(TableModelEvent arg0) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		// TODO Auto-generated method stub
+		int maxRows;
+		int [] selRows;
+		Object value;
+		if(!e.getValueIsAdjusting())
+		{
+			selRows = table.getSelectedRows();
+			if(selRows.length>0)
+			{
+				TableModel tableModel = table.getModel();
+				value = tableModel.getValueAt(selRows[0],0);
+				System.out.println("Selection:"+value);
+				selectedIDJob = (int) value;
+				System.out.println("Selectionaaa:"+selectedIDJob);
+
+			}
+		}
 		
 	}
 

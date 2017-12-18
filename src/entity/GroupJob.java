@@ -11,6 +11,10 @@ public class GroupJob {
 		this.groupName = groupName;
 		this.memo = memo;
 	}
+	public GroupJob()
+	{
+		
+	}
 	
 	public GroupJob(String groupName, String memo) {
 		super();

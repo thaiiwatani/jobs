@@ -24,10 +24,6 @@ public class Connect {
 		String dbName = properties.getProperty("dbName");
 		String userName = properties.getProperty("userName");
 		String password = properties.getProperty("password");
-		System.out.println(hostName);
-		System.out.println("hostName"+dbName);
-		System.out.println(userName);
-		System.out.println(password);
  
      return getMySQLConnection(hostName, dbName, userName, password);
  }
@@ -40,7 +36,6 @@ public class Connect {
 	 	// examp;e: jdbc:mysql://localhost:3306/simplehr
 	 	String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
 //	 	String connectionURL = "jdbc:mysql://" + hostName + "/" + dbName;
-	 	System.out.println(connectionURL);
 	 	String unicode = "?useUnicode=true&characterEncoding=utf8";
 	 	Connection conn = DriverManager.getConnection(connectionURL+unicode, userName,password);
 	 	return conn;

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.GroupJob;
 import entity.Job;
 
 
@@ -59,6 +60,91 @@ public class DataJob {
 	          System.out.println("Id:" + id);
 	          System.out.println("groupid:" + groupid);
 	          System.out.println("memo:" + memo);
+	      }
+	      
+	      con.close();
+	      return lstJob;
+	      
+		} catch (ClassNotFoundException | SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
+	}
+	public Job loadJob(Job j) throws SQLException
+	{
+		Connection con;
+		try {
+		con = new Connect().getMySQLConnection();
+		PreparedStatement preStmt = null;
+	    String sql = "Select * from jobs where id =?";
+	    ResultSet rs;
+	    preStmt=con.prepareStatement(sql);
+	    preStmt.setInt(1, j.getId());
+		rs = preStmt.executeQuery();
+		//List<Job> lst = new ArrayList<>(Job);
+		
+		Job job = new Job();
+	      while (rs.next()) {
+	          int id = rs.getInt("id");
+	          int groupid = rs.getInt("groupid");
+	          
+	          String memo = rs.getString("memo");
+	          
+	          job.setId(id);
+	          job.setJobName(rs.getString("JobName"));
+	          job.setGroupid(groupid);
+	          job.setCompany(rs.getString("company"));
+	          job.setSalary(rs.getInt("salary"));
+	          job.setLink(rs.getString("link"));
+	          job.setImage(rs.getString("image"));
+	          job.setAddress(rs.getString("address"));
+	          job.setIndustry(rs.getString("industry"));
+	          job.setMemo(memo);
+
+	      }
+	      
+	      con.close();
+	      return job;
+	      
+		} catch (ClassNotFoundException | SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
+	}
+	public List<Job> loadJobFromGroup(GroupJob groupJob) throws SQLException
+	{
+		Connection con;
+		try {
+		con = new Connect().getMySQLConnection();
+		PreparedStatement preStmt = null;
+	    String sql = "Select * from jobs where groupid =?";
+	    ResultSet rs;
+	    preStmt=con.prepareStatement(sql);
+	    preStmt.setInt(1, groupJob.getId());
+		rs = preStmt.executeQuery();
+		List<Job> lstJob = new ArrayList<Job>();
+		
+		Job job = new Job();
+	      while (rs.next()) {
+	          int id = rs.getInt("id");
+	          int groupid = rs.getInt("groupid");
+	          
+	          String memo = rs.getString("memo");
+	          
+	          job.setId(id);
+	          job.setJobName(rs.getString("JobName"));
+	          job.setGroupid(groupid);
+	          job.setCompany(rs.getString("company"));
+	          job.setSalary(rs.getInt("salary"));
+	          job.setLink(rs.getString("link"));
+	          job.setImage(rs.getString("image"));
+	          job.setAddress(rs.getString("address"));
+	          job.setIndustry(rs.getString("industry"));
+	          job.setMemo(memo);
+	          lstJob.add(job);
+
 	      }
 	      
 	      con.close();
@@ -136,19 +222,30 @@ public class DataJob {
 		return check;
 	}
 	
-	public boolean updateJob(Job job) throws SQLException
+	public boolean updateJob(Job g) throws SQLException
 	{
 		boolean check =false;
 		Connection con=null;
 		PreparedStatement preStmt = null;
 		try {
 		con = new Connect().getMySQLConnection();
-		String sql = "update jobs set groupname = ?,memo=?  where id = ?)";
+		String sql = "update jobs set JobName=?,groupid=?,company=?,salary=?,link=?,image=?,address=?,Industry=?  where id = ?";
 		preStmt = con.prepareStatement(sql);
-		preStmt.setString(1, job.getJobName());
-		preStmt.setString(2, job.getMemo());
-        preStmt.setInt(3, job.getId());     
+		preStmt.setString(1, g.getJobName());
+        preStmt.setInt(2, g.getGroupid());
+        preStmt.setString(3, g.getCompany());
+        preStmt.setInt(4, g.getSalary());
+        preStmt.setString(5, g.getLink());
+        preStmt.setString(6, g.getImage());
+        preStmt.setString(7, g.getAddress());
+        preStmt.setString(8, g.getIndustry());  
+        preStmt.setInt(9, g.getId());
         check =preStmt.execute();
+        System.out.println("Update"+g.getAddress());
+        System.out.println("Update"+g.getJobName());
+        System.out.println("Update"+g.getCompany());
+        System.out.println("Update"+g.getSalary());
+        System.out.println("Update"+check);
 	    
 		}catch (ClassNotFoundException | SQLException e1) {
 			// TODO Auto-generated catch block

@@ -87,13 +87,13 @@ public class JobAdd extends JFrame {
 		mainFrame.setBackground(Color.LIGHT_GRAY);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setTitle("Create a new Job");
-		mainFrame.setBounds(100, 100, 800, 550);
+		mainFrame.setBounds(100, 100, 800, 650);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		mainFrame.setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{80, 489, 0};
-		gbl_contentPane.rowHeights = new int[]{29, 23, 23, 23, 23, 23, 23, 150, 23, 50, 0, 0};
+		gbl_contentPane.rowHeights = new int[]{29, 23, 23, 23, 23, 23, 23, 227, 23, 50, 0, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
@@ -269,6 +269,7 @@ public class JobAdd extends JFrame {
 		});
 		
 		txtFileName = new JTextField();
+		txtFileName.setEditable(false);
 		GridBagConstraints gbc_txtFileName = new GridBagConstraints();
 		gbc_txtFileName.fill = GridBagConstraints.BOTH;
 		gbc_txtFileName.insets = new Insets(0, 0, 0, 5);

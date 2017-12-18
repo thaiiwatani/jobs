@@ -3,6 +3,7 @@ package control;
 import java.sql.SQLException;
 import java.util.List;
 import dataConnect.DataJob;
+import entity.GroupJob;
 import entity.Job;
 
 
@@ -25,7 +26,14 @@ public class ControlJob {
 	{
 		return dJob.updateJob(g);
 	}
-	
+	public Job loadJob(Job job) throws SQLException
+	{
+		return dJob.loadJob(job);
+	}
+	public List<Job> loadDataFromGroup(GroupJob groupJob) throws SQLException
+	{
+		return dJob.loadJobFromGroup(groupJob);
+	}
 
 }
 

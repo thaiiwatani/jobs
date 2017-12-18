@@ -79,7 +79,7 @@ private void init() {
 	mainFrame = new JFrame("Job Add");
 	mainFrame.setBackground(Color.LIGHT_GRAY);
 	mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	mainFrame.setTitle("Create a new Job");
+	mainFrame.setTitle("Update a Job");
 	mainFrame.setBounds(100, 100, 800, 550);
 	contentPane = new JPanel();
 	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -111,6 +111,8 @@ private void init() {
 	
 	comboBox = new JComboBox(dModelGroup);
 	comboBox.setFont(new Font(fontName, Font.PLAIN, 16));
+	
+	
 	GridBagConstraints gbc_comboBox = new GridBagConstraints();
 	gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 	gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -262,6 +264,7 @@ private void init() {
 	});
 	
 	txtFileName = new JTextField();
+	txtFileName.setEditable(false);
 	GridBagConstraints gbc_txtFileName = new GridBagConstraints();
 	gbc_txtFileName.fill = GridBagConstraints.BOTH;
 	gbc_txtFileName.insets = new Insets(0, 0, 0, 5);
@@ -281,13 +284,13 @@ private void init() {
 	txtAddress.setText(job.getAddress());
 	txtInformation.setText(job.getIndustry());
 	txtCompany.setText(job.getCompany());
-	txtFileName.setText(job.getJobName());
-	txtLink.setText(job.getLinkAddress());
+	txtFileName.setText(job.getImage());
+	txtLink.setText(job.getLink());
 	txtName.setText(job.getJobName());
 	txtSalary.setText(""+job.getSalary());
 	
 //	comboBox.setSelectedItem();
-	
+//	for(GroupJob groupJob:ls);
 	
 	
 	JPanel panel = new JPanel();
@@ -299,11 +302,11 @@ private void init() {
 	gbc_panel.gridy = 9;
 	contentPane.add(panel, gbc_panel);
 	
-	JButton btnUpdate = new JButton("Create");
+	JButton btnUpdate = new JButton("Update");
 	btnUpdate.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				clickCreate();
+				clickUpdate();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -348,7 +351,12 @@ private void LoadDataGroupJob() throws SQLException
 	for(GroupJob g:lstGroup)
 	{
 		dModelGroup.addElement(g);
+		if(g.getId()==job.getGroupid())
+		{
+			dModelGroup.setSelectedItem(g);
+		}
 	}
+	
 	
 }
 private void LoadDataJob() throws SQLException
@@ -366,13 +374,13 @@ protected void clickCancel() {
 	ToMainMenu();
 }
 
-protected void clickCreate() throws SQLException {
+protected void clickUpdate() throws SQLException {
 	// TODO Auto-generated method stub
 	if(checkTextBox())
 	{
 		if(job!=null)
 		{
-		ctrJob.add(job);
+		ctrJob.update(job);
 		ToMainMenu();
 		}
 	}
@@ -472,7 +480,7 @@ private boolean checkTextBox()
 		{
 			if(checkpdf)
 			{
-			job= new Job();
+			
 			job.setAddress(address);
 			GroupJob groupJob=(GroupJob)comboBox.getSelectedItem();
 			job.setGroupid(groupJob.getId());
@@ -482,8 +490,7 @@ private boolean checkTextBox()
 			job.setLink(link);
 			job.setIndustry(txtInformation.getText());
 			job.setSalary(Integer.parseInt(txtsalary));
-			System.out.println("TEST"+job.getAddress());
-			System.out.println("TEST"+job.getImage());
+			
 			}
 			else
 			{

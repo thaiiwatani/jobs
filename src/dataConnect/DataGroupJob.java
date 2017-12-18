@@ -47,10 +47,6 @@ public class DataGroupJob {
 	          String memo = rs.getString("memo");
 	          GroupJob gJob = new GroupJob(id,groupname,memo);
 	          lstGroupJob.add(gJob);
-	          
-	          System.out.println("Id:" + id);
-	          System.out.println("groupname:" + groupname);
-	          System.out.println("memo:" + memo);
 	      }
 	      
 	      con.close();
@@ -82,10 +78,6 @@ public class DataGroupJob {
 	          String memo = rs.getString("memo");
 	          GroupJob gJob = new GroupJob(id,groupname,memo);
 	          lstGroupJob.add(gJob);
-	          
-	          System.out.println("Id:" + id);
-	          System.out.println("groupname:" + groupname);
-	          System.out.println("memo:" + memo);
 	      }
 	      
 	      con.close();

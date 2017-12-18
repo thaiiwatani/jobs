@@ -7,23 +7,25 @@ import javax.swing.table.AbstractTableModel;
 import entity.Job;
 
 public class TableValues extends AbstractTableModel{
+	private List<Job> lstJob;
 	public TableValues(List<Job> lstJob)
 	{
 		
-		Object[][] values= new Object[lstJob.size()][4];
+		this.lstJob =lstJob;
+		
+		values= new Object[lstJob.size()][5];
 		for(int i=0;i<lstJob.size();i++)
 		{
 			Job job = lstJob.get(i);
-			Object[] objects ={job.getJobName(),job.getCompany(),job.getAddress(),job.getSalary()};
+			Object[] objects ={job.getId(),job.getJobName(),job.getCompany(),job.getAddress(),job.getSalary()};
 			values[i]=objects;
 		}
-		setValues(values);
 		
 		
 	}
 	
 	public final static String[] columnNames = {
-	        "Name", "Company", "Address", "Salary"
+	       "ƒR[ƒh", "Name", "Company", "Address", "Salary"
 	    };
 	public Object[][] values;
 	
