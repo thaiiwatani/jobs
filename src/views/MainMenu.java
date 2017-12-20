@@ -1,272 +1,157 @@
 package views;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import java.io.IOException;
-import java.util.List;
+import java.awt.EventQueue;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import java.awt.BorderLayout;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
+import java.awt.GridLayout;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.SystemColor;
+import java.awt.Font;
 
 public class MainMenu {
-   private JFrame mainFrame;
-   private JPanel pPAGE_START;
-   private JPanel pPAGE_END;
-   private JPanel pLINE_START;
-   private JPanel pLINE_START_GRID;
-   private JPanel pLINE_END;
-   private JPanel pCENTER;
-   private JPanel pLINE_END_GRID;
-   private JPanel pCENTER_GRID;
-   private JLabel lCENTER_HEAD;
-   private JLabel lLINE_START_HEAD;
-   private JLabel lLINE_END_HEAD;
-   //panel Head Search
-   private JPanel pHSearch;
-   private Font fontButton =  new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ",Font.BOLD , 22);
-   private Font fontText =  new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ",Font.BOLD , 18);
-   private JLabel lHeadTitle;
-   private JButton bSearch1;
-   private JButton bSearch2;
-   private JButton bSearch3;
-   private JButton bReset;
-   
-   
-   //Test Fram moi
-   
-   private JPanel pLINE_START_START;
-   private JPanel pLINE_START_CENTER;
-   private JPanel pLINE_START_END;
-   
-   //Het test
-   
-   private JTextField textSearch;
 
-	public MainMenu()
-	{
-		guiStart();
-	}
+	private JFrame frame;
 
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		MainMenu mainMenu = new MainMenu();
-
-	}
-	private void guiStart()
-	{
-		mainFrame = new JFrame("ãÅêlèÓïÒ");
-		mainFrame.setSize(1000,500);
-		mainFrame.setLayout(new  BorderLayout());
-
-		PAGE_START();
-		LINE_START();
-		CENTER();
-		LINE_END();
-		PAGE_END();
-		
-		mainFrame.add(pPAGE_START,BorderLayout.PAGE_START);
-		mainFrame.add(pLINE_START,BorderLayout.LINE_START);
-		mainFrame.add(pCENTER,BorderLayout.CENTER);
-		//mainFrame.add(pLINE_END,BorderLayout.LINE_END);
-		mainFrame.add(pPAGE_END,BorderLayout.PAGE_END);
-	  	
-		mainFrame.setVisible(true);
-	
-	}
-	private void PAGE_START()
-	{
-		pPAGE_START = new JPanel(new GridLayout(2, 1));
-		pPAGE_START.setBackground(Color.CYAN);
-		lHeadTitle = new JLabel("ãÅêlÇíTÇ∑",JLabel.CENTER );
-		lHeadTitle.setFont(new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ",Font.BOLD , 40));
-		lHeadTitle.setForeground(Color.BLUE);
-		pHSearch = new JPanel(new FlowLayout());
-		pHSearch.setBackground(Color.LIGHT_GRAY);
-		textSearch = new JTextField("Search");
-		textSearch.setFont(new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ", 2, 25));
-		textSearch.setSize(800,25);
-		textSearch.setColumns(25);
-		textSearch.addMouseMotionListener(new MouseMotionListener() {
-			
-			public void mouseMoved(MouseEvent e) {
-				//textSearch.setText(null);
-				
-			}
-			
-			public void mouseDragged(MouseEvent e) {
-				textSearch.setText(null);
-				
-			}
-			public void mousePressed(MouseEvent e) {
-				//textSearch.setText(null);
-		      }
-		});
-		textSearch.addKeyListener(new KeyListener() {
-			
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode()==KeyEvent.VK_ENTER)
-				{
-					System.out.println("Mhay vao cau search nhe");
-				}
-				
-			}
-		});
-		bSearch1 = new JButton("Search");
-		bSearch1.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				String url = "https://www.google.com";
-		        try {
-					java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MainMenu window = new MainMenu();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
 			}
 		});
-		bSearch1.setFont(fontButton);
-		pHSearch.add(textSearch);
-		pHSearch.add(bSearch1);
-		pPAGE_START.add(lHeadTitle);
-		pPAGE_START.add(pHSearch);
 	}
-	private void PAGE_END()
-	{
-		pPAGE_END = new JPanel(new FlowLayout());
-		bReset = new JButton("Reset");
-		bReset.setFont(fontButton);
-		bSearch2 = new JButton("Detail Search");
-		bSearch2.setFont(fontButton);
-		bSearch3 = new JButton("Search");
-		bSearch3.setFont(fontButton);
-		pPAGE_END.add(bReset);
-		pPAGE_END.add(bSearch2);
-		pPAGE_END.add(bSearch3);
-		pPAGE_END.setBackground(Color.LIGHT_GRAY);
-		pPAGE_END.setSize(1000,100);
-		
-		
+
+	/**
+	 * Create the application.
+	 */
+	public MainMenu() {
+		initialize();
 	}
-	private void LINE_START()
-	{
-//		pLINE_START = new JPanel();
-//		pLINE_START.setFont(fontText);
-//		
-//		lLINE_START_HEAD = new JLabel("êEéÌ");
-//		lLINE_START_HEAD.setFont(fontText);
-//		
-//		pLINE_START_GRID = new JPanel(new GridLayout(3, 2));
-//		for(int i=0;i<6;i++)
-//		{
-//			
-//			JCheckBox checkBox = new JCheckBox("CHekbok"+i);
-//			checkBox.setFont(fontText);
-//			pLINE_START_GRID.add(checkBox);
-//		}
-//		pLINE_START.add(lLINE_START_HEAD);
-//		pLINE_START.add(pLINE_START_GRID);
-		pLINE_START = new JPanel(new GridLayout(3, 2));
-		pLINE_START.setBorder(BorderFactory.createTitledBorder("êEéÌ"));
-		for(int i=0;i<6;i++)
-			{
-				
-				JCheckBox checkBox = new JCheckBox("CHekbok"+i);
-				checkBox.setFont(fontText);
-				pLINE_START.add(checkBox);
-			}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		//frame.setUndecorated(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
+		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.activeCaption);
+		frame.getContentPane().add(panel, BorderLayout.NORTH);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{100, 800, 200};
+		gbl_panel.rowHeights = new int[]{50, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(SystemColor.activeCaption);
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.anchor = GridBagConstraints.NORTHWEST;
+		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_2.gridx = 0;
+		gbc_panel_2.gridy = 0;
+		panel.add(panel_2, gbc_panel_2);
 		
+		JLabel lblDate = new JLabel("Date");
+		panel_2.add(lblDate);
 		
+		JLabel lblTime = new JLabel("Time");
+		panel_2.add(lblTime);
 		
+		JLabel lblAaaaaaaaaaaaaccccccccc = new JLabel("\u5B66\u751F\u5411\u3051\u5C31\u8077\u60C5\u5831\u30A2\u30D7\u30EA");
+		lblAaaaaaaaaaaaaccccccccc.setFont(new Font("MS UI Gothic", Font.BOLD, 30));
+		GridBagConstraints gbc_lblAaaaaaaaaaaaaccccccccc = new GridBagConstraints();
+		gbc_lblAaaaaaaaaaaaaccccccccc.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAaaaaaaaaaaaaccccccccc.gridx = 1;
+		gbc_lblAaaaaaaaaaaaaccccccccc.gridy = 0;
+		panel.add(lblAaaaaaaaaaaaaccccccccc, gbc_lblAaaaaaaaaaaaaccccccccc);
 		
-	}
-	private void CENTER()
-	{
-//		pCENTER = new JPanel();
-//		pCENTER.setFont(new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ",Font.BOLD , 20));
-//		
-//		lCENTER_HEAD = new JLabel("èÍèä");
-//		lCENTER_HEAD.setFont(fontText);
-//		
-//		pCENTER_GRID = new JPanel(new GridLayout(3, 2));
-//		for(int i=0;i<6;i++)
-//		{
-//			
-//			JCheckBox checkBox = new JCheckBox("èÍèä"+i);
-//			checkBox.setFont(fontText);
-//			pCENTER_GRID.add(checkBox);
-//		}
-//		pCENTER.add(lCENTER_HEAD);
-//		pCENTER.add(pCENTER_GRID);
-		pCENTER = new JPanel(new GridLayout(3, 2));
-		pCENTER.setBorder(BorderFactory.createTitledBorder("èÍèä"));
-		for(int i=0;i<6;i++)
-			{
-				
-				JCheckBox checkBox = new JCheckBox("èÍèä"+i);
-				checkBox.setFont(fontText);
-				pCENTER.add(checkBox);
-			}
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(SystemColor.activeCaption);
+		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
+		gbc_panel_3.fill = GridBagConstraints.BOTH;
+		gbc_panel_3.gridx = 2;
+		gbc_panel_3.gridy = 0;
+		panel.add(panel_3, gbc_panel_3);
 		
-	}
-	private void LINE_END()
-	{
-//		pLINE_END = new JPanel();
-//		pLINE_END.setFont(new Font("ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ",Font.BOLD , 20));
-//		
-//		lLINE_END_HEAD = new JLabel("ããó^");
-//		lLINE_END_HEAD.setFont(fontText);
-//		
-//		pLINE_END_GRID = new JPanel(new GridLayout(3, 2));
-//		for(int i=0;i<6;i++)
-//		{
-//			JCheckBox checkBox = new JCheckBox("ããó^"+i);
-//			checkBox.setFont(fontText);
-//			pLINE_START_GRID.add(checkBox);
-//		}
-//		pLINE_END.add(lLINE_END_HEAD);
-//		pLINE_END.add(pLINE_END_GRID);
-		pLINE_END = new JPanel(new GridLayout(3, 2));
-		pLINE_END.setBorder(BorderFactory.createTitledBorder("èÍèä"));
-		for(int i=0;i<6;i++)
-			{
-				
-				JCheckBox checkBox = new JCheckBox("èÍèäèÍèä"+i);
-				checkBox.setFont(fontText);
-				pLINE_END.add(checkBox);
-			}
+		JButton btnNewButton_4 = new JButton("New button");
+		panel_3.add(btnNewButton_4);
 		
+		JButton btnNewButton_5 = new JButton("New button");
+		panel_3.add(btnNewButton_5);
+		
+		JPanel panel_1 = new JPanel();
+		frame.getContentPane().add(panel_1, BorderLayout.WEST);
+		panel_1.setLayout(new GridLayout(8, 1, 0, 0));
+		
+		JLabel lblGuido = new JLabel("ÉAÉvÉäÉKÉCÉh");
+		panel_1.add(lblGuido);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		panel_1.add(btnNewButton_1);
+		
+		JButton btnNewButton = new JButton("New button");
+		panel_1.add(btnNewButton);
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		panel_1.add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("New button");
+		panel_1.add(btnNewButton_3);
+		
+		JPanel panel_imgage = new JPanel();
+		frame.getContentPane().add(panel_imgage, BorderLayout.CENTER);
+		
+		JPanel panel_South = new JPanel();
+		frame.getContentPane().add(panel_South, BorderLayout.SOUTH);
+		GridBagLayout gbl_panel_South = new GridBagLayout();
+		gbl_panel_South.columnWidths = new int[]{700, 300};
+		gbl_panel_South.rowHeights = new int[]{0, 0, 0};
+		gbl_panel_South.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_South.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		panel_South.setLayout(gbl_panel_South);
+		
+		JPanel panel_GroupMember = new JPanel();
+		GridBagConstraints gbc_panel_GroupMember = new GridBagConstraints();
+		gbc_panel_GroupMember.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_GroupMember.fill = GridBagConstraints.BOTH;
+		gbc_panel_GroupMember.gridx = 0;
+		gbc_panel_GroupMember.gridy = 0;
+		panel_South.add(panel_GroupMember, gbc_panel_GroupMember);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		panel_GroupMember.add(lblNewLabel);
+		
+		JPanel panel_GroupInfor = new JPanel();
+		GridBagConstraints gbc_panel_GroupInfor = new GridBagConstraints();
+		gbc_panel_GroupInfor.fill = GridBagConstraints.BOTH;
+		gbc_panel_GroupInfor.gridx = 1;
+		gbc_panel_GroupInfor.gridy = 0;
+		panel_South.add(panel_GroupInfor, gbc_panel_GroupInfor);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		panel_GroupInfor.add(lblNewLabel_1);
+		
+		JPanel panel_East = new JPanel();
+		frame.getContentPane().add(panel_East, BorderLayout.EAST);
 	}
 
 }

@@ -37,7 +37,7 @@ public class DataJob {
 		//List<Job> lst = new ArrayList<>(Job);
 		List<Job> lstJob = new ArrayList<Job>();
 		
-	      while (rs.next()) {
+	    while (rs.next()) {
 	          int id = rs.getInt("id");
 	          int groupid = rs.getInt("groupid");
 	          
@@ -56,13 +56,10 @@ public class DataJob {
 	          job.setMemo(memo);
 	          
 	          lstJob.add(job);
-	          
-	          System.out.println("Id:" + id);
-	          System.out.println("groupid:" + groupid);
-	          System.out.println("memo:" + memo);
 	      }
 	      
 	      con.close();
+	     
 	      return lstJob;
 	      
 		} catch (ClassNotFoundException | SQLException e1) {
@@ -126,11 +123,11 @@ public class DataJob {
 		rs = preStmt.executeQuery();
 		List<Job> lstJob = new ArrayList<Job>();
 		
-		Job job = new Job();
+		
 	      while (rs.next()) {
 	          int id = rs.getInt("id");
 	          int groupid = rs.getInt("groupid");
-	          
+	          Job job = new Job();
 	          String memo = rs.getString("memo");
 	          
 	          job.setId(id);
@@ -144,9 +141,8 @@ public class DataJob {
 	          job.setIndustry(rs.getString("industry"));
 	          job.setMemo(memo);
 	          lstJob.add(job);
-
 	      }
-	      
+	 
 	      con.close();
 	      return lstJob;
 	      

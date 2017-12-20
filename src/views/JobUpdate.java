@@ -76,7 +76,7 @@ public JobUpdate(Job job) throws SQLException {
 }
 private void init() {
 	// TODO Auto-generated method stub
-	mainFrame = new JFrame("Job Add");
+	mainFrame = new JFrame("Job Update");
 	mainFrame.setBackground(Color.LIGHT_GRAY);
 	mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	mainFrame.setTitle("Update a Job");
@@ -91,7 +91,7 @@ private void init() {
 	gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 	contentPane.setLayout(gbl_contentPane);
 	
-	JLabel lblCreateANew = new JLabel("Create a new Job");
+	JLabel lblCreateANew = new JLabel("Update a Job");
 	lblCreateANew.setBackground(SystemColor.activeCaption);
 	lblCreateANew.setFont(new Font(fontName, Font.BOLD, 30));
 	GridBagConstraints gbc_lblCreateANew = new GridBagConstraints();

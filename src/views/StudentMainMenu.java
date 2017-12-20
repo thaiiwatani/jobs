@@ -33,10 +33,6 @@ import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Vector;
 import java.awt.Font;
@@ -53,7 +49,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Color;
 
-public class AdminMainMenu implements TableModelListener, ListSelectionListener  {
+public class StudentMainMenu implements TableModelListener, ListSelectionListener  {
 
 	private JFrame frame;
 	private JTextField textSearch;
@@ -72,7 +68,6 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 	        "Name", "Company", "Address", "Salary"
 	    };
 	private JTable table;
-	private JLabel lblTime;
 
 	/**
 	 * Launch the application.
@@ -81,7 +76,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdminMainMenu window = new AdminMainMenu();
+					StudentMainMenu window = new StudentMainMenu();
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -93,7 +88,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 	/**
 	 * Create the application.
 	 */
-	public AdminMainMenu() {
+	public StudentMainMenu() {
 		try {
 			initData();
 		} catch (SQLException e) {
@@ -102,8 +97,6 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		}
 		
 		initialize();
-		clock();
-		
 		
 	}
 
@@ -124,6 +117,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		{
 			//cach 1
 			TableValues tableValues = new TableValues(lstJob);
+			System.out.println("sizeeeeeeeeeeeeeeeeee"+lstJob.size());
 			table = new JTable(tableValues);
 			table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 			TableColumn column = null;
@@ -131,7 +125,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		        column = table.getColumnModel().getColumn(i);
 		        if (i == 3) {
 		            column.setPreferredWidth(400); 
-		           
+		            System.out.println("vao lai table loadaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		        } 
 		        
 		        if(i==0)
@@ -147,6 +141,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		    ListSelectionModel listSelectionModel =table.getSelectionModel();
 		    listSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		    listSelectionModel.addListSelectionListener(this);
+		    System.out.println("vao lai table loadaaaaaaaaaaaaaaaaaaaaaaaaaa"+listSelectionModel.toString());
 		    table.addMouseListener(new MouseListener() {
 				
 				@Override
@@ -186,7 +181,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(frame, "No data in group Job");
+			JOptionPane.showMessageDialog(frame, "Nodata in group Job");
 		}
 	}
 	private void initDataJobList() throws SQLException {
@@ -225,8 +220,6 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	
-
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
@@ -241,77 +234,14 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		JPanel pHead = new JPanel();
 		pHead.setBackground(SystemColor.activeCaption);
 		pPage_Start.add(pHead);
-		GridBagLayout gbl_pHead = new GridBagLayout();
-		gbl_pHead.columnWidths = new int[]{100, 800, 200};
-		gbl_pHead.rowHeights = new int[]{50, 0, 0};
-		gbl_pHead.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
-		gbl_pHead.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-		pHead.setLayout(gbl_pHead);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(SystemColor.activeCaption);
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 0;
-		pHead.add(panel_1, gbc_panel_1);
-		panel_1.setLayout(new GridLayout(2, 1, 0, 0));
-		
-		JLabel lblDate = new JLabel("Date");
-		lblDate.setFont(new Font("MS UI Gothic", Font.BOLD | Font.ITALIC, 16));
-		panel_1.add(lblDate);
-		
-		lblTime = new JLabel("Time");
-		lblTime.setFont(new Font("MS UI Gothic", Font.BOLD, 16));
-		
-		panel_1.add(lblTime);
-		Date time = new Date();
-		 
-	        //Khai bao dinh dang ngay thang
-	    SimpleDateFormat dinhDangThoiGian = new SimpleDateFormat("dd/MM/yyyy ");
-	 
-	        //parse ngay thang sang dinh dang va chuyen thanh string.
-	    String showTime = dinhDangThoiGian.format(time.getTime());
-		lblDate.setText(showTime);
-		JLabel label = new JLabel("\u6C42\u4EBA\u7968\u3092\u7BA1\u7406");
+		JLabel label = new JLabel("\u6C42\u4EBA\u7968\u3092\u63A2\u3059");
 		label.setFont(new Font("MS UI Gothic", Font.BOLD, 50));
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.insets = new Insets(0, 0, 5, 0);
-		gbc_label.anchor = GridBagConstraints.NORTH;
-		gbc_label.gridx = 1;
-		gbc_label.gridy = 0;
-		pHead.add(label, gbc_label);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(SystemColor.activeCaption);
-		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_2.gridx = 2;
-		gbc_panel_2.gridy = 0;
-		pHead.add(panel_2, gbc_panel_2);
-		
-		JLabel lblAcc = new JLabel("Hello Admin");
-		panel_2.add(lblAcc);
-		
-		JButton btnLogout = new JButton("LogOut");
-		btnLogout.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
-		panel_2.add(btnLogout);
-		
-		JButton btnExit = new JButton("Exit");
-		panel_2.add(btnExit);
-		btnExit.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Exit();
-			}
-		});
+		pHead.add(label);
 		
 		JPanel ÇêControl = new JPanel();
-		ÇêControl.setBackground(SystemColor.activeCaption);
 		pPage_Start.add(ÇêControl);
-		String [] cString = {"ããóø","ãŒñ±ín"};
+		String [] cString = {"êEéÌ","ããóø","ínï˚"};
 		JComboBox comboBox = new JComboBox(cString);
 		comboBox.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		ÇêControl.add(comboBox);
@@ -366,6 +296,15 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 			}
 		});
 		ÇêControl.add(btnAddJob);
+		
+		JButton btnExit = new JButton("Exit");
+		btnExit.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Exit();
+			}
+		});
+		ÇêControl.add(btnExit);
 		
 		JPanel pLine_Start = new JPanel();
 		frame.getContentPane().add(pLine_Start, BorderLayout.WEST);
@@ -453,16 +392,25 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 //			frame.getContentPane().repaint();
 			System.out.println("remove jsp-------------------------");
 		}
-
+		else
+		{
+			System.out.println("added 2");
+			
+		}
+		//frame.getContentPane().remove(jsp);
 		jsp = new JScrollPane(table);
 		frame.getContentPane().add(jsp, BorderLayout.CENTER);
+		System.out.println("added1");
+		
+		System.out.println("added1");
 		
 		
 		
 	}
 
 	protected void clickListGroupJob() throws SQLException {
-
+		// TODO Auto-generated method stub
+		
 		
 		if(groupJob!=null)
 		{
@@ -561,28 +509,6 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 			}
 		}
 		
-	}
-	public void clock() {
-		 Thread clock = new Thread() {
-		  public void run() {
-		   try {
-		    while (true) {
-		     Calendar cal = new GregorianCalendar();
-		     int second = cal.get(Calendar.SECOND);
-		     int minute = cal.get(Calendar.MINUTE);
-		     int hour = cal.get(Calendar.HOUR_OF_DAY);
-
-		     lblTime.setText(hour + ":" + minute + ":" + second);
-//		     timeSystemBD.setText(hour + ":" + minute + ":" + second);
-		    
-		     sleep(1000);
-		    }
-		   } catch (Exception e) {
-		    e.printStackTrace();
-		   }
-		  }
-		 };
-		 clock.start();
 	}
 
 	

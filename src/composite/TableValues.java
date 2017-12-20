@@ -8,10 +8,11 @@ import entity.Job;
 
 public class TableValues extends AbstractTableModel{
 	private List<Job> lstJob;
+	public Object[][] values;
 	public TableValues(List<Job> lstJob)
 	{
 		
-		this.lstJob =lstJob;
+//		this.lstJob =lstJob;
 		
 		values= new Object[lstJob.size()][5];
 		for(int i=0;i<lstJob.size();i++)
@@ -19,6 +20,7 @@ public class TableValues extends AbstractTableModel{
 			Job job = lstJob.get(i);
 			Object[] objects ={job.getId(),job.getJobName(),job.getCompany(),job.getAddress(),job.getSalary()};
 			values[i]=objects;
+//			System.out.println("valueeeeeeeeeeeeee"+values[i][2]);
 		}
 		
 		
@@ -27,7 +29,7 @@ public class TableValues extends AbstractTableModel{
 	public final static String[] columnNames = {
 	       "ƒR[ƒh", "Name", "Company", "Address", "Salary"
 	    };
-	public Object[][] values;
+	
 	
 	public Object[][] getValues() {
 		return values;
