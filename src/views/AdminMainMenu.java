@@ -28,6 +28,7 @@ import entity.GroupJob;
 import entity.Job;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.SystemColor;
@@ -242,18 +243,35 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		pHead.setBackground(SystemColor.activeCaption);
 		pPage_Start.add(pHead);
 		GridBagLayout gbl_pHead = new GridBagLayout();
-		gbl_pHead.columnWidths = new int[]{100, 800, 200};
+		gbl_pHead.columnWidths = new int[]{100,100, 800, 200};
 		gbl_pHead.rowHeights = new int[]{50, 0, 0};
 		gbl_pHead.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		gbl_pHead.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
 		pHead.setLayout(gbl_pHead);
+		
+		JLabel wIconLogo = new JLabel("");
+		
+		
+		try {
+			ImageIcon imageIcon = new ImageIcon(".\\logo.png");
+			wIconLogo.setIcon(imageIcon);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 0;
+		pHead.add(wIconLogo, gbc_lblNewLabel);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 0;
+		gbc_panel_1.gridx = 1;
 		gbc_panel_1.gridy = 0;
 		pHead.add(panel_1, gbc_panel_1);
 		panel_1.setLayout(new GridLayout(2, 1, 0, 0));
@@ -269,26 +287,26 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		Date time = new Date();
 		 
 	        //Khai bao dinh dang ngay thang
-	    SimpleDateFormat dinhDangThoiGian = new SimpleDateFormat("dd/MM/yyyy ");
+	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");
 	 
 	        //parse ngay thang sang dinh dang va chuyen thanh string.
-	    String showTime = dinhDangThoiGian.format(time.getTime());
-		lblDate.setText(showTime);
+	    String showTime = sdf.format(time.getTime());
+		lblDate.setText(" "+showTime);
 		JLabel label = new JLabel("\u6C42\u4EBA\u7968\u3092\u7BA1\u7406");
 		label.setFont(new Font("MS UI Gothic", Font.BOLD, 50));
 		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.insets = new Insets(0, 0, 5, 0);
+		gbc_label.insets = new Insets(0, 0, 5, 5);
 		gbc_label.anchor = GridBagConstraints.NORTH;
-		gbc_label.gridx = 1;
+		gbc_label.gridx = 2;
 		gbc_label.gridy = 0;
 		pHead.add(label, gbc_label);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(SystemColor.activeCaption);
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.insets = new Insets(0, 0, 0, 5);
+		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_2.gridx = 2;
+		gbc_panel_2.gridx = 3;
 		gbc_panel_2.gridy = 0;
 		pHead.add(panel_2, gbc_panel_2);
 		
@@ -302,6 +320,8 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		JButton btnExit = new JButton("Exit");
 		panel_2.add(btnExit);
 		btnExit.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		
+		
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Exit();
@@ -572,7 +592,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		     int minute = cal.get(Calendar.MINUTE);
 		     int hour = cal.get(Calendar.HOUR_OF_DAY);
 
-		     lblTime.setText(hour + ":" + minute + ":" + second);
+		     lblTime.setText("    "+hour + ":" + minute + ":" + second);
 //		     timeSystemBD.setText(hour + ":" + minute + ":" + second);
 		    
 		     sleep(1000);
