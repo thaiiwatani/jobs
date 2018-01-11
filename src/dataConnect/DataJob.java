@@ -110,6 +110,132 @@ public class DataJob {
 			return null;
 		}
 	}
+	public List<Job> loadJobForName(String nameJob) throws SQLException
+	{
+		Connection con;
+		try {
+		con = new Connect().getMySQLConnection();
+		PreparedStatement preStmt = null;
+	    String sql = "Select * from jobs where JobName LIKE '%?%'";
+	    ResultSet rs;
+	    preStmt=con.prepareStatement(sql);
+	    preStmt.setString(1, nameJob);
+		rs = preStmt.executeQuery();
+		List<Job> lstJob = new ArrayList<Job>();
+		
+		
+	      while (rs.next()) {
+	          int id = rs.getInt("id");
+	          int groupid = rs.getInt("groupid");
+	          Job job = new Job();
+	          String memo = rs.getString("memo");
+	          
+	          job.setId(id);
+	          job.setJobName(rs.getString("JobName"));
+	          job.setGroupid(groupid);
+	          job.setCompany(rs.getString("company"));
+	          job.setSalary(rs.getInt("salary"));
+	          job.setLink(rs.getString("link"));
+	          job.setImage(rs.getString("image"));
+	          job.setAddress(rs.getString("address"));
+	          job.setIndustry(rs.getString("industry"));
+	          job.setMemo(memo);
+	          lstJob.add(job);
+	      }
+	 
+	      con.close();
+	      return lstJob;
+	      
+		} catch (ClassNotFoundException | SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
+	}
+	public List<Job> loadJobForAddress(String address) throws SQLException
+	{
+		Connection con;
+		try {
+		con = new Connect().getMySQLConnection();
+		PreparedStatement preStmt = null;
+	    String sql = "Select * from jobs where address LIKE '%?%'";
+	    ResultSet rs;
+	    preStmt=con.prepareStatement(sql);
+	    preStmt.setString(1, address);
+		rs = preStmt.executeQuery();
+		List<Job> lstJob = new ArrayList<Job>();
+		
+		
+	      while (rs.next()) {
+	          int id = rs.getInt("id");
+	          int groupid = rs.getInt("groupid");
+	          Job job = new Job();
+	          String memo = rs.getString("memo");
+	          
+	          job.setId(id);
+	          job.setJobName(rs.getString("JobName"));
+	          job.setGroupid(groupid);
+	          job.setCompany(rs.getString("company"));
+	          job.setSalary(rs.getInt("salary"));
+	          job.setLink(rs.getString("link"));
+	          job.setImage(rs.getString("image"));
+	          job.setAddress(rs.getString("address"));
+	          job.setIndustry(rs.getString("industry"));
+	          job.setMemo(memo);
+	          lstJob.add(job);
+	      }
+	 
+	      con.close();
+	      return lstJob;
+	      
+		} catch (ClassNotFoundException | SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
+	}
+	public List<Job> loadJobForSalary(int salary) throws SQLException
+	{
+		Connection con;
+		try {
+		con = new Connect().getMySQLConnection();
+		PreparedStatement preStmt = null;
+	    String sql = "Select * from jobs where salary >=?";
+	    ResultSet rs;
+	    preStmt=con.prepareStatement(sql);
+	    preStmt.setInt(1, salary);
+		rs = preStmt.executeQuery();
+		List<Job> lstJob = new ArrayList<Job>();
+		
+		
+	      while (rs.next()) {
+	          int id = rs.getInt("id");
+	          int groupid = rs.getInt("groupid");
+	          Job job = new Job();
+	          String memo = rs.getString("memo");
+	          
+	          job.setId(id);
+	          job.setJobName(rs.getString("JobName"));
+	          job.setGroupid(groupid);
+	          job.setCompany(rs.getString("company"));
+	          job.setSalary(rs.getInt("salary"));
+	          job.setLink(rs.getString("link"));
+	          job.setImage(rs.getString("image"));
+	          job.setAddress(rs.getString("address"));
+	          job.setIndustry(rs.getString("industry"));
+	          job.setMemo(memo);
+	          lstJob.add(job);
+	      }
+	 
+	      con.close();
+	      return lstJob;
+	      
+		} catch (ClassNotFoundException | SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return null;
+		}
+	}
 	public List<Job> loadJobFromGroup(GroupJob groupJob) throws SQLException
 	{
 		Connection con;

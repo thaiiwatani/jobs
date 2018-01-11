@@ -150,6 +150,9 @@ public class MainMenu {
 		gbc_panel_3.gridy = 0;
 		panel.add(panel_3, gbc_panel_3);
 		
+		JButton btnCus = new JButton("New button");
+		panel_3.add(btnCus);
+		
 		JButton btnNewButton_4 = new JButton("ÉçÉOÉCÉì");
 		btnNewButton_4.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\login.png"));
 //		btnNewButton_4.setFocusPainted(false);
@@ -163,7 +166,7 @@ public class MainMenu {
 			}
 		});
 		btnNewButton_5.setFocusPainted(false);
-		btnNewButton_5.setIcon(new ImageIcon(".\\exit.png"));
+		btnNewButton_5.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\close.png"));
 		panel_3.add(btnNewButton_5);
 		
 		

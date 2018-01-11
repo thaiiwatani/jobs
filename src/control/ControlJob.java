@@ -34,6 +34,18 @@ public class ControlJob {
 	{
 		return dJob.loadJobFromGroup(groupJob);
 	}
+	public List<Job> loadDataForName(String nameJob) throws SQLException
+	{
+		return dJob.loadJobForName(nameJob);
+	}
+	public List<Job> loadJobForAddress(String address) throws SQLException
+	{
+		return dJob.loadJobForAddress(address);
+	}
+	public List<Job> loadJobForSalary(int salary) throws SQLException
+	{
+		return dJob.loadJobForSalary(salary);
+	}
 
 }
 

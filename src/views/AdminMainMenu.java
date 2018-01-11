@@ -74,6 +74,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 	    };
 	private JTable table;
 	private JLabel lblTime;
+	private JComboBox comboBox;
 
 	/**
 	 * Launch the application.
@@ -243,7 +244,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		pHead.setBackground(SystemColor.activeCaption);
 		pPage_Start.add(pHead);
 		GridBagLayout gbl_pHead = new GridBagLayout();
-		gbl_pHead.columnWidths = new int[]{100,100, 800, 200};
+		gbl_pHead.columnWidths = new int[]{100,100, 740, 200};
 		gbl_pHead.rowHeights = new int[]{50, 0, 0};
 		gbl_pHead.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		gbl_pHead.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
@@ -254,7 +255,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		
 		try {
 			ImageIcon imageIcon = new ImageIcon(".\\logo.png");
-			wIconLogo.setIcon(imageIcon);
+			wIconLogo.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\logo.png"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -286,7 +287,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		panel_1.add(lblTime);
 		Date time = new Date();
 		 
-	        //Khai bao dinh dang ngay thang
+	       
 	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");
 	 
 	        //parse ngay thang sang dinh dang va chuyen thanh string.
@@ -313,14 +314,17 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		JLabel lblAcc = new JLabel("Hello Admin");
 		panel_2.add(lblAcc);
 		
-		JButton btnLogout = new JButton("LogOut");
-		btnLogout.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		JButton btnLogout = new JButton("\u30ED\u30B0\u30A2\u30A6\u30C8");
+		btnLogout.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\exit.png"));
+		btnLogout.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		panel_2.add(btnLogout);
+		btnLogout.setFocusable(false);
 		
-		JButton btnExit = new JButton("Exit");
+		JButton btnExit = new JButton("\u9589\u3058\u308B");
+		btnExit.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\close.png"));
 		panel_2.add(btnExit);
-		btnExit.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
-		
+		btnExit.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		btnExit.setFocusable(false);
 		
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -331,13 +335,13 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		JPanel ÇêControl = new JPanel();
 		ÇêControl.setBackground(SystemColor.activeCaption);
 		pPage_Start.add(ÇêControl);
-		String [] cString = {"ããóø","ãŒñ±ín"};
-		JComboBox comboBox = new JComboBox(cString);
-		comboBox.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		String [] cString = {"âcã∆","ããóø","ãŒñ±ín"};
+		comboBox = new JComboBox(cString);
+		comboBox.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
 		ÇêControl.add(comboBox);
 		
 		textSearch = new JTextField();
-		textSearch.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		textSearch.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
 		ÇêControl.add(textSearch);
 		textSearch.setColumns(30);
 		textSearch.addKeyListener(new KeyListener() {
@@ -358,23 +362,42 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER)
 				{
-					System.out.println("Mhay vao cau search nhe");
+					try {
+						Search();
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 				}
 				
 			}
 		});
 		
-		JButton btnSearch = new JButton("Search");
-		btnSearch.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		JButton btnSearch = new JButton("\u691C\u7D22");
+		btnSearch.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\search.png"));
+		btnSearch.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Search();
+				try {
+					Search();
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		ÇêControl.add(btnSearch);
 		
-		JButton btnAddJob = new JButton("AddJob");
-		btnAddJob.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		JButton btnAddJob = new JButton("\u4ED5\u4E8B\u8FFD\u52A0");
+		btnAddJob.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\add.png"));
+		btnAddJob.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		btnAddJob.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -440,8 +463,9 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		gbc_pControl2.gridy = 2;
 		pLine_Start.add(pControl2, gbc_pControl2);
 		
-		JButton btnAdd = new JButton("Add");
-		btnAdd.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		JButton btnAdd = new JButton("\u8077\u7A2E\u8FFD\u52A0");
+		btnAdd.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\add.png"));
+		btnAdd.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Add();
@@ -449,8 +473,9 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		});
 		pControl2.add(btnAdd);
 		
-		JButton btnEdit = new JButton("Edit");
-		btnEdit.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		JButton btnEdit = new JButton("\u4FEE\u7406");
+		btnEdit.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\edit.png"));
+		btnEdit.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Edit();
@@ -549,8 +574,74 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		
 	}
 
-	protected void Search() {
+	protected void Search() throws NumberFormatException, SQLException {
 		// TODO Auto-generated method stub
+		String selected = (String)comboBox.getSelectedItem();
+		
+
+		String search =textSearch.getText();
+		if(search.equals("")||search==null)
+			System.out.println(selected);
+		else
+		{
+			
+			System.out.println("Job aaa after "+lstJob.size());
+			if(selected.equals("âcã∆"))
+			{
+				frame.getContentPane().remove(jsp);
+				searchForName(search);
+			}
+				
+			if(selected.equals("ããóø"))
+			{
+				if(isInteger(search))
+				{
+					frame.getContentPane().remove(jsp);
+					searchForSalary(Integer.parseInt(search));
+				}
+			}
+				
+			if(selected.equals("ãŒñ±ín"))
+			{
+				frame.getContentPane().remove(jsp);
+				searchForAddress(search);
+			}
+				
+
+			System.out.println("Job aaa before "+lstJob.size());
+			TableDataLoad();
+			setTableToMain();
+			frame.getContentPane().revalidate(); 
+			frame.getContentPane().repaint();
+		}
+			
+			
+		
+	}
+	private boolean isInteger(String str) {
+		try {
+			Integer.parseInt(str);
+		}catch(NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
+	private void searchForSalary(int salary) throws SQLException {
+		// TODO Auto-generated method stub
+		lstJob =ctrJob.loadJobForSalary(salary);
+		
+		
+	}
+
+	private void searchForName(String jobname) throws SQLException {
+		// TODO Auto-generated method stub
+		lstJob=ctrJob.loadDataForName(jobname);
+		
+	}
+
+	private void searchForAddress(String address) throws SQLException {
+		// TODO Auto-generated method stub
+		lstJob = ctrJob.loadJobForAddress(address);
 		
 	}
 
@@ -563,7 +654,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("vao lai valueChanged");
+		
 		int maxRows;
 		int [] selRows;
 		Object value;
