@@ -29,8 +29,9 @@ import control.ControlGroupJob;
 import control.ControlJob;
 import entity.GroupJob;
 import entity.Job;
+import javax.swing.ImageIcon;
 
-public class JobUpdate extends JFrame {private JPanel contentPane;
+public class JobView extends JFrame {private JPanel contentPane;
 private JTextField txtName;
 private JTextField txtCompany;
 private JTextField txtAddress;
@@ -46,9 +47,11 @@ private ControlGroupJob ctrGroup = new ControlGroupJob();
 private DefaultComboBoxModel<GroupJob> dModelGroup = new DefaultComboBoxModel<GroupJob>();
 private Job job;
 private JComboBox comboBox;
-private AdminMainMenu adminMainMenu;
+private StudentMainMenu StudentMainMenu;
 private String fontName ="ÇlÇr ÇoÉSÉVÉbÉN å©èoÇµ";
 private JTextArea txtInformation;
+private JTextField textField;
+private JTextField textField_1;
 /**
  * Launch the application.
  */
@@ -57,7 +60,7 @@ public static void main(String[] args) {
 		public void run() {
 			try {
 				
-//				JobUpdate frame = new JobUpdate();
+//				JobView frame = new JobView();
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -69,7 +72,7 @@ public static void main(String[] args) {
 /**
  * Create the frame.
  */
-public JobUpdate(Job job) throws SQLException {
+public JobView(Job job) throws SQLException {
 	this.job=job;
 	LoadData();
 	init();
@@ -79,19 +82,29 @@ private void init() {
 	mainFrame = new JFrame("édéñÇèCóù");
 	mainFrame.setBackground(Color.LIGHT_GRAY);
 	mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	mainFrame.setTitle("Update a Job");
-	mainFrame.setBounds(100, 100, 800, 550);
+	mainFrame.setTitle("è⁄ç◊ÇÃâcã∆");
+//	mainFrame.setBounds(100, 100, 800, 550);
+	mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+	mainFrame.setUndecorated(true);
 	contentPane = new JPanel();
 	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	mainFrame.setContentPane(contentPane);
 	GridBagLayout gbl_contentPane = new GridBagLayout();
-	gbl_contentPane.columnWidths = new int[]{80, 489, 0};
-	gbl_contentPane.rowHeights = new int[]{29, 23, 23, 23, 23, 23, 23, 150, 23, 50, 0, 0};
-	gbl_contentPane.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-	gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+	gbl_contentPane.columnWidths = new int[]{0, 0};
+	gbl_contentPane.rowHeights = new int[]{29, 23, 23, 23, 23, 23, 23, 250, 250, 0, 0, 23, 50, 0, 0};
+	gbl_contentPane.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+	gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 	contentPane.setLayout(gbl_contentPane);
 	
-	JLabel lblCreateANew = new JLabel("Update a Job");
+	JLabel lblNewLabel = new JLabel("");
+	lblNewLabel.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\logo.png"));
+	GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+	gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+	gbc_lblNewLabel.gridx = 0;
+	gbc_lblNewLabel.gridy = 0;
+	contentPane.add(lblNewLabel, gbc_lblNewLabel);
+	
+	JLabel lblCreateANew = new JLabel("\u8A73\u7D30\u306A\u55B6\u696D");
 	lblCreateANew.setBackground(SystemColor.activeCaption);
 	lblCreateANew.setFont(new Font(fontName, Font.BOLD, 30));
 	GridBagConstraints gbc_lblCreateANew = new GridBagConstraints();
@@ -100,7 +113,7 @@ private void init() {
 	gbc_lblCreateANew.gridy = 0;
 	contentPane.add(lblCreateANew, gbc_lblCreateANew);
 	
-	JLabel lblGroupJob = new JLabel("Group Job");
+	JLabel lblGroupJob = new JLabel("\u8077\u7A2E");
 	lblGroupJob.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblGroupJob = new GridBagConstraints();
 	gbc_lblGroupJob.anchor = GridBagConstraints.EAST;
@@ -110,7 +123,10 @@ private void init() {
 	contentPane.add(lblGroupJob, gbc_lblGroupJob);
 	
 	comboBox = new JComboBox(dModelGroup);
+	comboBox.setEditable(true);
+	comboBox.setEnabled(false);
 	comboBox.setFont(new Font(fontName, Font.PLAIN, 16));
+	
 	
 	
 	GridBagConstraints gbc_comboBox = new GridBagConstraints();
@@ -120,7 +136,7 @@ private void init() {
 	gbc_comboBox.gridy = 1;
 	contentPane.add(comboBox, gbc_comboBox);
 	
-	JLabel lblName = new JLabel("Name");
+	JLabel lblName = new JLabel("\u55B6\u696D\u540D");
 	lblName.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblName = new GridBagConstraints();
 	gbc_lblName.anchor = GridBagConstraints.EAST;
@@ -130,6 +146,7 @@ private void init() {
 	contentPane.add(lblName, gbc_lblName);
 	
 	txtName = new JTextField();
+	txtName.setEditable(false);
 	txtName.setFont(new Font(fontName, Font.PLAIN, 16));
 	GridBagConstraints gbc_txtName = new GridBagConstraints();
 	gbc_txtName.fill = GridBagConstraints.HORIZONTAL;
@@ -139,7 +156,7 @@ private void init() {
 	contentPane.add(txtName, gbc_txtName);
 	txtName.setColumns(10);
 	
-	JLabel lblCompany = new JLabel("Company");
+	JLabel lblCompany = new JLabel("\u4F1A\u793E");
 	lblCompany.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblCompany = new GridBagConstraints();
 	gbc_lblCompany.anchor = GridBagConstraints.EAST;
@@ -149,6 +166,7 @@ private void init() {
 	contentPane.add(lblCompany, gbc_lblCompany);
 	
 	txtCompany = new JTextField();
+	txtCompany.setEditable(false);
 	txtCompany.setFont(new Font(fontName, Font.PLAIN, 16));
 	GridBagConstraints gbc_txtCompany = new GridBagConstraints();
 	gbc_txtCompany.fill = GridBagConstraints.HORIZONTAL;
@@ -158,7 +176,7 @@ private void init() {
 	contentPane.add(txtCompany, gbc_txtCompany);
 	txtCompany.setColumns(10);
 	
-	JLabel lblAddress = new JLabel("Address");
+	JLabel lblAddress = new JLabel("\u4F4F\u6240");
 	lblAddress.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblAddress = new GridBagConstraints();
 	gbc_lblAddress.anchor = GridBagConstraints.EAST;
@@ -168,6 +186,7 @@ private void init() {
 	contentPane.add(lblAddress, gbc_lblAddress);
 	
 	txtAddress = new JTextField();
+	txtAddress.setEditable(false);
 	txtAddress.setFont(new Font(fontName, Font.PLAIN, 16));
 	GridBagConstraints gbc_txtAddress = new GridBagConstraints();
 	gbc_txtAddress.fill = GridBagConstraints.HORIZONTAL;
@@ -177,7 +196,7 @@ private void init() {
 	contentPane.add(txtAddress, gbc_txtAddress);
 	txtAddress.setColumns(10);
 	
-	JLabel lblSalary = new JLabel("Salary");
+	JLabel lblSalary = new JLabel("\u7D66\u6599");
 	lblSalary.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblSalary = new GridBagConstraints();
 	gbc_lblSalary.anchor = GridBagConstraints.EAST;
@@ -187,6 +206,7 @@ private void init() {
 	contentPane.add(lblSalary, gbc_lblSalary);
 	
 	txtSalary = new JTextField();
+	txtSalary.setEditable(false);
 	txtSalary.setFont(new Font(fontName, Font.PLAIN, 16));
 	GridBagConstraints gbc_txtSalary = new GridBagConstraints();
 	gbc_txtSalary.fill = GridBagConstraints.HORIZONTAL;
@@ -196,16 +216,15 @@ private void init() {
 	contentPane.add(txtSalary, gbc_txtSalary);
 	txtSalary.setColumns(10);
 	
-	JLabel lblLinkAcc = new JLabel("Link Access");
-	lblLinkAcc.setFont(new Font(fontName, Font.BOLD, 16));
-	GridBagConstraints gbc_lblLinkAcc = new GridBagConstraints();
-	gbc_lblLinkAcc.anchor = GridBagConstraints.EAST;
-	gbc_lblLinkAcc.insets = new Insets(0, 0, 5, 5);
-	gbc_lblLinkAcc.gridx = 0;
-	gbc_lblLinkAcc.gridy = 6;
-	contentPane.add(lblLinkAcc, gbc_lblLinkAcc);
+	JButton btnNewButton_1 = new JButton("\u8A73\u7D30\u306A\u30EA\u30F3\u30AF");
+	GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+	gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
+	gbc_btnNewButton_1.gridx = 0;
+	gbc_btnNewButton_1.gridy = 6;
+	contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
 	
 	txtLink = new JTextField();
+	txtLink.setEditable(false);
 	txtLink.setFont(new Font(fontName, Font.PLAIN, 16));
 	GridBagConstraints gbc_txtLink = new GridBagConstraints();
 	gbc_txtLink.fill = GridBagConstraints.HORIZONTAL;
@@ -215,7 +234,7 @@ private void init() {
 	contentPane.add(txtLink, gbc_txtLink);
 	txtLink.setColumns(10);
 	
-	JLabel lblInformation = new JLabel("Information");
+	JLabel lblInformation = new JLabel("\u55B6\u696D\u306E\u5185\u5BB9");
 	lblInformation.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblInformation = new GridBagConstraints();
 	gbc_lblInformation.anchor = GridBagConstraints.EAST;
@@ -225,6 +244,7 @@ private void init() {
 	contentPane.add(lblInformation, gbc_lblInformation);
 	
 	txtInformation = new JTextArea();
+	txtInformation.setEditable(false);
 	txtInformation.setFont(new Font(fontName, Font.PLAIN, 16));
 	GridBagConstraints gbc_txtInformation = new GridBagConstraints();
 	gbc_txtInformation.insets = new Insets(0, 0, 5, 0);
@@ -232,14 +252,33 @@ private void init() {
 	gbc_txtInformation.gridx = 1;
 	gbc_txtInformation.gridy = 7;
 	contentPane.add(txtInformation, gbc_txtInformation);
+	txtInformation.setText(job.getIndustry());
 	
-	JLabel lblFileName = new JLabel("File Name");
+	
+	
+	JLabel label = new JLabel("\u55B6\u696D\u306E\u5185\u5BB9");
+	label.setFont(new Font("Dialog", Font.BOLD, 16));
+	GridBagConstraints gbc_label = new GridBagConstraints();
+	gbc_label.insets = new Insets(0, 0, 5, 5);
+	gbc_label.gridx = 0;
+	gbc_label.gridy = 8;
+	contentPane.add(label, gbc_label);
+	
+	JPanel panel_2 = new JPanel();
+	GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+	gbc_panel_2.insets = new Insets(0, 0, 5, 0);
+	gbc_panel_2.fill = GridBagConstraints.BOTH;
+	gbc_panel_2.gridx = 1;
+	gbc_panel_2.gridy = 8;
+	contentPane.add(panel_2, gbc_panel_2);
+	
+	JLabel lblFileName = new JLabel("\u6C42\u4EBA\u7968\u30D5\u30A1\u30A4\u30EB");
 	lblFileName.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblFileName = new GridBagConstraints();
 	gbc_lblFileName.anchor = GridBagConstraints.EAST;
 	gbc_lblFileName.insets = new Insets(0, 0, 5, 5);
 	gbc_lblFileName.gridx = 0;
-	gbc_lblFileName.gridy = 8;
+	gbc_lblFileName.gridy = 9;
 	contentPane.add(lblFileName, gbc_lblFileName);
 	
 	JPanel panel_1 = new JPanel();
@@ -247,7 +286,7 @@ private void init() {
 	gbc_panel_1.fill = GridBagConstraints.HORIZONTAL;
 	gbc_panel_1.insets = new Insets(0, 0, 5, 0);
 	gbc_panel_1.gridx = 1;
-	gbc_panel_1.gridy = 8;
+	gbc_panel_1.gridy = 9;
 	contentPane.add(panel_1, gbc_panel_1);
 	GridBagLayout gbl_panel_1 = new GridBagLayout();
 	gbl_panel_1.columnWidths = new int[]{572, 75, 0};
@@ -282,7 +321,6 @@ private void init() {
 	
 	//Add data to textbox
 	txtAddress.setText(job.getAddress());
-	txtInformation.setText(job.getIndustry());
 	txtCompany.setText(job.getCompany());
 	txtFileName.setText(job.getImage());
 	txtLink.setText(job.getLink());
@@ -292,17 +330,33 @@ private void init() {
 //	comboBox.setSelectedItem();
 //	for(GroupJob groupJob:ls);
 	
+	textField = new JTextField();
+	textField.setColumns(10);
+	GridBagConstraints gbc_textField = new GridBagConstraints();
+	gbc_textField.insets = new Insets(0, 0, 5, 5);
+	gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+	gbc_textField.gridx = 1;
+	gbc_textField.gridy = 10;
+	contentPane.add(textField, gbc_textField);
 	
+	textField_1 = new JTextField();
+	textField_1.setColumns(10);
+	GridBagConstraints gbc_textField_1 = new GridBagConstraints();
+	gbc_textField_1.insets = new Insets(0, 0, 5, 5);
+	gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
+	gbc_textField_1.gridx = 1;
+	gbc_textField_1.gridy = 11;
+	contentPane.add(textField_1, gbc_textField_1);
 	JPanel panel = new JPanel();
 	GridBagConstraints gbc_panel = new GridBagConstraints();
 	gbc_panel.insets = new Insets(0, 0, 5, 0);
 	gbc_panel.anchor = GridBagConstraints.EAST;
 	gbc_panel.fill = GridBagConstraints.VERTICAL;
 	gbc_panel.gridx = 1;
-	gbc_panel.gridy = 9;
+	gbc_panel.gridy = 12;
 	contentPane.add(panel, gbc_panel);
 	
-	JButton btnUpdate = new JButton("Update");
+	JButton btnUpdate = new JButton("\u8FFD\u52A0");
 	btnUpdate.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -313,10 +367,6 @@ private void init() {
 			}
 		}
 	});
-	
-	JButton btnDelete = new JButton("Delete");
-	btnDelete.setFont(new Font(fontName, Font.PLAIN, 18));
-	panel.add(btnDelete);
 	btnUpdate.setFont(new Font(fontName, Font.PLAIN, 18));
 	panel.add(btnUpdate);
 	
@@ -411,7 +461,7 @@ protected void clickBrowser() {
 private void ToMainMenu()
 {
 	mainFrame.setVisible(false);
-	adminMainMenu = new AdminMainMenu();
+	StudentMainMenu = new StudentMainMenu();
 }
 
 private boolean checkFilePDF(String fileName)

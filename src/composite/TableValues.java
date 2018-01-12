@@ -27,7 +27,7 @@ public class TableValues extends AbstractTableModel{
 	}
 	
 	public final static String[] columnNames = {
-	       "コード", "Name", "Company", "Address", "Salary"
+	       "コード", "営業名", "会社", "住所", "給料"
 	    };
 	
 	

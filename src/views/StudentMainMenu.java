@@ -15,10 +15,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import composite.TableValues;
@@ -28,13 +25,17 @@ import entity.GroupJob;
 import entity.Job;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Vector;
 import java.awt.Font;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -68,6 +69,8 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 	        "Name", "Company", "Address", "Salary"
 	    };
 	private JTable table;
+	private JLabel lblTime;
+	private JComboBox comboBox;
 
 	/**
 	 * Launch the application.
@@ -97,6 +100,8 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		}
 		
 		initialize();
+		clock();
+		
 		
 	}
 
@@ -117,7 +122,6 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		{
 			//cach 1
 			TableValues tableValues = new TableValues(lstJob);
-			System.out.println("sizeeeeeeeeeeeeeeeeee"+lstJob.size());
 			table = new JTable(tableValues);
 			table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 			TableColumn column = null;
@@ -125,7 +129,7 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		        column = table.getColumnModel().getColumn(i);
 		        if (i == 3) {
 		            column.setPreferredWidth(400); 
-		            System.out.println("vao lai table loadaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		           
 		        } 
 		        
 		        if(i==0)
@@ -141,7 +145,6 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		    ListSelectionModel listSelectionModel =table.getSelectionModel();
 		    listSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		    listSelectionModel.addListSelectionListener(this);
-		    System.out.println("vao lai table loadaaaaaaaaaaaaaaaaaaaaaaaaaa"+listSelectionModel.toString());
 		    table.addMouseListener(new MouseListener() {
 				
 				@Override
@@ -181,7 +184,7 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(frame, "Nodata in group Job");
+			JOptionPane.showMessageDialog(frame, "No data in Job");
 		}
 	}
 	private void initDataJobList() throws SQLException {
@@ -197,7 +200,7 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 			job=ctrJob.loadJob(job);
 			System.out.println(job.getLink());
 			frame.setVisible(false);
-			JobUpdate jobUpdate = new JobUpdate(job);
+			JobView jobUpdate = new JobView(job);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -220,6 +223,8 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	
+
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
@@ -234,20 +239,114 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		JPanel pHead = new JPanel();
 		pHead.setBackground(SystemColor.activeCaption);
 		pPage_Start.add(pHead);
+		GridBagLayout gbl_pHead = new GridBagLayout();
+		gbl_pHead.columnWidths = new int[]{100,100, 740, 200};
+		gbl_pHead.rowHeights = new int[]{50, 0, 0};
+		gbl_pHead.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_pHead.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		pHead.setLayout(gbl_pHead);
 		
+		JLabel wIconLogo = new JLabel("");
+		
+		
+		try {
+			ImageIcon imageIcon = new ImageIcon(".\\logo.png");
+			wIconLogo.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\logo.png"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 0;
+		pHead.add(wIconLogo, gbc_lblNewLabel);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(SystemColor.activeCaption);
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.gridx = 1;
+		gbc_panel_1.gridy = 0;
+		pHead.add(panel_1, gbc_panel_1);
+		panel_1.setLayout(new GridLayout(2, 1, 0, 0));
+		
+		JLabel lblDate = new JLabel("Date");
+		lblDate.setFont(new Font("MS UI Gothic", Font.BOLD | Font.ITALIC, 16));
+		panel_1.add(lblDate);
+		
+		lblTime = new JLabel("Time");
+		lblTime.setFont(new Font("MS UI Gothic", Font.BOLD, 16));
+		
+		panel_1.add(lblTime);
+		Date time = new Date();
+		 
+	       
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd ");
+	 
+	        //parse ngay thang sang dinh dang va chuyen thanh string.
+	    String showTime = sdf.format(time.getTime());
+		lblDate.setText(" "+showTime);
 		JLabel label = new JLabel("\u6C42\u4EBA\u7968\u3092\u63A2\u3059");
 		label.setFont(new Font("MS UI Gothic", Font.BOLD, 50));
-		pHead.add(label);
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.insets = new Insets(0, 0, 5, 5);
+		gbc_label.anchor = GridBagConstraints.NORTH;
+		gbc_label.gridx = 2;
+		gbc_label.gridy = 0;
+		pHead.add(label, gbc_label);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(SystemColor.activeCaption);
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_2.fill = GridBagConstraints.BOTH;
+		gbc_panel_2.gridx = 3;
+		gbc_panel_2.gridy = 0;
+		pHead.add(panel_2, gbc_panel_2);
+		
+		JLabel lblAcc = new JLabel("Hello Admin");
+		panel_2.add(lblAcc);
+		
+		JButton btnLogout = new JButton("\u623B\u308A");
+		btnLogout.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\exit.png"));
+		
+		btnLogout.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		panel_2.add(btnLogout);
+		btnLogout.setFocusable(false);
+		btnLogout.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				BackMainMenu();
+				
+			}
+		});;
+		
+		JButton btnExit = new JButton("\u9589\u3058\u308B");
+		btnExit.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\close.png"));
+		panel_2.add(btnExit);
+		btnExit.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		btnExit.setFocusable(false);
+		
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Exit();
+			}
+		});
 		
 		JPanel ｐControl = new JPanel();
+		ｐControl.setBackground(SystemColor.activeCaption);
 		pPage_Start.add(ｐControl);
-		String [] cString = {"職種","給料","地方"};
-		JComboBox comboBox = new JComboBox(cString);
-		comboBox.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		String [] cString = {"営業","給料","勤務地"};
+		comboBox = new JComboBox(cString);
+		comboBox.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
 		ｐControl.add(comboBox);
 		
 		textSearch = new JTextField();
-		textSearch.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
+		textSearch.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
 		ｐControl.add(textSearch);
 		textSearch.setColumns(30);
 		textSearch.addKeyListener(new KeyListener() {
@@ -268,51 +367,46 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER)
 				{
-					System.out.println("Mhay vao cau search nhe");
+					try {
+						Search();
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 				}
 				
 			}
 		});
 		
-		JButton btnSearch = new JButton("Search");
-		btnSearch.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		JButton btnSearch = new JButton("\u691C\u7D22");
+		btnSearch.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\search.png"));
+		btnSearch.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Search();
+				try {
+					Search();
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		ｐControl.add(btnSearch);
 		
-		JButton btnAddJob = new JButton("AddJob");
-		btnAddJob.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
-		btnAddJob.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					AddJob();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		ｐControl.add(btnAddJob);
-		
-		JButton btnExit = new JButton("Exit");
-		btnExit.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Exit();
-			}
-		});
-		ｐControl.add(btnExit);
-		
 		JPanel pLine_Start = new JPanel();
 		frame.getContentPane().add(pLine_Start, BorderLayout.WEST);
 		GridBagLayout gbl_pLine_Start = new GridBagLayout();
-		gbl_pLine_Start.columnWidths = new int[]{121, 0};
-		gbl_pLine_Start.rowHeights = new int[]{35, 790, 60, 0};
+		gbl_pLine_Start.columnWidths = new int[]{100, 0};
+		gbl_pLine_Start.rowHeights = new int[]{48, 48, 0};
 		gbl_pLine_Start.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_pLine_Start.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pLine_Start.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		pLine_Start.setLayout(gbl_pLine_Start);
 		
 		JLabel label_1 = new JLabel("\u8077\u7A2E");
@@ -323,6 +417,7 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		gbc_label_1.gridx = 0;
 		gbc_label_1.gridy = 0;
 		pLine_Start.add(label_1, gbc_label_1);
+		
 		
 		list.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
 		list.addListSelectionListener(new ListSelectionListener() {
@@ -344,45 +439,138 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 				
 			}
 		});
-		
 		GridBagConstraints gbc_list = new GridBagConstraints();
-		gbc_list.fill = GridBagConstraints.BOTH;
-		gbc_list.insets = new Insets(0, 0, 5, 0);
+		gbc_list.anchor = GridBagConstraints.EAST;
+		gbc_list.fill = GridBagConstraints.VERTICAL;
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 1;
 		pLine_Start.add(list, gbc_list);
 		
-		JPanel pControl2 = new JPanel();
-		GridBagConstraints gbc_pControl2 = new GridBagConstraints();
-		gbc_pControl2.fill = GridBagConstraints.BOTH;
-		gbc_pControl2.gridx = 0;
-		gbc_pControl2.gridy = 2;
-		pLine_Start.add(pControl2, gbc_pControl2);
-		
-		JButton btnAdd = new JButton("Add");
-		btnAdd.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Add();
-			}
-		});
-		pControl2.add(btnAdd);
-		
-		JButton btnEdit = new JButton("Edit");
-		btnEdit.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
-		btnEdit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Edit();
-			}
-		});
-		pControl2.add(btnEdit);
-		
 		setTableToMain();
 		
-		JPanel panel = new JPanel();
+		JPanel panel_South = new JPanel();
+		panel_South.setBackground(Color.LIGHT_GRAY);
+		frame.getContentPane().add(panel_South, BorderLayout.SOUTH);
+		GridBagLayout gbl_panel_South = new GridBagLayout();
+		gbl_panel_South.columnWidths = new int[]{700, 300};
+		gbl_panel_South.rowHeights = new int[]{0, 0, 0};
+		gbl_panel_South.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_South.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		panel_South.setLayout(gbl_panel_South);
+		
+		JPanel panel_GroupMember = new JPanel();
+		panel_GroupMember.setBackground(Color.LIGHT_GRAY);
+		GridBagConstraints gbc_panel_GroupMember = new GridBagConstraints();
+		gbc_panel_GroupMember.insets = new Insets(0, 0, 5, 0);
+		gbc_panel_GroupMember.fill = GridBagConstraints.BOTH;
+		gbc_panel_GroupMember.gridx = 0;
+		gbc_panel_GroupMember.gridy = 0;
+		panel_South.add(panel_GroupMember, gbc_panel_GroupMember);
+		GridBagLayout gbl_panel_GroupMember = new GridBagLayout();
+		gbl_panel_GroupMember.columnWidths = new int[]{325, 325, 325, 0};
+		gbl_panel_GroupMember.rowHeights = new int[]{13, 13, 13, 13, 0};
+		gbl_panel_GroupMember.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_GroupMember.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel_GroupMember.setLayout(gbl_panel_GroupMember);
+		
+		
+		
+		
+		
+		JLabel lblNewLabel = new JLabel("リーダー: DAO DUC THAI");
+		GridBagConstraints gbc_lblNewLabelr = new GridBagConstraints();
+		gbc_lblNewLabelr.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabelr.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabelr.gridx = 1;
+		gbc_lblNewLabelr.gridy = 1;
+		panel_GroupMember.add(lblNewLabel, gbc_lblNewLabelr);
+		
+		JLabel lblNewLabel_5 = new JLabel("メンバー: DANG VAN HIEN");
+		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
+		gbc_lblNewLabel_5.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel_5.gridx = 2;
+		gbc_lblNewLabel_5.gridy = 1;
+		panel_GroupMember.add(lblNewLabel_5, gbc_lblNewLabel_5);
+		
+	
+		JLabel lblNewLabel_4 = new JLabel("メンバー: PAUDEL DAMODAR");
+		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
+		gbc_lblNewLabel_4.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_4.gridx = 1;
+		gbc_lblNewLabel_4.gridy = 2;
+		panel_GroupMember.add(lblNewLabel_4, gbc_lblNewLabel_4);
+		
+		JLabel lblNewLabel_7 = new JLabel("メンバー: SHRESTHA RAJENDRA");
+		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
+		gbc_lblNewLabel_7.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel_7.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel_7.gridx = 2;
+		gbc_lblNewLabel_7.gridy = 2;
+		panel_GroupMember.add(lblNewLabel_7, gbc_lblNewLabel_7);
+		
+
+		
+	
+		
+		JLabel lblNewLabel_6 = new JLabel("メンバー: PAUDEL BIDUR");
+		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
+		gbc_lblNewLabel_6.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel_6.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel_6.gridx = 1;
+		gbc_lblNewLabel_6.gridy = 3;
+		panel_GroupMember.add(lblNewLabel_6, gbc_lblNewLabel_6);
+		
+		
+		JPanel panel_GroupInfor = new JPanel();
+		panel_GroupInfor.setBackground(Color.LIGHT_GRAY);
+		GridBagConstraints gbc_panel_GroupInfor = new GridBagConstraints();
+		gbc_panel_GroupInfor.anchor = GridBagConstraints.WEST;
+		gbc_panel_GroupInfor.fill = GridBagConstraints.VERTICAL;
+		gbc_panel_GroupInfor.gridx = 1;
+		gbc_panel_GroupInfor.gridy = 0;
+		panel_South.add(panel_GroupInfor, gbc_panel_GroupInfor);
+		GridBagLayout gbl_panel_GroupInfor = new GridBagLayout();
+		gbl_panel_GroupInfor.columnWidths = new int[]{206, 0};
+		gbl_panel_GroupInfor.rowHeights = new int[]{13, 13, 13, 0};
+		gbl_panel_GroupInfor.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panel_GroupInfor.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel_GroupInfor.setLayout(gbl_panel_GroupInfor);
+		
+		JLabel lblNewLabel_1 = new JLabel("\u5CA9\u8C37\u5B66\u5712\u30C6\u30AF\u30CE\u30D3\u30B8\u30CD\u30B9\u6A2A\u6D5C\u4FDD\u80B2\u5C02\u9580\u5B66\u6821");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel_1.gridx = 0;
+		gbc_lblNewLabel_1.gridy = 1;
+		panel_GroupInfor.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("\u3012220-0023\u3000\u6A2A\u6D5C\u5E02\u897F\u533A\u5E73\u6CBC1-38-10");
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel_2.gridx = 0;
+		gbc_lblNewLabel_2.gridy = 2;
+		panel_GroupInfor.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("TEL\uFF1A045-321-3210\u3000FAX\uFF1A045-290-0608");
+		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
+		gbc_lblNewLabel_3.fill = GridBagConstraints.BOTH;
+		gbc_lblNewLabel_3.gridx = 0;
+		gbc_lblNewLabel_3.gridy = 3;
+		panel_GroupInfor.add(lblNewLabel_3, gbc_lblNewLabel_3);
 //		frame.getContentPane().add(panel, BorderLayout.EAST);
 		frame.setVisible(true);
 	}
+	protected void BackMainMenu() {
+		
+		MainMenu mainMenu = new MainMenu();
+		frame.setVisible(false);
+		
+		
+	}
+
 	private void setTableToMain() {
 		// TODO Auto-generated method stub
 		System.out.println("add?");
@@ -392,25 +580,16 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 //			frame.getContentPane().repaint();
 			System.out.println("remove jsp-------------------------");
 		}
-		else
-		{
-			System.out.println("added 2");
-			
-		}
-		//frame.getContentPane().remove(jsp);
+
 		jsp = new JScrollPane(table);
 		frame.getContentPane().add(jsp, BorderLayout.CENTER);
-		System.out.println("added1");
-		
-		System.out.println("added1");
 		
 		
 		
 	}
 
 	protected void clickListGroupJob() throws SQLException {
-		// TODO Auto-generated method stub
-		
+
 		
 		if(groupJob!=null)
 		{
@@ -429,41 +608,6 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		
 	}
 
-	protected void Edit() {
-		// TODO Auto-generated method stub
-		if(groupJob==null)
-    	{
-    		JOptionPane.showMessageDialog(
-		            frame, "please chose in name of GroupJob");
-    	}
-    	else
-    	{
-        try {
-        	System.out.println("Update");
-        	frame.setVisible(false);
-			groupJobEdit = new GroupJobEdit(groupJob);
-			
-			
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-    	}
-	}
-
-	protected void Add() {
-		// TODO Auto-generated method stub
-		try {
-        	frame.setVisible(false);
-			groupJobAdd = new GroupJobAdd();
-			
-			
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
-
 	protected void Exit() {
 		// TODO Auto-generated method stub
 		System.exit(0);
@@ -477,8 +621,74 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		
 	}
 
-	protected void Search() {
+	protected void Search() throws NumberFormatException, SQLException {
 		// TODO Auto-generated method stub
+		String selected = (String)comboBox.getSelectedItem();
+		
+
+		String search =textSearch.getText();
+		if(search.equals("")||search==null)
+			System.out.println(selected);
+		else
+		{
+			
+			System.out.println("Job aaa after "+lstJob.size());
+			if(selected.equals("営業"))
+			{
+				frame.getContentPane().remove(jsp);
+				searchForName(search);
+			}
+				
+			if(selected.equals("給料"))
+			{
+				if(isInteger(search))
+				{
+					frame.getContentPane().remove(jsp);
+					searchForSalary(Integer.parseInt(search));
+				}
+			}
+				
+			if(selected.equals("勤務地"))
+			{
+				frame.getContentPane().remove(jsp);
+				searchForAddress(search);
+			}
+				
+
+			System.out.println("Job aaa before "+lstJob.size());
+			TableDataLoad();
+			setTableToMain();
+			frame.getContentPane().revalidate(); 
+			frame.getContentPane().repaint();
+		}
+			
+			
+		
+	}
+	private boolean isInteger(String str) {
+		try {
+			Integer.parseInt(str);
+		}catch(NumberFormatException e) {
+			return false;
+		}
+		return true;
+	}
+	private void searchForSalary(int salary) throws SQLException {
+		// TODO Auto-generated method stub
+		lstJob =ctrJob.loadJobForSalary(salary);
+		
+		
+	}
+
+	private void searchForName(String jobname) throws SQLException {
+		// TODO Auto-generated method stub
+		lstJob=ctrJob.loadDataForName(jobname);
+		
+	}
+
+	private void searchForAddress(String address) throws SQLException {
+		// TODO Auto-generated method stub
+		lstJob = ctrJob.loadJobForAddress(address);
 		
 	}
 
@@ -491,7 +701,7 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("vao lai valueChanged");
+		
 		int maxRows;
 		int [] selRows;
 		Object value;
@@ -509,6 +719,28 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 			}
 		}
 		
+	}
+	public void clock() {
+		 Thread clock = new Thread() {
+		  public void run() {
+		   try {
+		    while (true) {
+		     Calendar cal = new GregorianCalendar();
+		     int second = cal.get(Calendar.SECOND);
+		     int minute = cal.get(Calendar.MINUTE);
+		     int hour = cal.get(Calendar.HOUR_OF_DAY);
+
+		     lblTime.setText("    "+hour + ":" + minute + ":" + second);
+//		     timeSystemBD.setText(hour + ":" + minute + ":" + second);
+		    
+		     sleep(1000);
+		    }
+		   } catch (Exception e) {
+		    e.printStackTrace();
+		   }
+		  }
+		 };
+		 clock.start();
 	}
 
 	

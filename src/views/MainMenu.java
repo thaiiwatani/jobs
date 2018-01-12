@@ -43,7 +43,7 @@ public class MainMenu {
 			public void run() {
 				try {
 					MainMenu window = new MainMenu();
-					window.frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -73,7 +73,7 @@ public class MainMenu {
 		panel.setBackground(SystemColor.activeCaption);
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{100,100, 750, 200};
+		gbl_panel.columnWidths = new int[]{100,100, 700, 200};
 		gbl_panel.rowHeights = new int[]{50, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0};
@@ -83,7 +83,7 @@ public class MainMenu {
 		
 		try {
 			ImageIcon imageIcon = new ImageIcon(".\\logo.png");
-			wIcon.setIcon(imageIcon);
+			wIcon.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\logo.png"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -119,7 +119,7 @@ public class MainMenu {
 		gbc_lblDate.gridy = 1;
 		panel_2.add(lblDate, gbc_lblDate);
 		Date time = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd ");
  
    
 		String showTime = sdf.format(time.getTime());
@@ -150,23 +150,33 @@ public class MainMenu {
 		gbc_panel_3.gridy = 0;
 		panel.add(panel_3, gbc_panel_3);
 		
-		JButton btnCus = new JButton("New button");
+		JButton btnCus = new JButton("\u691C\u7D22");
+		btnCus.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\search.png"));
+		btnCus.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				StudentMainMenu studentMainMenu = new StudentMainMenu();
+				
+			}
+		});
 		panel_3.add(btnCus);
 		
-		JButton btnNewButton_4 = new JButton("ログイン");
-		btnNewButton_4.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\login.png"));
+		JButton btnNewButton_4 = new JButton("\u7BA1\u7406");
+		btnNewButton_4.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\login.png"));
 //		btnNewButton_4.setFocusPainted(false);
 		btnNewButton_4.setFocusable(false);
 		panel_3.add(btnNewButton_4);
 		
-		JButton btnNewButton_5 = new JButton("Close");
+		JButton btnNewButton_5 = new JButton("\u9589\u3058\u308B");
 		btnNewButton_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);
 			}
 		});
 		btnNewButton_5.setFocusPainted(false);
-		btnNewButton_5.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\close.png"));
+		btnNewButton_5.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\close.png"));
 		panel_3.add(btnNewButton_5);
 		
 		
@@ -190,7 +200,7 @@ public class MainMenu {
 		JButton btnNewButton_3 = new JButton("New button");
 		panel_1.add(btnNewButton_3);
 		
-		ImagePanel panel_imgage = new ImagePanel("C:\\Users\\J1637009\\workspace\\Jobs\\admin.jpg");
+		ImagePanel panel_imgage = new ImagePanel("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\admin.jpg");
 //		JPanel panel_imgage = new JPanel();
 		frame.getContentPane().add(panel_imgage, BorderLayout.CENTER);
 		GridBagLayout gbl_panel_imgage = new GridBagLayout();
@@ -316,7 +326,7 @@ public class MainMenu {
 		
 		
 		
-		JLabel lblNewLabel = new JLabel("DAO DUC THAI LEAD");
+		JLabel lblNewLabel = new JLabel("リーダー: DAO DUC THAI");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
@@ -324,7 +334,7 @@ public class MainMenu {
 		gbc_lblNewLabel.gridy = 1;
 		panel_GroupMember.add(lblNewLabel, gbc_lblNewLabel);
 		
-		JLabel lblNewLabel_5 = new JLabel("Member:DANG VAN HIEN");
+		JLabel lblNewLabel_5 = new JLabel("メンバー: DANG VAN HIEN");
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
 		gbc_lblNewLabel_5.fill = GridBagConstraints.BOTH;
 		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 0);
@@ -333,7 +343,7 @@ public class MainMenu {
 		panel_GroupMember.add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
 	
-		JLabel lblNewLabel_4 = new JLabel("Member:DANG VAN HIEN");
+		JLabel lblNewLabel_4 = new JLabel("メンバー: PAUDEL DAMODAR");
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.fill = GridBagConstraints.BOTH;
 		gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 5);
@@ -341,7 +351,7 @@ public class MainMenu {
 		gbc_lblNewLabel_4.gridy = 2;
 		panel_GroupMember.add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
-		JLabel lblNewLabel_7 = new JLabel("Nepal2");
+		JLabel lblNewLabel_7 = new JLabel("メンバー: SHRESTHA RAJENDRA");
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
 		gbc_lblNewLabel_7.fill = GridBagConstraints.BOTH;
 		gbc_lblNewLabel_7.insets = new Insets(0, 0, 5, 0);
@@ -353,7 +363,7 @@ public class MainMenu {
 		
 	
 		
-		JLabel lblNewLabel_6 = new JLabel("NEPAN2");
+		JLabel lblNewLabel_6 = new JLabel("メンバー: PAUDEL BIDUR");
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
 		gbc_lblNewLabel_6.fill = GridBagConstraints.BOTH;
 		gbc_lblNewLabel_6.insets = new Insets(0, 0, 0, 5);
@@ -402,6 +412,7 @@ public class MainMenu {
 		
 		JPanel panel_East = new JPanel();
 		frame.getContentPane().add(panel_East, BorderLayout.EAST);
+		frame.setVisible(true);
 	}
 	public void clock() {
 		 Thread clock = new Thread() {

@@ -116,10 +116,10 @@ public class DataJob {
 		try {
 		con = new Connect().getMySQLConnection();
 		PreparedStatement preStmt = null;
-	    String sql = "Select * from jobs where JobName LIKE '%?%'";
+	    String sql = "Select * from jobs where JobName LIKE ?";
 	    ResultSet rs;
 	    preStmt=con.prepareStatement(sql);
-	    preStmt.setString(1, nameJob);
+	    preStmt.setString(1, "%"+nameJob+"%");
 		rs = preStmt.executeQuery();
 		List<Job> lstJob = new ArrayList<Job>();
 		
@@ -158,10 +158,10 @@ public class DataJob {
 		try {
 		con = new Connect().getMySQLConnection();
 		PreparedStatement preStmt = null;
-	    String sql = "Select * from jobs where address LIKE '%?%'";
+	    String sql = "Select * from jobs where address LIKE ?";
 	    ResultSet rs;
 	    preStmt=con.prepareStatement(sql);
-	    preStmt.setString(1, address);
+	    preStmt.setString(1, "%"+address+"%");
 		rs = preStmt.executeQuery();
 		List<Job> lstJob = new ArrayList<Job>();
 		

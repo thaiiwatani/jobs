@@ -188,7 +188,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(frame, "No data in group Job");
+			JOptionPane.showMessageDialog(frame, "No data in Job");
 		}
 	}
 	private void initDataJobList() throws SQLException {
@@ -288,7 +288,7 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		Date time = new Date();
 		 
 	       
-	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy ");
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd ");
 	 
 	        //parse ngay thang sang dinh dang va chuyen thanh string.
 	    String showTime = sdf.format(time.getTime());
