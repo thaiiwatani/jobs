@@ -1,6 +1,4 @@
 package views;
-
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -10,7 +8,9 @@ import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -25,33 +25,44 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import composite.TableValues;
+import composite.TableValuesOfComment;
+import control.ControlComment;
 import control.ControlGroupJob;
 import control.ControlJob;
+import entity.Comment;
 import entity.GroupJob;
 import entity.Job;
 import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
-public class JobView extends JFrame {private JPanel contentPane;
+public class JobView extends JFrame {
+private JPanel contentPane;
 private JTextField txtName;
 private JTextField txtCompany;
 private JTextField txtAddress;
 private JTextField txtSalary;
-private JTextField txtLink;
 private JTextField txtFileName;
 private JFrame mainFrame;
 private JFileChooser fileChooser = new JFileChooser();
-private List<Job> lstJob;
+
 
 private ControlJob ctrJob = new ControlJob();
+private ControlComment ctrCom;
 private ControlGroupJob ctrGroup = new ControlGroupJob();
 private DefaultComboBoxModel<GroupJob> dModelGroup = new DefaultComboBoxModel<GroupJob>();
 private Job job;
+private Comment comment;
 private JComboBox comboBox;
 private StudentMainMenu StudentMainMenu;
 private String fontName ="ＭＳ Ｐゴシック 見出し";
 private JTextArea txtInformation;
-private JTextField textField;
-private JTextField textField_1;
+private JTextField txtStudentID;
+private JTextArea txtContentComment;
+private JTextField txtLink;
+private List<Comment> lstCom;
+private JTable table;
 /**
  * Launch the application.
  */
@@ -90,10 +101,10 @@ private void init() {
 	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	mainFrame.setContentPane(contentPane);
 	GridBagLayout gbl_contentPane = new GridBagLayout();
-	gbl_contentPane.columnWidths = new int[]{0, 0};
-	gbl_contentPane.rowHeights = new int[]{29, 23, 23, 23, 23, 23, 23, 250, 250, 0, 0, 23, 50, 0, 0};
-	gbl_contentPane.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-	gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+	gbl_contentPane.columnWidths = new int[]{80, 489, 0};
+	gbl_contentPane.rowHeights = new int[]{29, 23, 23, 23, 23, 23, 23,23, 250, 250, 23, 100, 0, 0, 0};
+	gbl_contentPane.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+	gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 	contentPane.setLayout(gbl_contentPane);
 	
 	JLabel lblNewLabel = new JLabel("");
@@ -216,23 +227,97 @@ private void init() {
 	contentPane.add(txtSalary, gbc_txtSalary);
 	txtSalary.setColumns(10);
 	
-	JButton btnNewButton_1 = new JButton("\u8A73\u7D30\u306A\u30EA\u30F3\u30AF");
-	GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-	gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
-	gbc_btnNewButton_1.gridx = 0;
-	gbc_btnNewButton_1.gridy = 6;
-	contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
+	JLabel labelLink = new JLabel("\u8A73\u7D30\u306A\u30EA\u30F3\u30AF");
+	GridBagConstraints gbc_labelLink = new GridBagConstraints();
+	gbc_labelLink.insets = new Insets(0, 0, 5, 5);
+	gbc_labelLink.gridx = 0;
+	gbc_labelLink.gridy = 6;
+	contentPane.add(labelLink, gbc_labelLink);
+	
+	JPanel panel_txtLink = new JPanel();
+	GridBagConstraints gbc_panel_txtLink = new GridBagConstraints();
+	gbc_panel_txtLink.fill = GridBagConstraints.HORIZONTAL;
+	gbc_panel_txtLink.insets = new Insets(0, 0, 5, 0);
+	gbc_panel_txtLink.gridx = 1;
+	gbc_panel_txtLink.gridy = 6;
+	contentPane.add(panel_txtLink, gbc_panel_txtLink);
+	GridBagLayout gbl_panel_txtlink = new GridBagLayout();
+	gbl_panel_txtlink.columnWidths = new int[]{800, 75, 0};
+	gbl_panel_txtlink.rowHeights = new int[]{30, 0};
+	gbl_panel_txtlink.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+	gbl_panel_txtlink.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+	panel_txtLink.setLayout(gbl_panel_txtlink);
 	
 	txtLink = new JTextField();
+	txtLink.setFont(new Font(fontName, Font.PLAIN, 18));
 	txtLink.setEditable(false);
-	txtLink.setFont(new Font(fontName, Font.PLAIN, 16));
-	GridBagConstraints gbc_txtLink = new GridBagConstraints();
-	gbc_txtLink.fill = GridBagConstraints.HORIZONTAL;
-	gbc_txtLink.insets = new Insets(0, 0, 5, 0);
-	gbc_txtLink.gridx = 1;
-	gbc_txtLink.gridy = 6;
-	contentPane.add(txtLink, gbc_txtLink);
+	GridBagConstraints gbc_textLink = new GridBagConstraints();
+	gbc_textLink.insets = new Insets(0, 0, 0, 5);
+	gbc_textLink.fill = GridBagConstraints.HORIZONTAL;
+	gbc_textLink.gridx = 0;
+	gbc_textLink.gridy = 0;
+	panel_txtLink.add(txtLink, gbc_textLink);
 	txtLink.setColumns(10);
+	
+	JButton btnOpenLink = new JButton("\u8A73\u7D30\u306A\u30EA\u30F3\u30AF");
+	btnOpenLink.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			clickToLink();
+		}
+	});
+	GridBagConstraints gbc_btnOpenLink = new GridBagConstraints();
+	gbc_btnOpenLink.gridx = 1;
+	gbc_btnOpenLink.gridy = 0;
+	panel_txtLink.add(btnOpenLink, gbc_btnOpenLink);
+	
+	
+	
+	JLabel lblFileName = new JLabel("\u6C42\u4EBA\u7968\u30D5\u30A1\u30A4\u30EB");
+	lblFileName.setFont(new Font(fontName, Font.BOLD, 16));
+	GridBagConstraints gbc_lblFileName = new GridBagConstraints();
+	gbc_lblFileName.anchor = GridBagConstraints.EAST;
+	gbc_lblFileName.insets = new Insets(0, 0, 5, 5);
+	gbc_lblFileName.gridx = 0;
+	gbc_lblFileName.gridy = 7;
+	contentPane.add(lblFileName, gbc_lblFileName);
+	
+	JPanel panel_1 = new JPanel();
+	GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+	gbc_panel_1.fill = GridBagConstraints.HORIZONTAL;
+	gbc_panel_1.insets = new Insets(0, 0, 5, 0);
+	gbc_panel_1.gridx = 1;
+	gbc_panel_1.gridy = 7;
+	contentPane.add(panel_1, gbc_panel_1);
+	GridBagLayout gbl_panel_1 = new GridBagLayout();
+	gbl_panel_1.columnWidths = new int[]{800, 75, 0};
+	gbl_panel_1.rowHeights = new int[]{30, 0};
+	gbl_panel_1.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+	gbl_panel_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+	panel_1.setLayout(gbl_panel_1);
+	
+	JButton btnOpenPDF = new JButton("求人票を開ける");
+	btnOpenPDF.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			clickOpenPDF();
+		}
+	});
+	
+	txtFileName = new JTextField();
+	txtFileName.setEditable(false);
+	GridBagConstraints gbc_txtFileName = new GridBagConstraints();
+	gbc_txtFileName.fill = GridBagConstraints.HORIZONTAL;
+	gbc_txtFileName.insets = new Insets(0, 0, 0, 5);
+	gbc_txtFileName.gridx = 0;
+	gbc_txtFileName.gridy = 0;
+	panel_1.add(txtFileName, gbc_txtFileName);
+	txtFileName.setFont(new Font(fontName, Font.PLAIN, 18));
+	txtFileName.setColumns(10);
+	GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+	gbc_btnNewButton.anchor = GridBagConstraints.EAST;
+	gbc_btnNewButton.gridx = 1;
+	gbc_btnNewButton.gridy = 0;
+	panel_1.add(btnOpenPDF, gbc_btnNewButton);
+	
 	
 	JLabel lblInformation = new JLabel("\u55B6\u696D\u306E\u5185\u5BB9");
 	lblInformation.setFont(new Font(fontName, Font.BOLD, 16));
@@ -240,7 +325,7 @@ private void init() {
 	gbc_lblInformation.anchor = GridBagConstraints.EAST;
 	gbc_lblInformation.insets = new Insets(0, 0, 5, 5);
 	gbc_lblInformation.gridx = 0;
-	gbc_lblInformation.gridy = 7;
+	gbc_lblInformation.gridy = 8;
 	contentPane.add(lblInformation, gbc_lblInformation);
 	
 	txtInformation = new JTextArea();
@@ -250,103 +335,80 @@ private void init() {
 	gbc_txtInformation.insets = new Insets(0, 0, 5, 0);
 	gbc_txtInformation.fill = GridBagConstraints.BOTH;
 	gbc_txtInformation.gridx = 1;
-	gbc_txtInformation.gridy = 7;
+	gbc_txtInformation.gridy = 8;
 	contentPane.add(txtInformation, gbc_txtInformation);
 	txtInformation.setText(job.getIndustry());
 	
 	
 	
 	JLabel label = new JLabel("\u55B6\u696D\u306E\u5185\u5BB9");
-	label.setFont(new Font("Dialog", Font.BOLD, 16));
+	label.setFont(new Font(fontName, Font.PLAIN, 16));
 	GridBagConstraints gbc_label = new GridBagConstraints();
 	gbc_label.insets = new Insets(0, 0, 5, 5);
 	gbc_label.gridx = 0;
-	gbc_label.gridy = 8;
+	gbc_label.gridy = 9;
 	contentPane.add(label, gbc_label);
 	
-	JPanel panel_2 = new JPanel();
-	GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-	gbc_panel_2.insets = new Insets(0, 0, 5, 0);
-	gbc_panel_2.fill = GridBagConstraints.BOTH;
-	gbc_panel_2.gridx = 1;
-	gbc_panel_2.gridy = 8;
-	contentPane.add(panel_2, gbc_panel_2);
+	JPanel panel_ListComment = new JPanel();
+	GridBagConstraints gbc_panel_ListComment = new GridBagConstraints();
+	gbc_panel_ListComment.insets = new Insets(0, 0, 5, 0);
+	gbc_panel_ListComment.fill = GridBagConstraints.BOTH;
+	gbc_panel_ListComment.gridx = 1;
+	gbc_panel_ListComment.gridy = 9;
+	contentPane.add(panel_ListComment, gbc_panel_ListComment);
 	
-	JLabel lblFileName = new JLabel("\u6C42\u4EBA\u7968\u30D5\u30A1\u30A4\u30EB");
-	lblFileName.setFont(new Font(fontName, Font.BOLD, 16));
-	GridBagConstraints gbc_lblFileName = new GridBagConstraints();
-	gbc_lblFileName.anchor = GridBagConstraints.EAST;
-	gbc_lblFileName.insets = new Insets(0, 0, 5, 5);
-	gbc_lblFileName.gridx = 0;
-	gbc_lblFileName.gridy = 9;
-	contentPane.add(lblFileName, gbc_lblFileName);
+	JScrollPane scrollPane = new JScrollPane(table);
+	panel_ListComment.add(scrollPane);
 	
-	JPanel panel_1 = new JPanel();
-	GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-	gbc_panel_1.fill = GridBagConstraints.HORIZONTAL;
-	gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-	gbc_panel_1.gridx = 1;
-	gbc_panel_1.gridy = 9;
-	contentPane.add(panel_1, gbc_panel_1);
-	GridBagLayout gbl_panel_1 = new GridBagLayout();
-	gbl_panel_1.columnWidths = new int[]{572, 75, 0};
-	gbl_panel_1.rowHeights = new int[]{30, 0};
-	gbl_panel_1.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-	gbl_panel_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-	panel_1.setLayout(gbl_panel_1);
-	
-	JButton btnNewButton = new JButton("Browser");
-	btnNewButton.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
-			clickBrowser();
-		}
-	});
-	
-	txtFileName = new JTextField();
-	txtFileName.setEditable(false);
-	GridBagConstraints gbc_txtFileName = new GridBagConstraints();
-	gbc_txtFileName.fill = GridBagConstraints.BOTH;
-	gbc_txtFileName.insets = new Insets(0, 0, 0, 5);
-	gbc_txtFileName.gridx = 0;
-	gbc_txtFileName.gridy = 0;
-	panel_1.add(txtFileName, gbc_txtFileName);
-	txtFileName.setFont(new Font(fontName, Font.PLAIN, 18));
-	txtFileName.setColumns(31);
-	GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-	gbc_btnNewButton.anchor = GridBagConstraints.EAST;
-	gbc_btnNewButton.gridx = 1;
-	gbc_btnNewButton.gridy = 0;
-	panel_1.add(btnNewButton, gbc_btnNewButton);
 	
 	
 	//Add data to textbox
 	txtAddress.setText(job.getAddress());
 	txtCompany.setText(job.getCompany());
 	txtFileName.setText(job.getImage());
-	txtLink.setText(job.getLink());
 	txtName.setText(job.getJobName());
-	txtSalary.setText(""+job.getSalary());
-	
+	txtSalary.setText(""+job.getSalary()+"円");
+	txtLink.setText(job.getLink());
 //	comboBox.setSelectedItem();
 //	for(GroupJob groupJob:ls);
 	
-	textField = new JTextField();
-	textField.setColumns(10);
-	GridBagConstraints gbc_textField = new GridBagConstraints();
-	gbc_textField.insets = new Insets(0, 0, 5, 5);
-	gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-	gbc_textField.gridx = 1;
-	gbc_textField.gridy = 10;
-	contentPane.add(textField, gbc_textField);
+	JLabel lbCommentID = new JLabel("\u5B66\u751F\u756A\u53F7");
+	lbCommentID.setFont(new Font(fontName, Font.PLAIN, 16));
+	GridBagConstraints gbc_lbCommentID = new GridBagConstraints();
+	gbc_lbCommentID.insets = new Insets(0, 0, 5, 5);
+	gbc_lbCommentID.gridx = 0;
+	gbc_lbCommentID.gridy = 10;
+	contentPane.add(lbCommentID, gbc_lbCommentID);
 	
-	textField_1 = new JTextField();
-	textField_1.setColumns(10);
-	GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-	gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-	gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-	gbc_textField_1.gridx = 1;
-	gbc_textField_1.gridy = 11;
-	contentPane.add(textField_1, gbc_textField_1);
+	txtStudentID = new JTextField();
+	txtStudentID.setColumns(10);
+	txtStudentID.setFont(new Font(fontName, Font.PLAIN, 16));
+	GridBagConstraints gbc_txtStudentID = new GridBagConstraints();
+	gbc_txtStudentID.insets = new Insets(0, 0, 5, 0);
+	gbc_txtStudentID.fill = GridBagConstraints.HORIZONTAL;
+	gbc_txtStudentID.gridx = 1;
+	gbc_txtStudentID.gridy = 10;
+	contentPane.add(txtStudentID, gbc_txtStudentID);
+	
+	JLabel lbContentComment = new JLabel("\u30B3\u30E1\u30F3\u30C8\u306E\u5185\u5BB9");
+	lbContentComment.setFont(new Font(fontName, Font.PLAIN, 16));
+	GridBagConstraints gbc_lbContentComment = new GridBagConstraints();
+	gbc_lbContentComment.insets = new Insets(0, 0, 0, 5);
+	gbc_lbContentComment.gridx = 0;
+	gbc_lbContentComment.gridy = 11;
+	contentPane.add(lbContentComment, gbc_lbContentComment);
+	
+	txtContentComment = new JTextArea();
+	
+	txtContentComment.setFont(new Font(fontName, Font.PLAIN, 16));
+	GridBagConstraints gbc_txtContentComment = new GridBagConstraints();
+	gbc_txtContentComment.insets = new Insets(0, 0, 5, 0);
+	gbc_txtContentComment.fill = GridBagConstraints.BOTH;
+	gbc_txtContentComment.gridx = 1;
+	gbc_txtContentComment.gridy = 11;
+	contentPane.add(txtContentComment, gbc_txtContentComment);
+	
+	
 	JPanel panel = new JPanel();
 	GridBagConstraints gbc_panel = new GridBagConstraints();
 	gbc_panel.insets = new Insets(0, 0, 5, 0);
@@ -356,11 +418,11 @@ private void init() {
 	gbc_panel.gridy = 12;
 	contentPane.add(panel, gbc_panel);
 	
-	JButton btnUpdate = new JButton("\u8FFD\u52A0");
+	JButton btnUpdate = new JButton("\u30B3\u30E1\u30F3\u30C8\u8FFD\u52A0");
 	btnUpdate.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				clickUpdate();
+				clickAddComment();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -370,7 +432,7 @@ private void init() {
 	btnUpdate.setFont(new Font(fontName, Font.PLAIN, 18));
 	panel.add(btnUpdate);
 	
-	JButton btnCancel = new JButton("Cancel");
+	JButton btnCancel = new JButton("\u30AD\u30E3\u30F3\u30BB\u30EB");
 	btnCancel.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			clickCancel();
@@ -379,8 +441,25 @@ private void init() {
 	btnCancel.setFont(new Font(fontName, Font.PLAIN, 18));
 	
 	panel.add(btnCancel);
+	
+	
+	
+	
 	mainFrame.setUndecorated(true);
 	mainFrame.setVisible(true);
+}
+
+
+protected void clickToLink() {
+	String url = job.getLink();
+	try {
+		java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		JOptionPane.showMessageDialog(contentPane, "現在はファイルがありません。");
+		e.printStackTrace();
+	}
+	
 }
 
 private void Load()
@@ -390,6 +469,7 @@ private void Load()
 private void LoadData() throws SQLException
 {
 	LoadDataGroupJob();
+	LoadDataOFListComment();
 	
 	
 }
@@ -409,14 +489,7 @@ private void LoadDataGroupJob() throws SQLException
 	
 	
 }
-private void LoadDataJob() throws SQLException
-{
-	lstJob = ctrJob.loadData();
-	for(Job g:lstJob)
-	{
-//		dModel.addElement(g);
-	}
-}
+
 
 
 protected void clickCancel() {
@@ -424,37 +497,55 @@ protected void clickCancel() {
 	ToMainMenu();
 }
 
-protected void clickUpdate() throws SQLException {
+protected void clickAddComment() throws SQLException {
 	// TODO Auto-generated method stub
 	if(checkTextBox())
 	{
-		if(job!=null)
+		if(comment!=null)
 		{
-		ctrJob.update(job);
-		ToMainMenu();
+			
+//			Date date = new Date();
+//			String dateString = date.toString();
+			comment.setMemo(new Date().toString());
+			ctrCom.add(comment);
+			toReloadComment();
+			//ToMainMenu();
 		}
 	}
 	
 }
 
 
-protected void clickBrowser() {
-	int select = fileChooser.showOpenDialog(this);
-    if (select == JFileChooser.APPROVE_OPTION) {
-    	
-    	String fileName = fileChooser.getSelectedFile().toString();
+private void toReloadComment() {
+	// TODO Auto-generated method stub
+	
+}
+
+protected void clickOpenPDF() {
+	String fileName = job.getImage();
+
     	if(checkFilePDF(fileName))
     	{
     		txtFileName.setText(fileName);
+    		System.out.println("file-"+fileName);
+    		String url = "file:///"+fixUrl(fileName);
+    		System.out.println("-------------------"+url);
+//			String url = "file:///N:\\就職\\2017\\求人票\\カケハシ就職エージェント求人票\\doubLe（クリエイティブ職）_18.pdf";
+//			url=job.getLinkAddress();
+	        try {
+				java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(contentPane, "現在はファイルがありません。");
+				e.printStackTrace();
+			}
     	}
     	else
     	{
-    		JOptionPane.showMessageDialog(contentPane, "Please choose a PDF file");
+    		JOptionPane.showMessageDialog(contentPane, "すみませんが、ファイルはPDFではありません。");
     		txtFileName.setText("");
     	}
-    } else {
-        
-    }
+
     
 }
 
@@ -479,83 +570,28 @@ private boolean checkTextBox()
 {
 	//not done
 	boolean check=true;
-	boolean checkpdf=true;
-	String name = txtName.getText();
-	String address = txtAddress.getText();
-	String company = txtCompany.getText();
-	String fileName = txtFileName.getText();
-	String link = txtLink.getText();
-	String txtsalary = txtSalary.getText();
+	
+	String studentId = txtStudentID.getText();
+	String content = txtContentComment.getText();
 	int countCheck=0;
 	
-	if(name==null||name.equals(""))
-	{
-		check =false;
-		
-	}
 	
-	if(address==null||address.equals(""))
-	{
-		check= false;
-	}
-	
-	if(company==null||company.equals(""))
+	if(studentId==null||studentId.equals(""))
 	{
 		check= false;
 		
 	}
-	if(fileName==null||fileName.equals(""))
-	{
-		check= false;
-		
-	}
-	else if(!checkFilePDF(fileName))
-	{
-		checkpdf=false;
-		
-	}
-	if(link==null||link.equals(""))
-	{
-		check= false;
-		
-	}
-	if(txtsalary==null||txtsalary.equals(""))
+	if(content==null||content.equals(""))
 	{
 		
 		check= false;
 	}
 	if(check)
 	{
-		if(isInteger(txtsalary))
-		{
-			if(checkpdf)
-			{
-			
-			job.setAddress(address);
-			GroupJob groupJob=(GroupJob)comboBox.getSelectedItem();
-			job.setGroupid(groupJob.getId());
-			job.setImage(fileName);
-			job.setJobName(name);
-			job.setCompany(company);
-			job.setLink(link);
-			job.setIndustry(txtInformation.getText());
-			job.setSalary(Integer.parseInt(txtsalary));
-			
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(contentPane, "Please choose pdf file");
-			}
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(contentPane, "Please intput number to salary");
-		}
+		comment = new Comment(job.getId(), studentId, content);
 	}
-	else
-	{
-		JOptionPane.showMessageDialog(contentPane, "Please intput value to textbox");
-	}
+	
+
 	
 	return check;
 }
@@ -566,6 +602,38 @@ private boolean isInteger(String str) {
 		return false;
 	}
 	return true;
+}
+private String fixUrl(String url)
+{
+	String result ="";
+	char oldChar='\\';
+	char newChar ='/';
+	result=url.replace(oldChar, newChar);
+	return result;
+}
+private boolean AddComment(Comment comment)
+{
+	boolean check = false;
+	
+	return check;
+}
+private void LoadDataOFListComment() 
+{
+	try {
+		ctrCom = new ControlComment();
+		lstCom=  ctrCom.loadData(job);
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	if(lstCom.size()>0)
+	{
+		//cach 1
+		TableValuesOfComment tableValues = new TableValuesOfComment(lstCom);
+		table = new JTable(tableValues);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+	}
+	
 }
 
 }

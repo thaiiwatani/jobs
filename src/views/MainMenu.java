@@ -151,6 +151,7 @@ public class MainMenu {
 		panel.add(panel_3, gbc_panel_3);
 		
 		JButton btnCus = new JButton("\u691C\u7D22");
+		btnCus.setFocusPainted(false);
 		btnCus.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\search.png"));
 		btnCus.addActionListener(new ActionListener() {
 			
@@ -163,11 +164,20 @@ public class MainMenu {
 		});
 		panel_3.add(btnCus);
 		
-		JButton btnNewButton_4 = new JButton("\u7BA1\u7406");
-		btnNewButton_4.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\login.png"));
-//		btnNewButton_4.setFocusPainted(false);
-		btnNewButton_4.setFocusable(false);
-		panel_3.add(btnNewButton_4);
+		JButton btnAdmin = new JButton("\u7BA1\u7406");
+		btnAdmin.setFocusPainted(false);
+		btnAdmin.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\login.png"));
+		btnAdmin.setFocusable(false);
+		btnAdmin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				AdminMainMenu adminMainMenu = new AdminMainMenu();
+				
+			}
+		});
+		panel_3.add(btnAdmin);
 		
 		JButton btnNewButton_5 = new JButton("\u9589\u3058\u308B");
 		btnNewButton_5.addActionListener(new ActionListener() {

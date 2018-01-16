@@ -340,7 +340,7 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		JPanel ｐControl = new JPanel();
 		ｐControl.setBackground(SystemColor.activeCaption);
 		pPage_Start.add(ｐControl);
-		String [] cString = {"営業","給料","勤務地"};
+		String [] cString = {"仕事の内容","給料","勤務地"};
 		comboBox = new JComboBox(cString);
 		comboBox.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
 		ｐControl.add(comboBox);

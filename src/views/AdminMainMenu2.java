@@ -254,10 +254,12 @@ public class AdminMainMenu2 extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent arg0) {
 //				String url = "https://www.google.com";
 //				String url = "C://Users//J1637009//Desktop//1702004 SKY GROUP.pdf";
-				String url = "file:///C:/Users/J1637009/Desktop/1702004SKYGROUP.pdf";
+				String url = "file:///C:/Users/J1637009/Desktop/aaaaa.pdf";
+				String url2 = "file:///N:/就職/2017/求人票/カケハシ就職エージェント求人票/doubLe（クリエイティブ職）_18.pdf";
+				
 				
 		        try {
-					java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+					java.awt.Desktop.getDesktop().browse(java.net.URI.create(url2));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -318,6 +318,15 @@ public class AdminMainMenu implements TableModelListener, ListSelectionListener 
 		btnLogout.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\exit.png"));
 		btnLogout.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		panel_2.add(btnLogout);
+		btnLogout.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				MainMenu mainMenu = new MainMenu();
+				
+			}
+		});
 		btnLogout.setFocusable(false);
 		
 		JButton btnExit = new JButton("\u9589\u3058\u308B");
