@@ -1,4 +1,5 @@
 package views;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -24,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableColumn;
 
 import composite.TableValues;
 import composite.TableValuesOfComment;
@@ -63,6 +65,10 @@ private JTextArea txtContentComment;
 private JTextField txtLink;
 private List<Comment> lstCom;
 private JTable table;
+private JScrollPane jsp;
+private static final int fontTextSize =16;
+//private static final String imgLink = ".";
+private static final String imgLink = "C:\\Users\\J1637009\\workspace\\Jobs\\src";
 /**
  * Launch the application.
  */
@@ -91,13 +97,14 @@ public JobView(Job job) throws SQLException {
 private void init() {
 	// TODO Auto-generated method stub
 	mainFrame = new JFrame("édéñÇèCóù");
-	mainFrame.setBackground(Color.LIGHT_GRAY);
+	mainFrame.setBackground(Color.GRAY);
 	mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	mainFrame.setTitle("è⁄ç◊ÇÃâcã∆");
 //	mainFrame.setBounds(100, 100, 800, 550);
 	mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 	mainFrame.setUndecorated(true);
 	contentPane = new JPanel();
+	contentPane.setBackground(Color.LIGHT_GRAY);
 	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	mainFrame.setContentPane(contentPane);
 	GridBagLayout gbl_contentPane = new GridBagLayout();
@@ -108,7 +115,7 @@ private void init() {
 	contentPane.setLayout(gbl_contentPane);
 	
 	JLabel lblNewLabel = new JLabel("");
-	lblNewLabel.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\logo.png"));
+	lblNewLabel.setIcon(new ImageIcon(imgLink+"\\img\\logo.png"));
 	GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 	gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 	gbc_lblNewLabel.gridx = 0;
@@ -125,7 +132,7 @@ private void init() {
 	contentPane.add(lblCreateANew, gbc_lblCreateANew);
 	
 	JLabel lblGroupJob = new JLabel("\u8077\u7A2E");
-	lblGroupJob.setFont(new Font(fontName, Font.BOLD, 16));
+	lblGroupJob.setFont(new Font(fontName, Font.BOLD, fontTextSize));
 	GridBagConstraints gbc_lblGroupJob = new GridBagConstraints();
 	gbc_lblGroupJob.anchor = GridBagConstraints.EAST;
 	gbc_lblGroupJob.insets = new Insets(0, 0, 5, 5);
@@ -134,6 +141,7 @@ private void init() {
 	contentPane.add(lblGroupJob, gbc_lblGroupJob);
 	
 	comboBox = new JComboBox(dModelGroup);
+	comboBox.setForeground(Color.RED);
 	comboBox.setEditable(true);
 	comboBox.setEnabled(false);
 	comboBox.setFont(new Font(fontName, Font.PLAIN, 16));
@@ -148,7 +156,7 @@ private void init() {
 	contentPane.add(comboBox, gbc_comboBox);
 	
 	JLabel lblName = new JLabel("\u55B6\u696D\u540D");
-	lblName.setFont(new Font(fontName, Font.BOLD, 16));
+	lblName.setFont(new Font(fontName, Font.BOLD, fontTextSize));
 	GridBagConstraints gbc_lblName = new GridBagConstraints();
 	gbc_lblName.anchor = GridBagConstraints.EAST;
 	gbc_lblName.insets = new Insets(0, 0, 5, 5);
@@ -168,7 +176,7 @@ private void init() {
 	txtName.setColumns(10);
 	
 	JLabel lblCompany = new JLabel("\u4F1A\u793E");
-	lblCompany.setFont(new Font(fontName, Font.BOLD, 16));
+	lblCompany.setFont(new Font(fontName, Font.BOLD, fontTextSize));
 	GridBagConstraints gbc_lblCompany = new GridBagConstraints();
 	gbc_lblCompany.anchor = GridBagConstraints.EAST;
 	gbc_lblCompany.insets = new Insets(0, 0, 5, 5);
@@ -188,7 +196,7 @@ private void init() {
 	txtCompany.setColumns(10);
 	
 	JLabel lblAddress = new JLabel("\u4F4F\u6240");
-	lblAddress.setFont(new Font(fontName, Font.BOLD, 16));
+	lblAddress.setFont(new Font(fontName, Font.BOLD, fontTextSize));
 	GridBagConstraints gbc_lblAddress = new GridBagConstraints();
 	gbc_lblAddress.anchor = GridBagConstraints.EAST;
 	gbc_lblAddress.insets = new Insets(0, 0, 5, 5);
@@ -208,7 +216,7 @@ private void init() {
 	txtAddress.setColumns(10);
 	
 	JLabel lblSalary = new JLabel("\u7D66\u6599");
-	lblSalary.setFont(new Font(fontName, Font.BOLD, 16));
+	lblSalary.setFont(new Font(fontName, Font.BOLD, fontTextSize));
 	GridBagConstraints gbc_lblSalary = new GridBagConstraints();
 	gbc_lblSalary.anchor = GridBagConstraints.EAST;
 	gbc_lblSalary.insets = new Insets(0, 0, 5, 5);
@@ -229,6 +237,7 @@ private void init() {
 	
 	JLabel labelLink = new JLabel("\u8A73\u7D30\u306A\u30EA\u30F3\u30AF");
 	GridBagConstraints gbc_labelLink = new GridBagConstraints();
+	gbc_labelLink.anchor = GridBagConstraints.EAST;
 	gbc_labelLink.insets = new Insets(0, 0, 5, 5);
 	gbc_labelLink.gridx = 0;
 	gbc_labelLink.gridy = 6;
@@ -273,7 +282,7 @@ private void init() {
 	
 	
 	JLabel lblFileName = new JLabel("\u6C42\u4EBA\u7968\u30D5\u30A1\u30A4\u30EB");
-	lblFileName.setFont(new Font(fontName, Font.BOLD, 16));
+	lblFileName.setFont(new Font(fontName, Font.BOLD, fontTextSize));
 	GridBagConstraints gbc_lblFileName = new GridBagConstraints();
 	gbc_lblFileName.anchor = GridBagConstraints.EAST;
 	gbc_lblFileName.insets = new Insets(0, 0, 5, 5);
@@ -320,7 +329,7 @@ private void init() {
 	
 	
 	JLabel lblInformation = new JLabel("\u55B6\u696D\u306E\u5185\u5BB9");
-	lblInformation.setFont(new Font(fontName, Font.BOLD, 16));
+	lblInformation.setFont(new Font(fontName, Font.BOLD, fontTextSize));
 	GridBagConstraints gbc_lblInformation = new GridBagConstraints();
 	gbc_lblInformation.anchor = GridBagConstraints.EAST;
 	gbc_lblInformation.insets = new Insets(0, 0, 5, 5);
@@ -330,7 +339,7 @@ private void init() {
 	
 	txtInformation = new JTextArea();
 	txtInformation.setEditable(false);
-	txtInformation.setFont(new Font(fontName, Font.PLAIN, 16));
+	txtInformation.setFont(new Font(fontName, Font.PLAIN, fontTextSize));
 	GridBagConstraints gbc_txtInformation = new GridBagConstraints();
 	gbc_txtInformation.insets = new Insets(0, 0, 5, 0);
 	gbc_txtInformation.fill = GridBagConstraints.BOTH;
@@ -341,25 +350,28 @@ private void init() {
 	
 	
 	
-	JLabel label = new JLabel("\u55B6\u696D\u306E\u5185\u5BB9");
-	label.setFont(new Font(fontName, Font.PLAIN, 16));
+	JLabel label = new JLabel("\u30B3\u30E1\u30F3\u30C8\u30EA\u30B9\u30C8");
+	label.setFont(new Font(fontName, Font.BOLD, fontTextSize));
 	GridBagConstraints gbc_label = new GridBagConstraints();
+	gbc_label.anchor = GridBagConstraints.EAST;
+	
 	gbc_label.insets = new Insets(0, 0, 5, 5);
 	gbc_label.gridx = 0;
 	gbc_label.gridy = 9;
 	contentPane.add(label, gbc_label);
 	
-	JPanel panel_ListComment = new JPanel();
-	GridBagConstraints gbc_panel_ListComment = new GridBagConstraints();
-	gbc_panel_ListComment.insets = new Insets(0, 0, 5, 0);
-	gbc_panel_ListComment.fill = GridBagConstraints.BOTH;
-	gbc_panel_ListComment.gridx = 1;
-	gbc_panel_ListComment.gridy = 9;
-	contentPane.add(panel_ListComment, gbc_panel_ListComment);
+	//JPanel panel_ListComment = new JPanel();
+//	jsp = new JScrollPane(table);
+//
+//	GridBagConstraints gbc_panel_ListComment = new GridBagConstraints();
+//	gbc_panel_ListComment.insets = new Insets(0, 0, 5, 0);
+//	gbc_panel_ListComment.fill = GridBagConstraints.BOTH;
+//	gbc_panel_ListComment.gridx = 1;
+//	gbc_panel_ListComment.gridy = 9;
+//	contentPane.add(jsp, gbc_panel_ListComment);
+//	panel_ListComment.add(scrollPane);
 	
-	JScrollPane scrollPane = new JScrollPane(table);
-	panel_ListComment.add(scrollPane);
-	
+	setTableToMain();
 	
 	
 	//Add data to textbox
@@ -373,16 +385,18 @@ private void init() {
 //	for(GroupJob groupJob:ls);
 	
 	JLabel lbCommentID = new JLabel("\u5B66\u751F\u756A\u53F7");
-	lbCommentID.setFont(new Font(fontName, Font.PLAIN, 16));
+	lbCommentID.setFont(new Font(fontName, Font.BOLD, fontTextSize));
 	GridBagConstraints gbc_lbCommentID = new GridBagConstraints();
+	gbc_lbCommentID.anchor = GridBagConstraints.EAST;
 	gbc_lbCommentID.insets = new Insets(0, 0, 5, 5);
 	gbc_lbCommentID.gridx = 0;
 	gbc_lbCommentID.gridy = 10;
 	contentPane.add(lbCommentID, gbc_lbCommentID);
 	
 	txtStudentID = new JTextField();
+	txtStudentID.setForeground(SystemColor.textHighlight);
 	txtStudentID.setColumns(10);
-	txtStudentID.setFont(new Font(fontName, Font.PLAIN, 16));
+	txtStudentID.setFont(new Font(fontName, Font.PLAIN, fontTextSize));
 	GridBagConstraints gbc_txtStudentID = new GridBagConstraints();
 	gbc_txtStudentID.insets = new Insets(0, 0, 5, 0);
 	gbc_txtStudentID.fill = GridBagConstraints.HORIZONTAL;
@@ -391,14 +405,16 @@ private void init() {
 	contentPane.add(txtStudentID, gbc_txtStudentID);
 	
 	JLabel lbContentComment = new JLabel("\u30B3\u30E1\u30F3\u30C8\u306E\u5185\u5BB9");
-	lbContentComment.setFont(new Font(fontName, Font.PLAIN, 16));
+	lbContentComment.setFont(new Font(fontName, Font.BOLD, fontTextSize));
 	GridBagConstraints gbc_lbContentComment = new GridBagConstraints();
+	gbc_lbContentComment.anchor = GridBagConstraints.EAST;
 	gbc_lbContentComment.insets = new Insets(0, 0, 0, 5);
 	gbc_lbContentComment.gridx = 0;
 	gbc_lbContentComment.gridy = 11;
 	contentPane.add(lbContentComment, gbc_lbContentComment);
 	
 	txtContentComment = new JTextArea();
+	txtContentComment.setForeground(SystemColor.textHighlight);
 	
 	txtContentComment.setFont(new Font(fontName, Font.PLAIN, 16));
 	GridBagConstraints gbc_txtContentComment = new GridBagConstraints();
@@ -410,6 +426,7 @@ private void init() {
 	
 	
 	JPanel panel = new JPanel();
+	panel.setBackground(Color.LIGHT_GRAY);
 	GridBagConstraints gbc_panel = new GridBagConstraints();
 	gbc_panel.insets = new Insets(0, 0, 5, 0);
 	gbc_panel.anchor = GridBagConstraints.EAST;
@@ -462,10 +479,6 @@ protected void clickToLink() {
 	
 }
 
-private void Load()
-{
-	
-}
 private void LoadData() throws SQLException
 {
 	LoadDataGroupJob();
@@ -518,8 +531,34 @@ protected void clickAddComment() throws SQLException {
 
 private void toReloadComment() {
 	// TODO Auto-generated method stub
+	contentPane.remove(jsp);
+	LoadDataOFListComment();
+	setTableToMain();
+	contentPane.revalidate(); 
+	contentPane.repaint();
+	txtContentComment.setText("");
+	
 	
 }
+private void setTableToMain() {
+	// TODO Auto-generated method stub
+	System.out.println("add?");
+	if(jsp!=null)
+	{
+		//frame.getContentPane().remove(jsp);
+//		frame.getContentPane().repaint();
+		System.out.println("remove jsp-------------------------");
+	}
+
+	jsp = new JScrollPane(table);
+	GridBagConstraints gbc_panel_ListComment = new GridBagConstraints();
+	gbc_panel_ListComment.insets = new Insets(0, 0, 5, 0);
+	gbc_panel_ListComment.fill = GridBagConstraints.BOTH;
+	gbc_panel_ListComment.gridx = 1;
+	gbc_panel_ListComment.gridy = 9;
+	contentPane.add(jsp, gbc_panel_ListComment);
+}
+	
 
 protected void clickOpenPDF() {
 	String fileName = job.getImage();
@@ -632,7 +671,23 @@ private void LoadDataOFListComment()
 		TableValuesOfComment tableValues = new TableValuesOfComment(lstCom);
 		table = new JTable(tableValues);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+		TableColumn column = null;
+	    for (int i = 0; i < 3; i++) {
+	        column = table.getColumnModel().getColumn(i);
+	        if (i == 1) {
+	            column.setPreferredWidth(750); 
+	           
+	        } 
+	        
+	        if(i==0)
+	        {
+	        	column.setMaxWidth(80);
+	        }
+	       
+	      
+	    }
 	}
+	
 	
 }
 

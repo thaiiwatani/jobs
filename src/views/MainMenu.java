@@ -7,9 +7,12 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
 import composite.ImagePanel;
+import entity.Account;
+import entity.GroupJob;
 
 import java.awt.GridLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -23,9 +26,11 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class MainMenu {
 
@@ -34,7 +39,13 @@ public class MainMenu {
 	private JLabel lbltextContent3;
 	private JLabel lbltextContent2;
 	private JLabel lbltextContent1;
-
+//	private static final String imgLink = ".";
+	private static final String imgLink = "C:\\Users\\J1637009\\workspace\\Jobs\\src";
+	private int sizeFontLogin = 24;
+	private JPanel pGuid,pLogin;
+	private ImagePanel pImage;
+	private JTextField txtUserName;
+	private JTextField txtPass;
 	/**
 	 * Launch the application.
 	 */
@@ -83,7 +94,7 @@ public class MainMenu {
 		
 		try {
 			ImageIcon imageIcon = new ImageIcon(".\\logo.png");
-			wIcon.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\logo.png"));
+			wIcon.setIcon(new ImageIcon(imgLink+"\\img\\logo.png"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,7 +144,7 @@ public class MainMenu {
 		gbc_lblTime.gridy = 2;
 		panel_2.add(lblTime, gbc_lblTime);
 		
-		JLabel lblAaaaaaaaaaaaaccccccccc = new JLabel("\u5B66\u751F\u5411\u3051\u5C31\u8077\u60C5\u5831\u30A2\u30D7\u30EA");
+		JLabel lblAaaaaaaaaaaaaccccccccc = new JLabel("\u5B66\u751F\u5411\u3051\u5C31\u8077\u60C5\u5831\u30B7\u30B9\u30C6\u30E0");
 		lblAaaaaaaaaaaaaccccccccc.setFont(new Font("MS UI Gothic", Font.BOLD, 50));
 		GridBagConstraints gbc_lblAaaaaaaaaaaaaccccccccc = new GridBagConstraints();
 		gbc_lblAaaaaaaaaaaaaccccccccc.insets = new Insets(0, 0, 5, 5);
@@ -152,7 +163,7 @@ public class MainMenu {
 		
 		JButton btnCus = new JButton("\u691C\u7D22");
 		btnCus.setFocusPainted(false);
-		btnCus.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\search.png"));
+		btnCus.setIcon(new ImageIcon(imgLink+"\\img\\search.png"));
 		btnCus.addActionListener(new ActionListener() {
 			
 			@Override
@@ -166,14 +177,13 @@ public class MainMenu {
 		
 		JButton btnAdmin = new JButton("\u7BA1\u7406");
 		btnAdmin.setFocusPainted(false);
-		btnAdmin.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\login.png"));
+		btnAdmin.setIcon(new ImageIcon(imgLink+"\\img\\login.png"));
 		btnAdmin.setFocusable(false);
 		btnAdmin.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				AdminMainMenu adminMainMenu = new AdminMainMenu();
+				Login();
 				
 			}
 		});
@@ -186,39 +196,47 @@ public class MainMenu {
 			}
 		});
 		btnNewButton_5.setFocusPainted(false);
-		btnNewButton_5.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\close.png"));
+		btnNewButton_5.setIcon(new ImageIcon(imgLink+"\\img\\close.png"));
 		panel_3.add(btnNewButton_5);
 		
 		
 		
-		JPanel panel_1 = new JPanel();
-		frame.getContentPane().add(panel_1, BorderLayout.WEST);
-		panel_1.setLayout(new GridLayout(8, 1, 0, 0));
+		pGuid = new JPanel();
+		frame.getContentPane().add(pGuid, BorderLayout.WEST);
+		pGuid.setLayout(new GridLayout(12, 1, 0, 0));
 		
-		JLabel lblGuido = new JLabel("アプリガイド");
-		panel_1.add(lblGuido);
+		JLabel lblGuido = new JLabel("　アプリのガイド");
+		pGuid.add(lblGuido);
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		panel_1.add(btnNewButton_1);
+		JButton btnNewButton_1 = new JButton("画面のガイド");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ChangePic(imgLink+"\\img\\admin.jpg");
+				
+			}
+		});
+		pGuid.add(btnNewButton_1);
 		
-		JButton btnNewButton = new JButton("New button");
-		panel_1.add(btnNewButton);
+		JButton btnNewButton = new JButton("検索のガイド");
+		pGuid.add(btnNewButton);
 		
-		JButton btnNewButton_2 = new JButton("New button");
-		panel_1.add(btnNewButton_2);
+		JButton btnNewButton_2 = new JButton("管理のガイド");
+		pGuid.add(btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("New button");
-		panel_1.add(btnNewButton_3);
+		pGuid.add(btnNewButton_3);
 		
-		ImagePanel panel_imgage = new ImagePanel("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\admin.jpg");
-//		JPanel panel_imgage = new JPanel();
-		frame.getContentPane().add(panel_imgage, BorderLayout.CENTER);
-		GridBagLayout gbl_panel_imgage = new GridBagLayout();
-		gbl_panel_imgage.columnWidths = new int[]{850, 200, 0, 0};
-		gbl_panel_imgage.rowHeights = new int[]{700, 0};
-		gbl_panel_imgage.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_imgage.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panel_imgage.setLayout(gbl_panel_imgage);
+		pImage = new ImagePanel(imgLink+"\\img\\picSearch.jpg");
+//		JPanel pImage = new JPanel();
+		frame.getContentPane().add(pImage, BorderLayout.CENTER);
+		GridBagLayout gbl_pImage = new GridBagLayout();
+		gbl_pImage.columnWidths = new int[]{850, 200, 0, 0};
+		gbl_pImage.rowHeights = new int[]{700, 0};
+		gbl_pImage.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_pImage.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		pImage.setLayout(gbl_pImage);
 		
 //		ImagePanel panel_ViewImage = new ImagePanel(".\\admin.jpg");
 //		JPanel panel_ViewImage = new JPanel();
@@ -228,83 +246,83 @@ public class MainMenu {
 //		
 //		gbc_panel_ViewImage.gridx = 0;
 //		gbc_panel_ViewImage.gridy = 0;
-//		panel_imgage.add(panel_ViewImage, gbc_panel_ViewImage);
+//		pImage.add(panel_ViewImage, gbc_panel_ViewImage);
 //		
-		JPanel panel_ViewText = new JPanel();
-		GridBagConstraints gbc_panel_ViewText = new GridBagConstraints();
-		gbc_panel_ViewText.anchor = GridBagConstraints.NORTHWEST;
-		gbc_panel_ViewText.gridx = 1;
-		gbc_panel_ViewText.gridy = 0;
-		panel_imgage.add(panel_ViewText, gbc_panel_ViewText);
-		GridBagLayout gbl_panel_ViewText = new GridBagLayout();
-		gbl_panel_ViewText.columnWidths = new int[]{1, 0};
-		gbl_panel_ViewText.rowHeights = new int[]{1, 0, 0, 0};
-		gbl_panel_ViewText.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel_ViewText.rowWeights = new double[]{0.0, Double.MIN_VALUE, 0.0, 1.0};
-		panel_ViewText.setLayout(gbl_panel_ViewText);
-		
-		JLabel lblNewLabel_8 = new JLabel("Step 1");
-		lblNewLabel_8.setForeground(Color.RED);
-		lblNewLabel_8.setFont(new Font("MS UI Gothic", Font.BOLD | Font.ITALIC, 14));
-		GridBagConstraints gbc_lblNewLabel_8 = new GridBagConstraints();
-		gbc_lblNewLabel_8.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_8.fill = GridBagConstraints.BOTH;
-		gbc_lblNewLabel_8.gridx = 0;
-		gbc_lblNewLabel_8.gridy = 0;
-		panel_ViewText.add(lblNewLabel_8, gbc_lblNewLabel_8);
-		
-		lbltextContent1 = new JLabel("  textContent1 textContent1 textContent1textContent1textContent1textContent1textContent1textContent1");
-		GridBagConstraints gbc_lbltextContent1 = new GridBagConstraints();
-		gbc_lbltextContent1.insets = new Insets(0, 0, 5, 0);
-		gbc_lbltextContent1.fill = GridBagConstraints.BOTH;
-		gbc_lbltextContent1.gridx = 1;
-		gbc_lbltextContent1.gridy = 0;
-		panel_ViewText.add(lbltextContent1, gbc_lbltextContent1);
-		
-		JLabel lblNewLabel_9 = new JLabel("Step 2");
-		lblNewLabel_9.setForeground(Color.RED);
-		lblNewLabel_9.setFont(new Font("MS UI Gothic", Font.BOLD | Font.ITALIC, 14));
-		GridBagConstraints gbc_lblNewLabel_9 = new GridBagConstraints();
-		gbc_lblNewLabel_9.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_9.fill = GridBagConstraints.BOTH;
-		gbc_lblNewLabel_9.gridx = 0;
-		gbc_lblNewLabel_9.gridy = 1;
-		panel_ViewText.add(lblNewLabel_9, gbc_lblNewLabel_9);
-		
-		lbltextContent2 = new JLabel("  textContent2");
-		GridBagConstraints gbc_lbltextContent2 = new GridBagConstraints();
-		gbc_lbltextContent2.insets = new Insets(0, 0, 5, 0);
-		gbc_lbltextContent2.fill = GridBagConstraints.BOTH;
-		gbc_lbltextContent2.gridx = 1;
-		gbc_lbltextContent2.gridy = 1;
-		panel_ViewText.add(lbltextContent2, gbc_lbltextContent2);
-		
-		
-		JLabel lblNewLabel_10 = new JLabel("Step 3");
-		lblNewLabel_10.setForeground(Color.RED);
-		lblNewLabel_10.setFont(new Font("MS UI Gothic", Font.BOLD | Font.ITALIC, 14));
-		GridBagConstraints gbc_lblNewLabel_10 = new GridBagConstraints();
-		gbc_lblNewLabel_10.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_10.fill = GridBagConstraints.BOTH;
-		gbc_lblNewLabel_10.gridx = 0;
-		gbc_lblNewLabel_10.gridy = 2;
-		panel_ViewText.add(lblNewLabel_10, gbc_lblNewLabel_10);
-		
-		lbltextContent3 = new JLabel("  textContent3");
-		GridBagConstraints gbc_lbltextContent3 = new GridBagConstraints();
-		gbc_lbltextContent3.insets = new Insets(0, 0, 5, 0);
-		gbc_lbltextContent3.fill = GridBagConstraints.BOTH;
-		gbc_lbltextContent3.gridx = 1;
-		gbc_lbltextContent3.gridy = 2;
-		panel_ViewText.add(lbltextContent3, gbc_lbltextContent3);
-		
-		JTextArea textArea = new JTextArea();
-		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.insets = new Insets(0, 0, 0, 5);
-		gbc_textArea.fill = GridBagConstraints.BOTH;
-		gbc_textArea.gridx = 0;
-		gbc_textArea.gridy = 3;
-		panel_ViewText.add(textArea, gbc_textArea);
+//		JPanel panel_ViewText = new JPanel();
+//		GridBagConstraints gbc_panel_ViewText = new GridBagConstraints();
+//		gbc_panel_ViewText.anchor = GridBagConstraints.NORTHWEST;
+//		gbc_panel_ViewText.gridx = 1;
+//		gbc_panel_ViewText.gridy = 0;
+//		pImage.add(panel_ViewText, gbc_panel_ViewText);
+//		GridBagLayout gbl_panel_ViewText = new GridBagLayout();
+//		gbl_panel_ViewText.columnWidths = new int[]{1, 0};
+//		gbl_panel_ViewText.rowHeights = new int[]{1, 0, 0, 0};
+//		gbl_panel_ViewText.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+//		gbl_panel_ViewText.rowWeights = new double[]{0.0, Double.MIN_VALUE, 0.0, 1.0};
+//		panel_ViewText.setLayout(gbl_panel_ViewText);
+//		
+//		JLabel lblNewLabel_8 = new JLabel("Step 1");
+//		lblNewLabel_8.setForeground(Color.RED);
+//		lblNewLabel_8.setFont(new Font("MS UI Gothic", Font.BOLD | Font.ITALIC, 14));
+//		GridBagConstraints gbc_lblNewLabel_8 = new GridBagConstraints();
+//		gbc_lblNewLabel_8.insets = new Insets(0, 0, 5, 5);
+//		gbc_lblNewLabel_8.fill = GridBagConstraints.BOTH;
+//		gbc_lblNewLabel_8.gridx = 0;
+//		gbc_lblNewLabel_8.gridy = 0;
+//		panel_ViewText.add(lblNewLabel_8, gbc_lblNewLabel_8);
+//		
+//		lbltextContent1 = new JLabel("  textContent1 textContent1 textContent1textContent1textContent1textContent1textContent1textContent1");
+//		GridBagConstraints gbc_lbltextContent1 = new GridBagConstraints();
+//		gbc_lbltextContent1.insets = new Insets(0, 0, 5, 0);
+//		gbc_lbltextContent1.fill = GridBagConstraints.BOTH;
+//		gbc_lbltextContent1.gridx = 1;
+//		gbc_lbltextContent1.gridy = 0;
+//		panel_ViewText.add(lbltextContent1, gbc_lbltextContent1);
+//		
+//		JLabel lblNewLabel_9 = new JLabel("Step 2");
+//		lblNewLabel_9.setForeground(Color.RED);
+//		lblNewLabel_9.setFont(new Font("MS UI Gothic", Font.BOLD | Font.ITALIC, 14));
+//		GridBagConstraints gbc_lblNewLabel_9 = new GridBagConstraints();
+//		gbc_lblNewLabel_9.insets = new Insets(0, 0, 5, 5);
+//		gbc_lblNewLabel_9.fill = GridBagConstraints.BOTH;
+//		gbc_lblNewLabel_9.gridx = 0;
+//		gbc_lblNewLabel_9.gridy = 1;
+//		panel_ViewText.add(lblNewLabel_9, gbc_lblNewLabel_9);
+//		
+//		lbltextContent2 = new JLabel("  textContent2");
+//		GridBagConstraints gbc_lbltextContent2 = new GridBagConstraints();
+//		gbc_lbltextContent2.insets = new Insets(0, 0, 5, 0);
+//		gbc_lbltextContent2.fill = GridBagConstraints.BOTH;
+//		gbc_lbltextContent2.gridx = 1;
+//		gbc_lbltextContent2.gridy = 1;
+//		panel_ViewText.add(lbltextContent2, gbc_lbltextContent2);
+//		
+//		
+//		JLabel lblNewLabel_10 = new JLabel("Step 3");
+//		lblNewLabel_10.setForeground(Color.RED);
+//		lblNewLabel_10.setFont(new Font("MS UI Gothic", Font.BOLD | Font.ITALIC, 14));
+//		GridBagConstraints gbc_lblNewLabel_10 = new GridBagConstraints();
+//		gbc_lblNewLabel_10.insets = new Insets(0, 0, 5, 5);
+//		gbc_lblNewLabel_10.fill = GridBagConstraints.BOTH;
+//		gbc_lblNewLabel_10.gridx = 0;
+//		gbc_lblNewLabel_10.gridy = 2;
+//		panel_ViewText.add(lblNewLabel_10, gbc_lblNewLabel_10);
+//		
+//		lbltextContent3 = new JLabel("  textContent3");
+//		GridBagConstraints gbc_lbltextContent3 = new GridBagConstraints();
+//		gbc_lbltextContent3.insets = new Insets(0, 0, 5, 0);
+//		gbc_lbltextContent3.fill = GridBagConstraints.BOTH;
+//		gbc_lbltextContent3.gridx = 1;
+//		gbc_lbltextContent3.gridy = 2;
+//		panel_ViewText.add(lbltextContent3, gbc_lbltextContent3);
+//		
+//		JTextArea textArea = new JTextArea();
+//		GridBagConstraints gbc_textArea = new GridBagConstraints();
+//		gbc_textArea.insets = new Insets(0, 0, 0, 5);
+//		gbc_textArea.fill = GridBagConstraints.BOTH;
+//		gbc_textArea.gridx = 0;
+//		gbc_textArea.gridy = 3;
+//		panel_ViewText.add(textArea, gbc_textArea);
 		
 		
 		JPanel panel_South = new JPanel();
@@ -424,6 +442,179 @@ public class MainMenu {
 		frame.getContentPane().add(panel_East, BorderLayout.EAST);
 		frame.setVisible(true);
 	}
+	private void ChangePic(String pic)
+	{
+		frame.getContentPane().remove(pImage);
+		
+		pImage = new ImagePanel(pic);
+//		JPanel pImage = new JPanel();
+		frame.getContentPane().add(pImage, BorderLayout.CENTER);
+		frame.getContentPane().revalidate(); 
+		frame.getContentPane().repaint();
+		
+	}
+	protected void Login() {
+		// TODO Auto-generated method stub
+		pLogin = new JPanel();
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{200, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		pLogin.setLayout(gridBagLayout);
+		
+		JLabel label = new JLabel("\u7BA1\u7406\u30B7\u30B9\u30C6\u30E0\u3000\u30B5\u30A4\u30F3\u30A4\u30F3");
+		label.setFont(new Font("MS UI Gothic", Font.PLAIN, 35));
+		label.setForeground(Color.BLUE);
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.insets = new Insets(0, 0, 5, 0);
+		gbc_label.gridx = 1;
+		gbc_label.gridy = 0;
+		pLogin.add(label, gbc_label);
+		
+		JLabel label_1 = new JLabel("\u30A2\u30AB\u30A6\u30F3\u30C8");
+		label_1.setForeground(Color.BLUE);
+		label_1.setFont(new Font("MS UI Gothic", Font.BOLD | Font.ITALIC, sizeFontLogin));
+		GridBagConstraints gbc_label_1 = new GridBagConstraints();
+		gbc_label_1.anchor = GridBagConstraints.EAST;
+		gbc_label_1.insets = new Insets(0, 0, 5, 5);
+		gbc_label_1.gridx = 0;
+		gbc_label_1.gridy = 1;
+		pLogin.add(label_1, gbc_label_1);
+		
+		txtUserName = new JTextField();
+		txtUserName.setFont(new Font("MS UI Gothic", Font.PLAIN, sizeFontLogin));
+		GridBagConstraints gbc_txtUserName = new GridBagConstraints();
+		gbc_txtUserName.insets = new Insets(0, 0, 5, 0);
+		gbc_txtUserName.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtUserName.gridx = 1;
+		gbc_txtUserName.gridy = 1;
+		pLogin.add(txtUserName, gbc_txtUserName);
+		txtUserName.setColumns(10);
+		
+		JLabel label_2 = new JLabel("\u30D1\u30B9\u30EF\u30FC\u30C9");
+		label_2.setForeground(Color.BLUE);
+		label_2.setFont(new Font("MS UI Gothic", Font.BOLD | Font.ITALIC, sizeFontLogin));
+		GridBagConstraints gbc_label_2 = new GridBagConstraints();
+		gbc_label_2.anchor = GridBagConstraints.EAST;
+		gbc_label_2.insets = new Insets(0, 0, 5, 5);
+		gbc_label_2.gridx = 0;
+		gbc_label_2.gridy = 2;
+		pLogin.add(label_2, gbc_label_2);
+		
+		txtPass = new JTextField();
+		txtPass.setFont(new Font("MS UI Gothic", Font.PLAIN, sizeFontLogin));
+		GridBagConstraints gbc_txtPass = new GridBagConstraints();
+		gbc_txtPass.insets = new Insets(0, 0, 5, 0);
+		gbc_txtPass.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPass.gridx = 1;
+		gbc_txtPass.gridy = 2;
+		pLogin.add(txtPass, gbc_txtPass);
+		txtPass.setColumns(10);
+		
+		JPanel panel = new JPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+//		gbc_panel.anchor = GridBagConstraints.WEST;
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 3;
+		pLogin.add(panel, gbc_panel);
+		
+		JButton btnLogin = new JButton("\u30B5\u30A4\u30F3\u30A4\u30F3");
+		btnLogin.setFont(new Font("MS UI Gothic", Font.PLAIN, sizeFontLogin));
+		btnLogin.setIcon(new ImageIcon(imgLink+"\\img\\login.png"));
+		panel.add(btnLogin);
+		
+		JButton btnCancel = new JButton("\u30AD\u30E3\u30F3\u30BB\u30EB");
+		btnCancel.setFont(new Font("MS UI Gothic", Font.PLAIN, sizeFontLogin));
+		btnCancel.setIcon(new ImageIcon(imgLink+"\\img\\exit.png"));
+		panel.add(btnCancel);
+		//change frame
+		frame.getContentPane().remove(pGuid);
+		frame.getContentPane().remove(pImage);
+		
+		frame.getContentPane().add(pLogin, BorderLayout.CENTER);
+		
+		frame.getContentPane().revalidate(); 
+		frame.getContentPane().repaint();
+
+		btnLogin.addActionListener(new  ActionListener() {
+			
+			Account account;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String userName = txtUserName.getText();
+				String pass = txtPass.getText();
+				boolean checkForm = true;
+				if(userName ==null||userName.length()==0)
+				{
+					checkForm=false;
+					JOptionPane.showMessageDialog(
+				            frame, "アカウントを入力してください。");
+				}
+				
+				if(pass ==null||pass.length()==0)
+				{
+					checkForm = false;
+					JOptionPane.showMessageDialog(
+				            frame, "パスワードを入力してください。");
+				}
+				
+				if(checkForm)
+				{
+					account = new Account(userName,pass);
+					boolean checked= false;
+					if(userName.equals("admin"))
+					{
+						frame.setVisible(false);
+						AdminMainMenu adminMainMenu = new AdminMainMenu();
+					//	ToMainMenu();
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(
+					            frame, "「アカウント」　とか　「パスワード」が間違ってしまいました。もう一度　入力してください。");
+					}
+						
+						
+				}
+				else
+				{
+					System.out.println("Error");
+				}
+					
+					
+				
+				
+				
+				
+			}
+		});
+		btnCancel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+				ToMainMenu();
+				
+			}
+		});
+	}
+protected void ToMainMenu() {
+	frame.getContentPane().remove(pLogin);
+	frame.getContentPane().add(pGuid, BorderLayout.WEST);
+	frame.getContentPane().add(pImage, BorderLayout.CENTER);
+	frame.getContentPane().revalidate(); 
+	frame.getContentPane().repaint();
+	
+}
+		
+
+
 	public void clock() {
 		 Thread clock = new Thread() {
 		  public void run() {

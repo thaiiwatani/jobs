@@ -91,7 +91,7 @@ private void init() {
 	gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 	contentPane.setLayout(gbl_contentPane);
 	
-	JLabel lblCreateANew = new JLabel("Update a Job");
+	JLabel lblCreateANew = new JLabel("\u4ED5\u4E8B\u4FEE\u7406");
 	lblCreateANew.setBackground(SystemColor.activeCaption);
 	lblCreateANew.setFont(new Font(fontName, Font.BOLD, 30));
 	GridBagConstraints gbc_lblCreateANew = new GridBagConstraints();
@@ -100,7 +100,7 @@ private void init() {
 	gbc_lblCreateANew.gridy = 0;
 	contentPane.add(lblCreateANew, gbc_lblCreateANew);
 	
-	JLabel lblGroupJob = new JLabel("Group Job");
+	JLabel lblGroupJob = new JLabel("\u8077\u7A2E");
 	lblGroupJob.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblGroupJob = new GridBagConstraints();
 	gbc_lblGroupJob.anchor = GridBagConstraints.EAST;
@@ -120,7 +120,7 @@ private void init() {
 	gbc_comboBox.gridy = 1;
 	contentPane.add(comboBox, gbc_comboBox);
 	
-	JLabel lblName = new JLabel("Name");
+	JLabel lblName = new JLabel("\u55B6\u696D\u540D");
 	lblName.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblName = new GridBagConstraints();
 	gbc_lblName.anchor = GridBagConstraints.EAST;
@@ -139,7 +139,7 @@ private void init() {
 	contentPane.add(txtName, gbc_txtName);
 	txtName.setColumns(10);
 	
-	JLabel lblCompany = new JLabel("Company");
+	JLabel lblCompany = new JLabel("\u4F1A\u793E");
 	lblCompany.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblCompany = new GridBagConstraints();
 	gbc_lblCompany.anchor = GridBagConstraints.EAST;
@@ -158,7 +158,7 @@ private void init() {
 	contentPane.add(txtCompany, gbc_txtCompany);
 	txtCompany.setColumns(10);
 	
-	JLabel lblAddress = new JLabel("Address");
+	JLabel lblAddress = new JLabel("\u4F4F\u6240");
 	lblAddress.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblAddress = new GridBagConstraints();
 	gbc_lblAddress.anchor = GridBagConstraints.EAST;
@@ -177,7 +177,7 @@ private void init() {
 	contentPane.add(txtAddress, gbc_txtAddress);
 	txtAddress.setColumns(10);
 	
-	JLabel lblSalary = new JLabel("Salary");
+	JLabel lblSalary = new JLabel("\u7D66\u6599");
 	lblSalary.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblSalary = new GridBagConstraints();
 	gbc_lblSalary.anchor = GridBagConstraints.EAST;
@@ -196,7 +196,7 @@ private void init() {
 	contentPane.add(txtSalary, gbc_txtSalary);
 	txtSalary.setColumns(10);
 	
-	JLabel lblLinkAcc = new JLabel("Link Access");
+	JLabel lblLinkAcc = new JLabel("\u30EA\u30F3\u30AF");
 	lblLinkAcc.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblLinkAcc = new GridBagConstraints();
 	gbc_lblLinkAcc.anchor = GridBagConstraints.EAST;
@@ -215,7 +215,7 @@ private void init() {
 	contentPane.add(txtLink, gbc_txtLink);
 	txtLink.setColumns(10);
 	
-	JLabel lblInformation = new JLabel("Information");
+	JLabel lblInformation = new JLabel("\u55B6\u696D\u306E\u5185\u5BB9");
 	lblInformation.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblInformation = new GridBagConstraints();
 	gbc_lblInformation.anchor = GridBagConstraints.EAST;
@@ -233,7 +233,7 @@ private void init() {
 	gbc_txtInformation.gridy = 7;
 	contentPane.add(txtInformation, gbc_txtInformation);
 	
-	JLabel lblFileName = new JLabel("File Name");
+	JLabel lblFileName = new JLabel("\u6C42\u4EBA\u7968\u30D5\u30A1\u30A4\u30EB");
 	lblFileName.setFont(new Font(fontName, Font.BOLD, 16));
 	GridBagConstraints gbc_lblFileName = new GridBagConstraints();
 	gbc_lblFileName.anchor = GridBagConstraints.EAST;
@@ -302,7 +302,7 @@ private void init() {
 	gbc_panel.gridy = 9;
 	contentPane.add(panel, gbc_panel);
 	
-	JButton btnUpdate = new JButton("Update");
+	JButton btnUpdate = new JButton("\u4FEE\u7406");
 	btnUpdate.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -314,13 +314,13 @@ private void init() {
 		}
 	});
 	
-	JButton btnDelete = new JButton("Delete");
+	JButton btnDelete = new JButton("\u6D88\u3059");
 	btnDelete.setFont(new Font(fontName, Font.PLAIN, 18));
 	panel.add(btnDelete);
 	btnUpdate.setFont(new Font(fontName, Font.PLAIN, 18));
 	panel.add(btnUpdate);
 	
-	JButton btnCancel = new JButton("Cancel");
+	JButton btnCancel = new JButton("\u30AD\u30E3\u30F3\u30BB\u30EB");
 	btnCancel.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			clickCancel();

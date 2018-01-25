@@ -45,6 +45,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -55,23 +56,18 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 	private JFrame frame;
 	private JTextField textSearch;
 	private JList list;
-	private GroupJobAdd groupJobAdd;
 	private GroupJob groupJob;
-	private GroupJobEdit groupJobEdit;
 	private ControlGroupJob ctrGroup = new ControlGroupJob();
 	private ControlJob ctrJob = new ControlJob();
 	private List<GroupJob> lstGroup;
 	private List<Job> lstJob;
 	private int selectedIDJob;
-	JScrollPane jsp;
-	private JobAdd jobAdd;
-	public final static String[] columnNames = {
-	        "Name", "Company", "Address", "Salary"
-	    };
+	private JScrollPane jsp;
 	private JTable table;
 	private JLabel lblTime;
 	private JComboBox comboBox;
-
+//	private static final String imgLink = ".";
+	private static final String imgLink = "C:\\Users\\J1637009\\workspace\\Jobs\\src";
 	/**
 	 * Launch the application.
 	 */
@@ -184,7 +180,7 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(frame, "No data in Job");
+			JOptionPane.showMessageDialog(frame, "仕事がありません");
 		}
 	}
 	private void initDataJobList() throws SQLException {
@@ -251,7 +247,7 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		
 		try {
 			ImageIcon imageIcon = new ImageIcon(".\\logo.png");
-			wIconLogo.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\logo.png"));
+			wIconLogo.setIcon(new ImageIcon(imgLink+"\\img\\logo.png"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -307,11 +303,11 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		gbc_panel_2.gridy = 0;
 		pHead.add(panel_2, gbc_panel_2);
 		
-		JLabel lblAcc = new JLabel("Hello Admin");
+		JLabel lblAcc = new JLabel("よろこそ、皆さん");
 		panel_2.add(lblAcc);
 		
 		JButton btnLogout = new JButton("\u623B\u308A");
-		btnLogout.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\exit.png"));
+		btnLogout.setIcon(new ImageIcon(imgLink+"\\img\\exit.png"));
 		
 		btnLogout.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		panel_2.add(btnLogout);
@@ -326,7 +322,7 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		});;
 		
 		JButton btnExit = new JButton("\u9589\u3058\u308B");
-		btnExit.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\close.png"));
+		btnExit.setIcon(new ImageIcon(imgLink+"\\img\\close.png"));
 		panel_2.add(btnExit);
 		btnExit.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		btnExit.setFocusable(false);
@@ -343,9 +339,56 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		String [] cString = {"仕事の内容","給料","勤務地"};
 		comboBox = new JComboBox(cString);
 		comboBox.setFont(new Font("MS UI Gothic", Font.PLAIN, 18));
+		comboBox.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String selected = (String)comboBox.getSelectedItem();
+				
+
+				String search =textSearch.getText();
+				
+					
+					System.out.println("Job aaa after "+lstJob.size());
+					if(selected.equals("仕事の内容"))
+					{
+						
+						textSearch.setText("希望勤務内容を入力");
+					}
+						
+					if(selected.equals("給料"))
+					{
+//						ｐControl.remove(textSearch);
+						
+						textSearch.setText("希望給料で入力した金額以上が表示されます。");
+					}
+						
+					if(selected.equals("勤務地"))
+					{
+						textSearch.setText("働きたい場所、例えば東京、神奈川");
+					}
+				
+				
+			}
+		});
 		ｐControl.add(comboBox);
 		
-		textSearch = new JTextField();
+		textSearch = new JTextField("希望勤務内容を入力");
+		textSearch.addMouseMotionListener(new MouseMotionListener() {
+			
+			public void mouseMoved(MouseEvent e) {
+				textSearch.setText(null);
+				
+			}
+			
+			public void mouseDragged(MouseEvent e) {
+//				textSearch.setText(null);
+				
+			}
+			public void mousePressed(MouseEvent e) {
+//				textSearch.setText(null);
+		      }
+		});
 		textSearch.setFont(new Font("MS UI Gothic", Font.PLAIN, 20));
 		ｐControl.add(textSearch);
 		textSearch.setColumns(30);
@@ -383,7 +426,7 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		});
 		
 		JButton btnSearch = new JButton("\u691C\u7D22");
-		btnSearch.setIcon(new ImageIcon("C:\\Users\\J1637009\\workspace\\Jobs\\src\\img\\search.png"));
+		btnSearch.setIcon(new ImageIcon(imgLink+"\\img\\search.png"));
 		btnSearch.setFont(new Font("MS UI Gothic", Font.PLAIN, 16));
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -613,14 +656,6 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		System.exit(0);
 		
 	}
-
-	protected void AddJob() throws SQLException {
-		// TODO Auto-generated method stub
-		frame.setVisible(false);
-		jobAdd = new JobAdd();
-		
-	}
-
 	protected void Search() throws NumberFormatException, SQLException {
 		// TODO Auto-generated method stub
 		String selected = (String)comboBox.getSelectedItem();
@@ -633,7 +668,7 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 		{
 			
 			System.out.println("Job aaa after "+lstJob.size());
-			if(selected.equals("営業"))
+			if(selected.equals("仕事の内容"))
 			{
 				frame.getContentPane().remove(jsp);
 				searchForName(search);
@@ -645,6 +680,13 @@ public class StudentMainMenu implements TableModelListener, ListSelectionListene
 				{
 					frame.getContentPane().remove(jsp);
 					searchForSalary(Integer.parseInt(search));
+				}
+				else
+				{
+					frame.getContentPane().remove(jsp);
+					frame.getContentPane().revalidate(); 
+					frame.getContentPane().repaint();
+					JOptionPane.showMessageDialog(frame, "給料とは　整数（INT型）で入力してください。");
 				}
 			}
 				
